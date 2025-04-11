@@ -1,0 +1,146 @@
+/* Стили для body и canvas */
+body {
+    margin: 0;
+    overflow: hidden; /* Убираем прокрутку страницы */
+    background-color: #000;
+    color: #eee; /* Цвет текста по умолчанию, если где-то еще используется */
+    font-family: sans-serif;
+}
+
+/* Контейнер для Canvas анимации */
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.5s ease-in-out; /* Плавный переход */
+    opacity: 1; /* Изначально видим */
+    z-index: 1; /* Ниже кнопки и био */
+}
+
+#c {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- Стили для переключения сцен --- */
+
+/* Контейнер для Био ("hello world" на белом фоне) */
+#bio-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Фон в стиле текстуры Марса */
+    background: radial-gradient(circle at 30% 30%, #ff4500 0%, #d2691e 50%, #8b0000 100%);
+    color: #fff; /* Белый текст для читаемости */
+    padding: 40px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    opacity: 0; /* Изначально скрыт */
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 10; /* Поверх canvas */
+    /* Центрирование текста */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Класс для показа Био */
+#bio-container.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Класс для скрытия Canvas */
+#canvas-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Стили для текста внутри Био */
+#bio-container h1 {
+    color: #fff; /* Белый цвет заголовка */
+    font-size: 5vw;
+    margin: 0;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Тень для читаемости */
+}
+
+/* Кнопка-переключатель (Планета Марс) */
+#toggle-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    /* Текстура Марса: радиальный градиент с пятнами */
+    background: radial-gradient(circle at 30% 30%, #ff4500 0%, #d2691e 50%, #8b0000 100%);
+    box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.3), /* Тень для объёма */
+                0 0 10px rgba(255, 69, 0, 0.5); /* Свечение */
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    animation: rotate-planet 10s linear infinite; /* Вращение планеты */
+    z-index: 20;
+    padding: 0;
+}
+
+/* Пятна на Марсе */
+#toggle-button::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 70% 40%, rgba(255, 165, 0, 0.7) 10%, transparent 20%),
+                radial-gradient(circle at 20% 80%, rgba(139, 0, 0, 0.3) 8%, transparent 15%);
+    opacity: 0.8;
+}
+
+/* Состояние кнопки на оранжевой странице (Чёрная кнопка вместо Луны) */
+#toggle-button.black-button {
+    background: radial-gradient(circle at 30% 30%, #333 0%, #000 100%);
+    box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.5),
+                0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Убираем кратеры Луны для чёрной кнопки */
+#toggle-button.black-button::before {
+    background: none; /* Убираем текстуру кратеров */
+    opacity: 0; /* Скрываем псевдоэлемент */
+}
+
+/* Эффект при наведении (Марс) */
+#toggle-button:hover {
+    transform: scale(1.1);
+    box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.3),
+                0 0 15px rgba(255, 69, 0, 0.8);
+}
+
+/* Эффект при наведении (Чёрная кнопка) */
+#toggle-button.black-button:hover {
+    transform: scale(1.1);
+    box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.5),
+                0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* Эффект при нажатии */
+#toggle-button:active {
+    transform: scale(0.95);
+}
+
+/* Анимация вращения */
+@keyframes rotate-planet {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

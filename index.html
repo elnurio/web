@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tunnel Demo</title>
-  <meta charset="utf-8">
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden; /* Убираем прокрутку */
-      background-color: #000; /* Черный фон */
-    }
-    canvas {
-      display: block; /* Убираем отступы под холстом */
-    }
-  </style>
+    <title>elnurio</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <canvas id="c"></canvas>
-  <script src="script.js"></script>
+    <div id="canvas-container">
+        <canvas id="c"></canvas>
+    </div>
+
+    <div id="bio-container" class="hidden">
+        <h1>hello world</h1>
+    </div>
+
+    <button id="toggle-button" title="Информация"></button>
+
+    <script src="script.js"></script>
 </body>
 </html>
