@@ -1,4 +1,13 @@
-/* urartu/style.css — FULL (updated to: fullscreen hero, no top header, hamburger menu, hero text w/o overlay) */
+/* urartu/style.css — FULL (Futura everywhere + fullscreen hero + hamburger menu + no "Scroll") */
+
+/* 1) Futura Regular */
+@font-face {
+  font-family: "FuturaCustom";
+  src: url("descriptionfont/Futura-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root{
   --bg: #f5f2ee;
@@ -12,10 +21,18 @@
 
 *{ box-sizing: border-box; }
 html, body{ margin:0; padding:0; background: var(--bg); color: var(--text); }
+
 body{
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+
+  font-family: "FuturaCustom", Futura, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-weight: 400;
   line-height: 1.35;
 }
+
 a{ color: inherit; text-decoration: none; }
 img{ width:100%; height:auto; display:block; }
 
@@ -33,7 +50,7 @@ img{ width:100%; height:auto; display:block; }
 
 .section-head h2{
   margin: 0;
-  font-family: ui-serif, Georgia, "Times New Roman", serif;
+  font-family: "FuturaCustom", Futura, system-ui, sans-serif;
   font-weight: 500;
   letter-spacing: .01em;
   font-size: 34px;
@@ -41,6 +58,13 @@ img{ width:100%; height:auto; display:block; }
 .section-head .muted{ margin-top: 6px; }
 .muted{ color: var(--muted); }
 .lead{ font-size: 18px; max-width: 70ch; }
+
+/* global headings */
+h1, h2, h3{
+  font-family: "FuturaCustom", Futura, system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: .01em;
+}
 
 /* ===== Grids / cards ===== */
 .grid2, .grid3{
@@ -66,7 +90,7 @@ img{ width:100%; height:auto; display:block; }
   height: 100%;
 }
 .card-body{ padding: 12px 12px 14px; }
-.card-title{ font-weight: 500; }
+.card-title{ font-weight: 400; }
 .card-meta{ margin-top: 6px; color: var(--muted); font-size: 12px; }
 
 .btn{
@@ -79,6 +103,8 @@ img{ width:100%; height:auto; display:block; }
   padding: 10px 14px;
   font-size: 12px;
   background: transparent;
+  font-family: "FuturaCustom", Futura, system-ui, sans-serif;
+  font-weight: 400;
 }
 .btn:hover{ background: rgba(0,0,0,.04); }
 
@@ -157,14 +183,15 @@ img{ width:100%; height:auto; display:block; }
   letter-spacing: .01em;
   opacity: .95;
   margin-bottom: 14px;
+  font-weight: 400;
 }
 
-/* Big bold title like reference */
+/* Big title like reference */
 .hero-title{
   margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-family: "FuturaCustom", Futura, system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   line-height: 1.02;
   font-size: clamp(44px, 5.2vw, 72px);
 }
@@ -173,7 +200,7 @@ img{ width:100%; height:auto; display:block; }
 .hero-sub{
   margin-top: 16px;
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 400;
   opacity: .98;
 }
 
@@ -186,7 +213,7 @@ img{ width:100%; height:auto; display:block; }
   color: #fff;
   border-radius: 6px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   background: rgba(0,0,0,.08);
 }
 .hero-cta:hover{
@@ -230,21 +257,8 @@ img{ width:100%; height:auto; display:block; }
   .half{ opacity:0; }
 }
 
-/* Scroll hint */
-.scroll-hint{
-  position: absolute;
-  z-index: 3;
-  left: 50%;
-  bottom: 10px;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: rgba(0,0,0,.5);
-  padding: 10px 12px;
-  background: rgba(245,242,238,.75);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  backdrop-filter: blur(8px);
-}
+/* "Scroll" removed */
+.scroll-hint{ display:none !important; }
 
 /* ===== About ===== */
 .about{
@@ -270,7 +284,7 @@ img{ width:100%; height:auto; display:block; }
   border-radius: var(--radius);
   padding: 14px;
 }
-.about-text p{ margin:0; font-size: 16px; }
+.about-text p{ margin:0; font-size: 16px; font-weight: 400; }
 
 /* ===== Feature blocks ===== */
 .feature{
@@ -328,13 +342,17 @@ img{ width:100%; height:auto; display:block; }
 }
 .mailing-overlay h2{
   margin:0;
-  font-family: ui-serif, Georgia, "Times New Roman", serif;
+  font-family: "FuturaCustom", Futura, system-ui, sans-serif;
   font-weight: 500;
   font-size: 32px;
 }
 .mailing-overlay p{ margin: 8px 0 14px; opacity: .9; }
 
-.mailing-form{ display:flex; gap: 10px; flex-wrap: wrap; }
+.mailing-form{
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 .mailing-form input{
   flex: 1 1 220px;
   min-width: 220px;
@@ -344,8 +362,11 @@ img{ width:100%; height:auto; display:block; }
   padding: 12px 12px;
   border-radius: 999px;
   outline: none;
+  font-family: "FuturaCustom", Futura, system-ui, sans-serif;
+  font-weight: 400;
 }
 .mailing-form input::placeholder{ color: rgba(255,255,255,.7); }
+
 .mailing-form button{
   border: 1px solid rgba(255,255,255,.35);
   background: rgba(255,255,255,.16);
@@ -353,6 +374,8 @@ img{ width:100%; height:auto; display:block; }
   padding: 12px 16px;
   border-radius: 999px;
   cursor: pointer;
+  font-family: "FuturaCustom", Futura, system-ui, sans-serif;
+  font-weight: 400;
 }
 .mailing-form button:hover{ background: rgba(255,255,255,.24); }
 
@@ -422,7 +445,7 @@ img{ width:100%; height:auto; display:block; }
   border-bottom: 1px solid var(--line);
 }
 .menu-brand{
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: .12em;
   font-size: 12px;
 }
@@ -435,6 +458,7 @@ img{ width:100%; height:auto; display:block; }
   cursor: pointer;
   font-size: 22px;
   line-height: 1;
+  font-family: "FuturaCustom", Futura, system-ui, sans-serif;
 }
 .menu-nav{
   display:flex;
@@ -447,11 +471,10 @@ img{ width:100%; height:auto; display:block; }
   border-radius: 12px;
   border: 1px solid transparent;
   color: rgba(0,0,0,.78);
+  font-family: "FuturaCustom", Futura, system-ui, sans-serif;
+  font-weight: 400;
 }
 .menu-nav a:hover{
   border-color: var(--line);
   background: rgba(0,0,0,.03);
-}
-.scroll-hint{
-  display: none !important;
 }
