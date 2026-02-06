@@ -1,3 +1,5 @@
+/* urartu/style.css — FULL (updated to: fullscreen hero, no top header, hamburger menu, hero text w/o overlay) */
+
 :root{
   --bg: #f5f2ee;
   --card: #ffffff;
@@ -80,22 +82,23 @@ img{ width:100%; height:auto; display:block; }
 }
 .btn:hover{ background: rgba(0,0,0,.04); }
 
-/* ===== HERO FULLSCREEN ===== */
+/* ===== HERO FULLSCREEN (full-bleed) ===== */
 .hero-section{
-  /* full-bleed across viewport, not limited by max-width */
   width: 100vw;
   margin-left: calc(50% - 50vw);
   position: relative;
   border-bottom: 1px solid var(--line);
 }
+
 .hero-slider{
   position: relative;
   width: 100%;
-  height: 100vh;              /* <-- full screen */
+  height: 100vh;              /* FULL SCREEN */
   background: #000;
   overflow: hidden;
 }
-.slides{ position: relative; width:100%; height:100%; }
+
+.slides{ position: relative; width:100%; height:100%; z-index: 1; }
 .slide{
   position:absolute;
   inset:0;
@@ -109,40 +112,91 @@ img{ width:100%; height:auto; display:block; }
   object-fit: cover;
 }
 
-/* Overlay text inside hero */
-.hero-overlay{
+/* Optional: dark gradient on the left for readability (like reference) */
+.hero-slider::before{
+  content:"";
   position:absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
-  padding: 14px 14px 12px;
-  border-radius: 18px;
-  background: rgba(0,0,0,.38);
+  inset:0;
+  z-index: 2;
+  pointer-events:none;
+  background: linear-gradient(90deg,
+    rgba(0,0,0,.55) 0%,
+    rgba(0,0,0,.25) 35%,
+    rgba(0,0,0,0) 70%
+  );
+}
+
+/* ===== HERO TEXT — NO BACKGROUND, left positioned ===== */
+.hero-overlay{
+  position: absolute;
+  z-index: 3;
+
+  left: clamp(18px, 5vw, 64px);
+  top: 50%;
+  transform: translateY(-50%);
+
+  right: auto;
+  bottom: auto;
+
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  backdrop-filter: none;
   color: #fff;
-  backdrop-filter: blur(8px);
-  max-width: 720px;
+
+  max-width: min(560px, 70vw);
+
+  text-shadow:
+    0 2px 18px rgba(0,0,0,.45),
+    0 1px 2px rgba(0,0,0,.45);
 }
-.hero-kicker{
-  font-size: 12px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  opacity: .9;
+
+/* Small top line like "Seoul" */
+.hero-location{
+  font-size: 14px;
+  letter-spacing: .01em;
+  opacity: .95;
+  margin-bottom: 14px;
 }
+
+/* Big bold title like reference */
 .hero-title{
-  margin: 8px 0 0;
-  font-family: ui-serif, Georgia, "Times New Roman", serif;
-  font-weight: 500;
-  font-size: 28px;
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  font-size: clamp(44px, 5.2vw, 72px);
 }
+
+/* Subtitle */
 .hero-sub{
-  margin-top: 6px;
-  font-size: 13px;
-  opacity: .9;
+  margin-top: 16px;
+  font-size: 22px;
+  font-weight: 600;
+  opacity: .98;
+}
+
+/* CTA button like "Learn More" */
+.hero-cta{
+  display: inline-flex;
+  margin-top: 18px;
+  padding: 12px 18px;
+  border: 1px solid rgba(255,255,255,.55);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  background: rgba(0,0,0,.08);
+}
+.hero-cta:hover{
+  background: rgba(0,0,0,.18);
 }
 
 /* Dots */
 .dots{
   position:absolute;
+  z-index: 3;
   left: 0;
   right: 0;
   bottom: 18px;
@@ -162,6 +216,7 @@ img{ width:100%; height:auto; display:block; }
 /* Desktop click halves */
 .half{
   position:absolute;
+  z-index: 4;
   top:0;
   bottom:0;
   width:50%;
@@ -175,8 +230,10 @@ img{ width:100%; height:auto; display:block; }
   .half{ opacity:0; }
 }
 
+/* Scroll hint */
 .scroll-hint{
   position: absolute;
+  z-index: 3;
   left: 50%;
   bottom: 10px;
   transform: translateX(-50%);
@@ -305,7 +362,7 @@ img{ width:100%; height:auto; display:block; }
   color: var(--muted);
 }
 
-/* ===== Menu overlay ===== */
+/* ===== Hamburger Menu ===== */
 .menu-btn{
   position: fixed;
   top: 14px;
@@ -331,6 +388,7 @@ img{ width:100%; height:auto; display:block; }
   opacity: .95;
 }
 
+/* Menu overlay panel */
 .menu{
   position: fixed;
   inset: 0;
