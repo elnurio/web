@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hotel Sensuelle</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg: #DBDDD7;
+      --text: #111827;
+      --muted: rgba(17,24,39,.65);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Background video layer (desktop) */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    .bg-layer video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: block;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1200px;
+      padding: 32px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* LOGO */
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+
+    .logo img {
+      max-width: 260px;
+      width: 100%;
+      height: auto;
+    }
+
+    /* CENTER GRID */
+    .center {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 48px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      /* hide background video on mobile */
+      .bg-layer { display: none; }
+    }
+
+    /* TILE */
+    .tile {
+      text-decoration: none;
+      color: inherit;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .tile:hover {
+      transform: translateY(-6px);
+      opacity: 0.9;
+    }
+
+    /* IMAGE */
+    .tile-media {
+      width: 100%;
+      aspect-ratio: 1 / 1.15;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .tile-media img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* TEXT */
+    .tile-title {
+      font-size: 16px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .tile-subtitle {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      color: var(--muted);
+    }
+
+    .tile-status {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* FOOTER HINT */
+    .hint {
+      margin-top: 32px;
+      font-size: 10px;
+      opacity: 0.6;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      text-align: center;
+    }
+
+    /* TRANSITION SCREEN */
+    #transition-screen {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 9999;
+    }
+
+    #transition-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Background video -->
+  <div class="bg-layer">
+    <video id="bgVideo" muted loop playsinline></video>
+  </div>
+
+  <div class="wrapper">
+
+    <!-- LOGO -->
+    <div class="logo">
+      <img src="/images/Le%20Jour%20Script.webp" alt="Hotel Sensuelle">
+    </div>
+
+    <!-- COLLECTIONS -->
+    <div class="center">
+      <div class="grid">
+
+        <!-- TILE 1 -->
+        <a class="tile"
+           href="https://shop.hotelsensuelle.studio/holiday/"
+           data-video="/videos/5.mp4">
+          <div class="tile-media">
+            <img src="/images/home/t1.webp" alt="Too Much Sugar Before Bed">
+          </div>
+          <div class="tile-title">Too Much Sugar Before Bed</div>
+          <div class="tile-subtitle">A Holiday Story</div>
+          <div class="tile-status">Sold Out</div>
+        </a>
+
+        <!-- TILE 2 -->
+        <a class="tile"
+           href="#"
+           data-video="/videos/swamp.mp4">
+          <div class="tile-media">
+            <img src="/images/home/t2.webp" alt="Swamp of the Unconscious">
+          </div>
+          <div class="tile-title">Swamp of the Unconscious</div>
+          <div class="tile-subtitle">The Sculpture</div>
+          <div class="tile-status">Coming Soon</div>
+        </a>
+
+        <!-- TILE 3 -->
+        <a class="tile"
+           href="https://shop.hotelsensuelle.studio/valentine/"
+           data-video="/videos/5.mp4">
+          <div class="tile-media">
+            <img src="/images/home/t3.webp" alt="The Little Flock">
+          </div>
+          <div class="tile-title">The Little Flock</div>
+          <div class="tile-subtitle">A Valentine’s Story</div>
+          <div class="tile-status">Goes Live 14 Feb</div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- HINT -->
+    <div class="hint">
+      Hover items to change background / click to open product page
+    </div>
+
+  </div>
+
+  <!-- TRANSITION OVERLAY -->
+  <div id="transition-screen">
+    <img src="/transition/horizontal/1.webp" alt="">
+  </div>
+
+  <script>
+    const bgVideo = document.getElementById('bgVideo');
+    const tiles = document.querySelectorAll('.tile');
+    const transitionScreen = document.getElementById('transition-screen');
+    const transitionImage = transitionScreen ? transitionScreen.querySelector('img') : null;
+
+    // mobile detect
+    const isMobile =
+      window.matchMedia('(max-width: 640px)').matches ||
+      'ontouchstart' in window;
+
+    // fixed per your request:
+    // desktop -> horizontal/1.webp
+    // mobile  -> vertical/4.webp
+    const desktopTransitionSrc = '/transition/horizontal/1.webp';
+    const mobileTransitionSrc  = '/transition/vertical/4.webp';
+    const transitionSrc = isMobile ? mobileTransitionSrc : desktopTransitionSrc;
+
+    function resetTransitionScreen() {
+      if (!transitionScreen) return;
+      transitionScreen.style.opacity = '0';
+      transitionScreen.style.pointerEvents = 'none';
+      // вернуть transition на место, если pagehide его отключал
+      transitionScreen.style.transition = 'opacity 0.2s ease';
+    }
+
+    window.addEventListener('load', resetTransitionScreen);
+
+    // back/forward cache
+    window.addEventListener('pageshow', () => {
+      resetTransitionScreen();
+    });
+
+    window.addEventListener('pagehide', () => {
+      if (!transitionScreen) return;
+      transitionScreen.style.transition = 'none';
+      transitionScreen.style.opacity = '0';
+      transitionScreen.style.pointerEvents = 'none';
+    });
+
+    function showTransitionAndNavigate(url, imgSrc) {
+      if (!transitionScreen || !transitionImage) {
+        window.location.href = url;
+        return;
+      }
+
+      if (imgSrc) transitionImage.src = imgSrc;
+
+      transitionScreen.style.opacity = '1';
+      transitionScreen.style.pointerEvents = 'auto';
+
+      setTimeout(() => {
+        window.location.href = url;
+      }, 300);
+    }
+
+    // hover video on desktop
+    if (!isMobile && bgVideo) {
+      tiles.forEach(tile => {
+        const videoSrc = tile.dataset.video;
+
+        tile.addEventListener('mouseenter', () => {
+          if (!videoSrc) return;
+
+          if (bgVideo.getAttribute('src') !== videoSrc) {
+            bgVideo.setAttribute('src', videoSrc);
+            bgVideo.load();
+          }
+
+          bgVideo.style.opacity = '1';
+          bgVideo.play().catch(() => {});
+        });
+
+        tile.addEventListener('mouseleave', () => {
+          bgVideo.style.opacity = '0';
+          bgVideo.pause();
+        });
+      });
+    }
+
+    // click: transition then navigate
+    tiles.forEach(tile => {
+      tile.addEventListener('click', (e) => {
+        const href = tile.getAttribute('href');
+        if (!href || href === '#') return; // пока не задано - не перехватываем
+
+        e.preventDefault();
+        showTransitionAndNavigate(href, transitionSrc);
+      });
+    });
+  </script>
+</body>
+</html>
