@@ -48,7 +48,21 @@ img{ display:block; width:100%; height:auto; }
 
 .section{
   padding: 80px 0;
+  position: relative;
 }
+.section::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+
+  width: 100vw;          /* ← ВАЖНО */
+  height: 1px;
+  background: var(--line);
+
+  transform: translateX(-50%);
+}
+
 
 /* ---- FULL WIDTH DIVIDER ---- */
 .section-divider{
