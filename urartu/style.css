@@ -452,3 +452,6 @@ img{ width:100%; height:auto; display:block; }
   border-color: var(--line);
   background: rgba(0,0,0,.03);
 }
+.scroll-hint{
+  display: none !important;
+}
