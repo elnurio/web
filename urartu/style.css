@@ -120,6 +120,7 @@ h1, h2, h3{
   object-fit: cover;
 }
 
+/* 🔧 FIX: correct vertical flow */
 .card-body{
   padding-top: 14px;
   display: flex;
@@ -141,6 +142,7 @@ h1, h2, h3{
   margin: 0;
 }
 
+/* ---- Buttons ---- */
 .btn{
   margin-top: 8px;
   padding: 10px 14px;
@@ -157,7 +159,7 @@ h1, h2, h3{
 }
 
 /* ===============================
-   HERO — FULLSCREEN SLIDER (FIXED)
+   HERO — FULLSCREEN SLIDER
    =============================== */
 
 .hero-section{
@@ -194,7 +196,7 @@ h1, h2, h3{
   object-fit: cover;
 }
 
-/* readability gradient */
+/* gradient for readability */
 .hero-slider::before{
   content:"";
   position:absolute;
@@ -208,42 +210,36 @@ h1, h2, h3{
   );
 }
 
-/* ---- HERO TEXT (STABLE POSITION) ---- */
+/* ---- Hero text ---- */
 .hero-overlay{
-  position: absolute;
-  z-index: 3;
-
+  position:absolute;
+  z-index:3;
   left: clamp(24px, 6vw, 80px);
-  bottom: clamp(28px, 6vh, 90px);
-  top: auto;
-  transform: none;
-
-  max-width: 720px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 620px;
   color: #fff;
   text-shadow: 0 2px 18px rgba(0,0,0,.45);
 }
 
 .hero-location{
-  font-size: 12px;
+  font-size: 13px;
   margin-bottom: 14px;
-  opacity: .95;
 }
 
 .hero-title{
-  font-size: clamp(40px, 5vw, 72px);
+  font-size: clamp(46px, 5.2vw, 76px);
   font-weight: 600;
-  line-height: 0.98;
-  letter-spacing: -0.01em;
+  line-height: 1.02;
 }
 
 .hero-sub{
-  margin-top: 14px;
-  font-size: 16px;
-  max-width: 56ch;
+  margin-top: 16px;
+  font-size: 18px;
 }
 
 .hero-cta{
-  margin-top: 18px;
+  margin-top: 20px;
   padding: 12px 18px;
   border: 1px solid rgba(255,255,255,.8);
   background: transparent;
@@ -291,25 +287,6 @@ h1, h2, h3{
 
 @media (max-width: 960px){
   .half{ display:none; }
-}
-
-/* ---- Mobile hero tuning ---- */
-@media (max-width: 520px){
-  .hero-overlay{
-    left: 18px;
-    right: 18px;
-    bottom: 22px;
-    max-width: none;
-  }
-
-  .hero-title{
-    font-size: 42px;
-    line-height: 1.02;
-  }
-
-  .hero-sub{
-    font-size: 14px;
-  }
 }
 
 /* ===============================
