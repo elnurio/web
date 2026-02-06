@@ -207,15 +207,20 @@ h1, h2, h3{
 
 /* ---- Hero text ---- */
 .hero-overlay{
-  position:absolute;
-  z-index:3;
+  position: absolute;
+  z-index: 3;
+
+  /* фиксируем позицию, чтобы НЕ плавало */
   left: clamp(24px, 6vw, 80px);
-  top: 50%;
-  transform: translateY(-50%);
-  max-width: 620px;
+  bottom: clamp(28px, 6vh, 90px);
+  top: auto;
+  transform: none;
+
+  max-width: 720px;
   color: #fff;
   text-shadow: 0 2px 18px rgba(0,0,0,.45);
 }
+
 
 .hero-location{
   font-size: 13px;
