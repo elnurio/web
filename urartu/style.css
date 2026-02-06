@@ -1,6 +1,6 @@
-/* urartu/style.css — FULL (Futura everywhere + fullscreen hero + hamburger menu + no "Scroll") */
+/* urartu/style.css — FULL (white background + square/minimal + NO rounded corners + NO text boxes) */
 
-/* 1) Futura Regular */
+/* Futura Regular */
 @font-face {
   font-family: "FuturaCustom";
   src: url("descriptionfont/Futura-Regular.woff2") format("woff2");
@@ -10,13 +10,13 @@
 }
 
 :root{
-  --bg: #f5f2ee;
-  --card: #ffffff;
+  --bg: #ffffff;                 /* ✅ WHITE everywhere */
+  --card: transparent;           /* ✅ no cards */
   --text: #111;
   --muted: rgba(0,0,0,.55);
-  --line: rgba(0,0,0,.12);
-  --radius: 18px;
-  --max: 1080px;
+  --line: rgba(0,0,0,.10);
+  --radius: 0px;                 /* ✅ NO rounded corners */
+  --max: 1120px;
 }
 
 *{ box-sizing: border-box; }
@@ -27,10 +27,9 @@ body{
   padding: 0;
   background: var(--bg);
   color: var(--text);
-
   font-family: "FuturaCustom", Futura, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   font-weight: 400;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 a{ color: inherit; text-decoration: none; }
@@ -40,24 +39,25 @@ img{ width:100%; height:auto; display:block; }
 .page{
   max-width: var(--max);
   margin: 0 auto;
-  padding: 0 14px 40px;
+  padding: 0 22px 60px;
 }
+
 .section{
-  padding: 26px 0;
+  padding: 64px 0;
   border-bottom: 1px solid var(--line);
 }
 .section-last{ border-bottom: none; }
 
 .section-head h2{
-  margin: 0;
+  margin: 0 0 10px 0;
   font-family: "FuturaCustom", Futura, system-ui, sans-serif;
   font-weight: 500;
   letter-spacing: .01em;
-  font-size: 34px;
+  font-size: 38px;
 }
 .section-head .muted{ margin-top: 6px; }
 .muted{ color: var(--muted); }
-.lead{ font-size: 18px; max-width: 70ch; }
+.lead{ font-size: 18px; max-width: 80ch; }
 
 /* global headings */
 h1, h2, h3{
@@ -66,40 +66,56 @@ h1, h2, h3{
   letter-spacing: .01em;
 }
 
-/* ===== Grids / cards ===== */
+/* ===== Grids ===== */
 .grid2, .grid3{
   display:grid;
   grid-template-columns: 1fr;
-  gap: 14px;
-  margin-top: 14px;
+  gap: 26px;
+  margin-top: 26px;
 }
 @media (min-width: 760px){
   .grid2{ grid-template-columns: 1fr 1fr; }
   .grid3{ grid-template-columns: 1fr 1fr 1fr; }
 }
 
+/* ===== Cards become minimal blocks (no rounding, no background) ===== */
 .card{
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
 }
+
 .card img{
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  height: 100%;
+  border-radius: 0;               /* ✅ square */
+  border: none;                    /* ✅ no frames */
 }
-.card-body{ padding: 12px 12px 14px; }
-.card-title{ font-weight: 400; }
-.card-meta{ margin-top: 6px; color: var(--muted); font-size: 12px; }
 
+.card-body{
+  padding: 14px 0 0 0;            /* ✅ text directly on page */
+}
+
+.card-title{
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: .01em;
+}
+.card-meta{
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Minimal button */
 .btn{
   margin-top: 10px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  border: 1px solid var(--line);
-  border-radius: 999px;
+  border: 1px solid #111;
+  border-radius: 0;
   padding: 10px 14px;
   font-size: 12px;
   background: transparent;
@@ -138,7 +154,7 @@ h1, h2, h3{
   object-fit: cover;
 }
 
-/* Optional: dark gradient on the left for readability (like reference) */
+/* Readability gradient (can remove if you want super raw) */
 .hero-slider::before{
   content:"";
   position:absolute;
@@ -147,77 +163,71 @@ h1, h2, h3{
   pointer-events:none;
   background: linear-gradient(90deg,
     rgba(0,0,0,.55) 0%,
-    rgba(0,0,0,.25) 35%,
-    rgba(0,0,0,0) 70%
+    rgba(0,0,0,.20) 35%,
+    rgba(0,0,0,0) 72%
   );
 }
 
-/* ===== HERO TEXT — NO BACKGROUND, left positioned ===== */
+/* ===== HERO TEXT (no background) ===== */
 .hero-overlay{
   position: absolute;
   z-index: 3;
 
-  left: clamp(18px, 5vw, 64px);
+  left: clamp(22px, 6vw, 70px);
   top: 50%;
   transform: translateY(-50%);
 
-  right: auto;
-  bottom: auto;
-
   padding: 0;
-  background: transparent;
+  background: transparent;     /* ✅ no overlay */
   border-radius: 0;
-  backdrop-filter: none;
   color: #fff;
 
-  max-width: min(560px, 70vw);
+  max-width: min(620px, 72vw);
 
   text-shadow:
     0 2px 18px rgba(0,0,0,.45),
     0 1px 2px rgba(0,0,0,.45);
 }
 
-/* Small top line like "Seoul" */
 .hero-location{
-  font-size: 14px;
-  letter-spacing: .01em;
+  font-size: 13px;
+  letter-spacing: .02em;
   opacity: .95;
   margin-bottom: 14px;
   font-weight: 400;
+  text-transform: none;
 }
 
-/* Big title like reference */
 .hero-title{
   margin: 0;
   font-family: "FuturaCustom", Futura, system-ui, sans-serif;
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.02;
-  font-size: clamp(44px, 5.2vw, 72px);
+  font-size: clamp(44px, 5.2vw, 74px);
 }
 
-/* Subtitle */
 .hero-sub{
   margin-top: 16px;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 400;
   opacity: .98;
 }
 
-/* CTA button like "Learn More" */
+/* CTA button */
 .hero-cta{
   display: inline-flex;
   margin-top: 18px;
   padding: 12px 18px;
-  border: 1px solid rgba(255,255,255,.55);
+  border: 1px solid rgba(255,255,255,.75);
   color: #fff;
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: 0;
+  font-size: 13px;
   font-weight: 400;
-  background: rgba(0,0,0,.08);
+  background: transparent;     /* ✅ no pill / no box */
 }
 .hero-cta:hover{
-  background: rgba(0,0,0,.18);
+  background: rgba(255,255,255,.10);
 }
 
 /* Dots */
@@ -257,145 +267,166 @@ h1, h2, h3{
   .half{ opacity:0; }
 }
 
-/* "Scroll" removed */
+/* Ensure no scroll hint */
 .scroll-hint{ display:none !important; }
 
-/* ===== About ===== */
+/* ===== About (NO box under text) ===== */
 .about{
-  margin-top: 14px;
+  margin-top: 26px;
   display:grid;
   grid-template-columns: 1fr;
-  gap: 14px;
+  gap: 22px;
 }
+
 .about-photos{
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 18px;
 }
+
 .about-photos img{
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
+  border-radius: 0;   /* ✅ square */
+  border: none;       /* ✅ no frame */
 }
-.about-text{
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 14px;
-}
-.about-text p{ margin:0; font-size: 16px; font-weight: 400; }
 
-/* ===== Feature blocks ===== */
+.about-text{
+  background: transparent;   /* ✅ no box */
+  border: none;              /* ✅ no border */
+  border-radius: 0;
+  padding: 0;                /* ✅ text on page */
+  max-width: 90ch;
+}
+.about-text p{
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: #111;
+}
+
+/* ===== Feature blocks (Flowers / etc.) ===== */
 .feature{
-  margin-top: 14px;
+  margin-top: 26px;
   display:grid;
   grid-template-columns: 1fr;
-  gap: 14px;
+  gap: 22px;
 }
 .feature img{
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
+  border-radius: 0;           /* ✅ square */
+  border: none;
   aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 .feature-text{
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 14px;
+  background: transparent;    /* ✅ no box */
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  max-width: 90ch;
 }
 
 /* Community tiles */
 .tile{
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
+  border-radius: 0;           /* ✅ square */
+  border: none;
 }
 
-/* ===== Mailing ===== */
+/* ===== Mailing (remove rounded + remove input pills) ===== */
 .mailing{
-  margin-top: 14px;
+  margin-top: 26px;
   position: relative;
-  border-radius: 22px;
+  border-radius: 0;           /* ✅ square */
   overflow: hidden;
-  border: 1px solid var(--line);
-  min-height: 420px;
+  border: none;               /* ✅ no frame */
+  min-height: 520px;
   background: #000;
 }
+
 .mailing img{
   width:100%;
   height:100%;
   object-fit: cover;
-  opacity: .95;
+  opacity: 1;
 }
+
 .mailing-overlay{
   position:absolute;
   inset: 0;
   display:flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 18px;
-  background: linear-gradient(to top, rgba(0,0,0,.62), rgba(0,0,0,.05) 60%);
+  padding: 26px;
+  background: linear-gradient(to top, rgba(0,0,0,.62), rgba(0,0,0,0) 60%);
   color: #fff;
 }
+
 .mailing-overlay h2{
   margin:0;
   font-family: "FuturaCustom", Futura, system-ui, sans-serif;
   font-weight: 500;
-  font-size: 32px;
+  font-size: 34px;
 }
-.mailing-overlay p{ margin: 8px 0 14px; opacity: .9; }
+
+.mailing-overlay p{
+  margin: 10px 0 16px;
+  opacity: .9;
+  max-width: 70ch;
+}
 
 .mailing-form{
   display:flex;
   gap: 10px;
   flex-wrap: wrap;
 }
+
 .mailing-form input{
-  flex: 1 1 220px;
-  min-width: 220px;
-  border: 1px solid rgba(255,255,255,.35);
-  background: rgba(255,255,255,.12);
+  flex: 1 1 260px;
+  min-width: 260px;
+  border: 1px solid rgba(255,255,255,.55);
+  background: rgba(0,0,0,.12);
   color: #fff;
   padding: 12px 12px;
-  border-radius: 999px;
+  border-radius: 0;           /* ✅ square */
   outline: none;
   font-family: "FuturaCustom", Futura, system-ui, sans-serif;
   font-weight: 400;
 }
-.mailing-form input::placeholder{ color: rgba(255,255,255,.7); }
+
+.mailing-form input::placeholder{ color: rgba(255,255,255,.75); }
 
 .mailing-form button{
-  border: 1px solid rgba(255,255,255,.35);
-  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.75);
+  background: transparent;
   color: #fff;
   padding: 12px 16px;
-  border-radius: 999px;
+  border-radius: 0;           /* ✅ square */
   cursor: pointer;
   font-family: "FuturaCustom", Futura, system-ui, sans-serif;
   font-weight: 400;
 }
-.mailing-form button:hover{ background: rgba(255,255,255,.24); }
+.mailing-form button:hover{ background: rgba(255,255,255,.12); }
 
+/* ===== Footer ===== */
 .footer{
-  padding: 18px 0 4px;
+  padding: 22px 0 4px;
   font-size: 12px;
   color: var(--muted);
 }
 
-/* ===== Hamburger Menu ===== */
+/* ===== Hamburger Menu (make it minimal and square, background white) ===== */
 .menu-btn{
   position: fixed;
-  top: 14px;
-  left: 14px;
+  top: 16px;
+  left: 16px;
   z-index: 50;
   width: 44px;
   height: 44px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.25);
-  background: rgba(0,0,0,.35);
+  border-radius: 0;                 /* ✅ square */
+  border: 1px solid rgba(255,255,255,.35);
+  background: rgba(0,0,0,.28);
   backdrop-filter: blur(10px);
   display:flex;
   flex-direction: column;
@@ -411,12 +442,12 @@ h1, h2, h3{
   opacity: .95;
 }
 
-/* Menu overlay panel */
+/* Menu overlay */
 .menu{
   position: fixed;
   inset: 0;
   z-index: 60;
-  background: rgba(0,0,0,.55);
+  background: rgba(0,0,0,.40);
   backdrop-filter: blur(8px);
   opacity: 0;
   pointer-events: none;
@@ -426,33 +457,35 @@ h1, h2, h3{
   opacity: 1;
   pointer-events: auto;
 }
+
 .menu-inner{
   position:absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: min(420px, 92vw);
-  background: var(--bg);
+  background: #fff;                 /* ✅ white */
   border-right: 1px solid var(--line);
-  padding: 16px;
+  padding: 18px;
   transform: translateX(-8px);
 }
+
 .menu-top{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--line);
 }
 .menu-brand{
   font-weight: 500;
-  letter-spacing: .12em;
+  letter-spacing: .18em;
   font-size: 12px;
 }
 .menu-close{
   width: 40px;
   height: 40px;
-  border-radius: 999px;
+  border-radius: 0;                 /* ✅ square */
   border: 1px solid var(--line);
   background: transparent;
   cursor: pointer;
@@ -460,6 +493,7 @@ h1, h2, h3{
   line-height: 1;
   font-family: "FuturaCustom", Futura, system-ui, sans-serif;
 }
+
 .menu-nav{
   display:flex;
   flex-direction: column;
@@ -467,14 +501,14 @@ h1, h2, h3{
   padding-top: 14px;
 }
 .menu-nav a{
-  padding: 10px 10px;
-  border-radius: 12px;
-  border: 1px solid transparent;
-  color: rgba(0,0,0,.78);
+  padding: 10px 0;
+  border-radius: 0;                 /* ✅ square */
+  border: none;                     /* ✅ no pills */
+  color: rgba(0,0,0,.85);
   font-family: "FuturaCustom", Futura, system-ui, sans-serif;
   font-weight: 400;
+  letter-spacing: .02em;
 }
 .menu-nav a:hover{
-  border-color: var(--line);
-  background: rgba(0,0,0,.03);
+  opacity: .65;                     /* ✅ minimal hover */
 }
