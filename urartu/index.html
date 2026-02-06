@@ -8,45 +8,59 @@
 </head>
 <body>
 
-  <!-- Minimal top nav (optional) -->
-  <header class="topbar">
-    <div class="brand">UrArTu</div>
-    <nav class="nav">
-      <a href="#exhibitions">Exhibitions</a>
-      <a href="#about">About</a>
-      <a href="#events">Events</a>
-      <a href="#workshops">Workshops</a>
-      <a href="#flowers">Flowers</a>
-      <a href="#press">Press</a>
-      <a href="#community">Community</a>
-      <a href="#mailing">Mailing</a>
-    </nav>
-  </header>
+  <!-- Hamburger (top-left) -->
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span>
+  </button>
+
+  <!-- Menu overlay -->
+  <aside class="menu" id="menu" aria-hidden="true">
+    <div class="menu-inner">
+      <div class="menu-top">
+        <div class="menu-brand">URARTU</div>
+        <button class="menu-close" id="menuClose" aria-label="Close menu">×</button>
+      </div>
+
+      <nav class="menu-nav">
+        <a href="#exhibitions">Exhibitions</a>
+        <a href="#about">About</a>
+        <a href="#events">Events</a>
+        <a href="#workshops">Workshops</a>
+        <a href="#flowers">Flowers</a>
+        <a href="#press">Press</a>
+        <a href="#community">Community</a>
+        <a href="#mailing">Mailing</a>
+      </nav>
+    </div>
+  </aside>
 
   <main class="page">
 
-    <!-- 1) Exhibitions — Happening now (Slider) -->
-    <section id="exhibitions" class="section">
-      <div class="section-head">
-        <h2>Exhibitions</h2>
-        <p class="muted">Happening now</p>
-      </div>
-
+    <!-- 1) FULLSCREEN HERO SLIDER -->
+    <section id="exhibitions" class="hero-section">
       <div class="hero-slider" aria-label="Happening now slider">
         <div class="slides" id="slides">
-          <!-- ✅ ВСТАВЬ СВОИ ФОТО В /urartu/assets/ и поменяй src -->
-          <article class="slide is-active" data-title="Happening now — Exhibition 01" data-sub="UrArTu Gallery, Dubai">
+          <!-- ВАЖНО: имена файлов должны совпадать 1-в-1 -->
+          <article class="slide is-active"
+                   data-title="Happening now — Exhibition 01"
+                   data-sub="UrArTu Gallery, Dubai">
             <img src="assets/slide-1.jpg" alt="Exhibition 01" />
           </article>
-          <article class="slide" data-title="Happening now — Exhibition 02" data-sub="UrArTu Gallery, Dubai">
+
+          <article class="slide"
+                   data-title="Happening now — Exhibition 02"
+                   data-sub="UrArTu Gallery, Dubai">
             <img src="assets/slide-2.jpg" alt="Exhibition 02" />
           </article>
-          <article class="slide" data-title="Happening now — Exhibition 03" data-sub="UrArTu Gallery, Dubai">
+
+          <article class="slide"
+                   data-title="Happening now — Exhibition 03"
+                   data-sub="UrArTu Gallery, Dubai">
             <img src="assets/slide-3.jpg" alt="Exhibition 03" />
           </article>
         </div>
 
-        <!-- Overlay text -->
+        <!-- Overlay text inside hero -->
         <div class="hero-overlay">
           <div class="hero-kicker">Happening now</div>
           <h1 class="hero-title" id="heroTitle">Happening now — Exhibition 01</h1>
@@ -56,10 +70,13 @@
         <!-- Dots -->
         <div class="dots" id="dots" aria-label="Slider pagination"></div>
 
-        <!-- Desktop click halves (transparent) -->
+        <!-- Desktop click halves -->
         <button class="half half-left" id="prevBtn" aria-label="Previous slide"></button>
         <button class="half half-right" id="nextBtn" aria-label="Next slide"></button>
       </div>
+
+      <!-- Small scroll hint -->
+      <div class="scroll-hint">Scroll</div>
     </section>
 
     <!-- 2) About / Our inspiration -->
@@ -90,7 +107,6 @@
       </div>
 
       <div class="grid3">
-        <!-- ✅ Меняй фото/названия/даты -->
         <article class="card">
           <img src="assets/upcoming-1.jpg" alt="Event 01" />
           <div class="card-body">
@@ -129,7 +145,7 @@
           <div class="card-body">
             <div class="card-title">Sculptural Arrangement</div>
             <div class="card-meta">May 28, 2026</div>
-            <a class="btn" href="#" aria-label="View more about Sculptural Arrangement">View more</a>
+            <a class="btn" href="#">View more</a>
           </div>
         </article>
 
@@ -138,13 +154,13 @@
           <div class="card-body">
             <div class="card-title">Organic Sculpture Study</div>
             <div class="card-meta">Jun 10, 2026</div>
-            <a class="btn" href="#" aria-label="View more about Organic Sculpture Study">View more</a>
+            <a class="btn" href="#">View more</a>
           </div>
         </article>
       </div>
     </section>
 
-    <!-- 5) Flowers (one photo + text) -->
+    <!-- 5) Flowers -->
     <section id="flowers" class="section">
       <div class="section-head">
         <h2>Flowers</h2>
@@ -160,58 +176,50 @@
       </div>
     </section>
 
-    <!-- 6) Press (two photos + text) -->
+    <!-- 6) Press -->
     <section id="press" class="section">
       <div class="section-head">
         <h2>Press</h2>
       </div>
 
-      <div class="press">
-        <div class="grid2">
-          <article class="card">
-            <img src="assets/press-1.jpg" alt="Press 01" />
-            <div class="card-body">
-              <div class="card-title">Feature</div>
-              <div class="card-meta">2026</div>
-            </div>
-          </article>
+      <div class="grid2">
+        <article class="card">
+          <img src="assets/press-1.jpg" alt="Press 01" />
+          <div class="card-body">
+            <div class="card-title">Feature</div>
+            <div class="card-meta">2026</div>
+          </div>
+        </article>
 
-          <article class="card">
-            <img src="assets/press-2.jpg" alt="Press 02" />
-            <div class="card-body">
-              <div class="card-title">Interview</div>
-              <div class="card-meta">2026</div>
-            </div>
-          </article>
-        </div>
-
-        <p class="muted press-note">
-          Selected coverage and documentation from exhibitions, collaborations and studio events.
-        </p>
+        <article class="card">
+          <img src="assets/press-2.jpg" alt="Press 02" />
+          <div class="card-body">
+            <div class="card-title">Interview</div>
+            <div class="card-meta">2026</div>
+          </div>
+        </article>
       </div>
     </section>
 
-    <!-- 7) Our community (3 photos + text) -->
+    <!-- 7) Community -->
     <section id="community" class="section">
       <div class="section-head">
         <h2>Our Community</h2>
         <p class="muted">Who are we</p>
       </div>
 
-      <div class="community">
-        <p class="lead">
-          Artists, florists, architects, thinkers — a living community formed around space and ritual.
-        </p>
+      <p class="lead">
+        Artists, florists, architects, thinkers — a living community formed around space and ritual.
+      </p>
 
-        <div class="grid3">
-          <img class="tile" src="assets/community-1.jpg" alt="Community 01" />
-          <img class="tile" src="assets/community-2.jpg" alt="Community 02" />
-          <img class="tile" src="assets/community-3.jpg" alt="Community 03" />
-        </div>
+      <div class="grid3">
+        <img class="tile" src="assets/community-1.jpg" alt="Community 01" />
+        <img class="tile" src="assets/community-2.jpg" alt="Community 02" />
+        <img class="tile" src="assets/community-3.jpg" alt="Community 03" />
       </div>
     </section>
 
-    <!-- 8) Mailing (one wide photo + subscribe overlay) -->
+    <!-- 8) Mailing -->
     <section id="mailing" class="section section-last">
       <div class="mailing">
         <img src="assets/mailing.jpg" alt="Mailing background" />
@@ -219,7 +227,6 @@
           <h2>Join our mailing</h2>
           <p class="muted">New exhibitions, studio events & workshops — once in a while.</p>
 
-          <!-- ✅ Здесь можно заменить action на твой Mailchimp / ConvertKit / form endpoint -->
           <form class="mailing-form" action="#" method="post" onsubmit="return false;">
             <input type="email" name="email" placeholder="Enter your email" autocomplete="email" required />
             <button type="submit">Subscribe</button>

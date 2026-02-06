@@ -1,4 +1,37 @@
 (() => {
+  // ===== MENU =====
+  const menuBtn = document.getElementById('menuBtn');
+  const menu = document.getElementById('menu');
+  const menuClose = document.getElementById('menuClose');
+
+  function openMenu() {
+    menu.classList.add('is-open');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    menu.setAttribute('aria-hidden', 'false');
+  }
+  function closeMenu() {
+    menu.classList.remove('is-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menu.setAttribute('aria-hidden', 'true');
+  }
+
+  menuBtn?.addEventListener('click', openMenu);
+  menuClose?.addEventListener('click', closeMenu);
+  menu?.addEventListener('click', (e) => {
+    if (e.target === menu) closeMenu(); // click on backdrop
+  });
+
+  // close on nav click
+  document.querySelectorAll('.menu-nav a').forEach(a => {
+    a.addEventListener('click', () => closeMenu());
+  });
+
+  // close on ESC
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  // ===== SLIDER =====
   const slides = Array.from(document.querySelectorAll('.slide'));
   const dotsWrap = document.getElementById('dots');
   const heroTitle = document.getElementById('heroTitle');
@@ -40,11 +73,10 @@
     timer = setInterval(next, AUTOPLAY_MS);
   }
 
-  // Desktop halves click
   nextBtn.addEventListener('click', () => { next(); restartAutoplay(); });
   prevBtn.addEventListener('click', () => { prev(); restartAutoplay(); });
 
-  // Touch swipe on mobile
+  // Touch swipe (mobile)
   const slider = document.querySelector('.hero-slider');
   let startX = 0;
   let startY = 0;
@@ -57,17 +89,6 @@
     startY = e.touches[0].clientY;
   }, { passive: true });
 
-  slider.addEventListener('touchmove', (e) => {
-    // allow vertical scroll; don't block
-    if (!isTouching || !e.touches || !e.touches[0]) return;
-    const dx = e.touches[0].clientX - startX;
-    const dy = e.touches[0].clientY - startY;
-    // if user is clearly horizontal swiping, we can prevent bounce feel a bit
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 18) {
-      // don't prevent default globally; keep it smooth
-    }
-  }, { passive: true });
-
   slider.addEventListener('touchend', (e) => {
     if (!isTouching) return;
     isTouching = false;
@@ -76,16 +97,18 @@
     if (!endTouch) return;
 
     const dx = endTouch.clientX - startX;
-    const absDx = Math.abs(dx);
+    const dy = endTouch.clientY - startY;
 
-    if (absDx > 45) {
+    // ignore if mostly vertical (scroll)
+    if (Math.abs(dy) > Math.abs(dx)) return;
+
+    if (Math.abs(dx) > 45) {
       if (dx < 0) next();
       else prev();
       restartAutoplay();
     }
   }, { passive: true });
 
-  // Pause autoplay when tab hidden
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       if (timer) clearInterval(timer);
