@@ -43,9 +43,10 @@ img{ display:block; width:100%; height:auto; }
 .page{
   max-width: var(--max);
   margin: 0 auto;
-  padding: 0 24px 80px;
+  padding: 0 24px 0;   /* IMPORTANT: no bottom padding */
 }
 
+/* Standard sections */
 .section{
   padding: 80px 0;
   position: relative;
@@ -120,12 +121,13 @@ h1, h2, h3{
   object-fit: cover;
 }
 
-/* 🔧 FIX: correct vertical flow */
+/* FIX: correct vertical flow */
 .card-body{
   padding-top: 14px;
   display: flex;
   flex-direction: column;
   gap: 6px;
+  position: relative;
 }
 
 .card-title{
@@ -142,9 +144,9 @@ h1, h2, h3{
   margin: 0;
 }
 
-/* ---- Buttons ---- */
+/* Buttons */
 .btn{
-  margin-top: 8px;
+  margin-top: 10px;            /* more space so it never touches text */
   padding: 10px 14px;
   border: 1px solid #111;
   background: transparent;
@@ -152,6 +154,7 @@ h1, h2, h3{
   cursor: pointer;
   font-family: inherit;
   align-self: flex-start;
+  position: relative;          /* ensures no weird overlap */
 }
 
 .btn:hover{
@@ -210,7 +213,7 @@ h1, h2, h3{
   );
 }
 
-/* ---- Hero text ---- */
+/* ---- Hero text (FIXED LAYOUT) ---- */
 .hero-overlay{
   position:absolute;
   z-index:3;
@@ -220,26 +223,27 @@ h1, h2, h3{
   max-width: 620px;
   color: #fff;
   text-shadow: 0 2px 18px rgba(0,0,0,.45);
+
+  /* THIS FIXES OVERLAPS on all screens */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
 }
 
-.hero-location{
-  font-size: 13px;
-  margin-bottom: 14px;
-}
-
+/* remove margin-driven layout */
+.hero-location{ font-size: 13px; margin: 0; }
 .hero-title{
   font-size: clamp(46px, 5.2vw, 76px);
   font-weight: 600;
   line-height: 1.02;
+  margin: 0;
 }
-
-.hero-sub{
-  margin-top: 16px;
-  font-size: 18px;
-}
+.hero-sub{ margin: 0; font-size: 18px; }
 
 .hero-cta{
-  margin-top: 20px;
+  display: inline-block;
+  margin-top: 6px;              /* <- move button down (tune: 6 / 10 / 14) */
   padding: 12px 18px;
   border: 1px solid rgba(255,255,255,.8);
   background: transparent;
@@ -266,9 +270,7 @@ h1, h2, h3{
   border-radius:50%;
 }
 
-.dot.is-active{
-  background:#fff;
-}
+.dot.is-active{ background:#fff; }
 
 /* ---- Desktop click zones ---- */
 .half{
@@ -288,6 +290,9 @@ h1, h2, h3{
 @media (max-width: 960px){
   .half{ display:none; }
 }
+
+/* Hide scroll hint (and you can also delete it in HTML) */
+.scroll-hint{ display:none !important; }
 
 /* ===============================
    ABOUT
@@ -342,23 +347,36 @@ h1, h2, h3{
 }
 
 /* ===============================
-   MAILING — FULL WIDTH
+   MAILING — FULL WIDTH (LAST SECTION)
    =============================== */
 
 .mailing{
   position: relative;
-  min-height: 520px;
   width: 100vw;
   margin-left: calc(50% - 50vw);
+
+  /* IMPORTANT: make it end page nicely */
+  margin-bottom: 0;
+  padding-bottom: 0;
+
+  /* height tuning to avoid “too stretched” look on desktop */
+  height: min(80vh, 760px);      /* <-- you can tweak this */
+  min-height: 520px;
+  overflow: hidden;
 }
+
+/* NO divider under mailing */
+.mailing::after{ display:none !important; }
 
 .mailing img{
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center; /* или center top */
-}
 
+  /* CONTROL CROPPING ON DESKTOP:
+     center = balanced, center top = show top more */
+  object-position: center;       /* change to: center top; */
+}
 
 .mailing-overlay{
   position:absolute;
@@ -373,6 +391,7 @@ h1, h2, h3{
 
 .mailing-overlay h2{
   font-size: 34px;
+  margin: 0;
 }
 
 .mailing-form{
@@ -397,6 +416,7 @@ h1, h2, h3{
   background: transparent;
   color:#fff;
   cursor:pointer;
+  font-family: inherit;
 }
 
 /* ===============================
@@ -453,17 +473,3 @@ h1, h2, h3{
   font-size: 14px;
   color:#111;
 }
-/* last section ends page */
-.page{ padding-bottom: 0; }
-
-/* mailing is full-width block and last */
-.mailing{
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  min-height: 80vh;            /* чтобы не выглядело растянутым */
-  position: relative;
-}
-
-.mailing::after{ display:none; } /* на всякий случай (если попадает псевдоэлемент) */
-
-body{ margin:0; }
