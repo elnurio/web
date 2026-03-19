@@ -199,6 +199,18 @@ h1, h2, h3{
   object-fit: cover;
 }
 
+.slide--split .slide-split{
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.slide--split .slide-split img{
+  width: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
 /* gradient for readability */
 .hero-slider::before{
   content:"";
@@ -232,14 +244,17 @@ h1, h2, h3{
 }
 
 /* remove margin-driven layout */
-.hero-location{ font-size: 13px; margin: 0; }
+.hero-location{ font-size: 13px; margin: 0; padding: 0; letter-spacing: 0; }
 .hero-title{
   font-size: clamp(46px, 5.2vw, 76px);
   font-weight: 600;
   line-height: 1.02;
   margin: 0;
+  padding: 0;
+  letter-spacing: 0 !important;
+  text-indent: 0;
 }
-.hero-sub{ margin: 0; font-size: 18px; }
+.hero-sub{ margin: 0; padding: 0; font-size: 18px; letter-spacing: 0; }
 
 .hero-cta{
   display: inline-block;
@@ -295,32 +310,224 @@ h1, h2, h3{
 .scroll-hint{ display:none !important; }
 
 /* ===============================
-   ABOUT
+   ABOUT / FOUNDER
    =============================== */
 
-.about{
-  display:grid;
-  gap: 28px;
+.about-founder{
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(300px, 1.2fr);
+  gap: 48px;
+  align-items: start;
 }
 
-.about-photos{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
+.about-founder__image{
+  position: relative;
 }
 
-.about-photos img{
-  aspect-ratio: 1 / 1;
+.about-founder__image img{
+  width: 100%;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
+  display: block;
 }
 
-.about-text{
-  max-width: 90ch;
+.about-founder__text{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.about-founder__title{
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0 0 0.25em;
+  line-height: 1.2;
+}
+
+.about-founder__sub{
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0 0 0.5em;
+}
+
+.about-founder__text p{
   font-size: 16px;
+  line-height: 1.45;
+  margin: 0;
+}
+
+@media (max-width: 759px){
+  .about-founder{
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 }
 
 /* ===============================
-   FEATURES / FLOWERS / PRESS
+   THE WORKSHOP
+   =============================== */
+
+.workshop-block{
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(300px, 1.2fr);
+  gap: 48px;
+  align-items: start;
+}
+
+.workshop-block__image img{
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+}
+
+.workshop-block__text{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.workshop-block__title{
+  font-size: 38px;
+  font-weight: 500;
+  margin: 0 0 0.25em;
+  line-height: 1.2;
+}
+
+.workshop-block__text p{
+  font-size: 16px;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.workshop-block__cta{
+  margin-top: 0.5em;
+}
+
+.workshop-block__cta a{
+  color: var(--text);
+  text-decoration: underline;
+}
+
+.workshop-block__cta a:hover{
+  opacity: 0.7;
+}
+
+@media (max-width: 759px){
+  .workshop-block{
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* ===============================
+   FLOWERS / BOTANICAL INSTITUTE
+   =============================== */
+
+.flowers-institute{
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(300px, 1.2fr);
+  gap: 48px;
+  align-items: start;
+}
+
+.flowers-institute__image img{
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.flowers-institute__text{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  align-items: flex-start;
+}
+
+.flowers-institute__title{
+  font-size: 38px;
+  font-weight: 500;
+  margin: 0 0 0.25em;
+  padding: 0;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.flowers-institute__text p{
+  font-size: 16px;
+  line-height: 1.45;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.flowers-institute__cta{
+  margin-top: 0.5em;
+}
+
+@media (max-width: 759px){
+  .flowers-institute{
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* ===============================
+   THE COLLAB
+   =============================== */
+
+.the-collab{
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(300px, 1.2fr);
+  gap: 64px;
+  align-items: start;
+}
+
+.the-collab__image img{
+  width: 100%;
+  height: auto;
+  display: block;
+  vertical-align: top;
+}
+
+.the-collab__text{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.the-collab__title{
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0 0 0.25em;
+  line-height: 1.2;
+}
+
+.the-collab__text p{
+  font-size: 16px;
+  line-height: 1.45;
+  margin: 0;
+}
+
+@media (max-width: 759px){
+  .the-collab{
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* ===============================
+   FEATURES
    =============================== */
 
 .feature{
@@ -338,8 +545,51 @@ h1, h2, h3{
 }
 
 /* ===============================
-   COMMUNITY
+   WHO WE ARE
    =============================== */
+
+.who-we-are{
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(300px, 1.2fr);
+  gap: 64px;
+  align-items: start;
+}
+
+.who-we-are__image img{
+  width: 100%;
+  height: auto;
+  display: block;
+  vertical-align: top;
+}
+
+.who-we-are__text{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding-left: 0;
+}
+
+.who-we-are__title{
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0 0 0.25em;
+  line-height: 1.2;
+}
+
+.who-we-are__text p{
+  font-size: 16px;
+  line-height: 1.45;
+  margin: 0;
+}
+
+@media (max-width: 759px){
+  .who-we-are{
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
 
 .tile{
   aspect-ratio: 4 / 3;
