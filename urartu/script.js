@@ -49,8 +49,8 @@
       if (e.target === menu) closeMenu();
     });
 
-    // close on nav click
-    menu.querySelectorAll('a[href^="#"]').forEach((a) => {
+    // close on nav click (anchors and internal links)
+    menu.querySelectorAll('a[href]').forEach((a) => {
       a.addEventListener('click', () => closeMenu());
     });
 
