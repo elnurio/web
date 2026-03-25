@@ -77,7 +77,9 @@ h1, h2, h3{
 }
 
 .section-head h2{
-  font-size: 32px;
+  font-size: 30px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   margin-bottom: 10px;
 }
 
@@ -368,10 +370,10 @@ h1, h2, h3{
 }
 
 .about-founder__title{
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   margin: 0 0 0.25em;
   line-height: 1.2;
 }
@@ -421,8 +423,10 @@ h1, h2, h3{
 }
 
 .workshop-block__title{
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   margin: 0 0 0.25em;
   line-height: 1.2;
 }
@@ -479,12 +483,13 @@ h1, h2, h3{
 }
 
 .flowers-institute__title{
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 500;
   margin: 0 0 0.25em;
   padding: 0;
   line-height: 1.2;
-  letter-spacing: 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   text-align: left;
   width: 100%;
 }
@@ -535,9 +540,10 @@ h1, h2, h3{
 }
 
 .the-collab__title{
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 500;
-  letter-spacing: 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   margin: 0 0 0.25em;
   line-height: 1.2;
 }
@@ -599,10 +605,10 @@ h1, h2, h3{
 }
 
 .who-we-are__title{
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   margin: 0 0 0.25em;
   line-height: 1.2;
 }
@@ -809,7 +815,8 @@ h1, h2, h3{
 .page-title{
   font-size: 42px;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   text-align: center;
   margin: 0;
   padding: 120px 24px 48px;
