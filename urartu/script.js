@@ -121,7 +121,7 @@
     const active = slides[idx];
 
     // Optional: if you ever want per-slide small label, add data-label=""
-    if (heroLocation) heroLocation.textContent = active.dataset.label || 'Happening now';
+    if (heroLocation) heroLocation.textContent = active.dataset.label !== undefined ? active.dataset.label : 'Happening now';
 
     heroTitle.textContent = active.dataset.title || 'Exhibition';
     heroSub.textContent = active.dataset.sub || 'UrArTu Gallery, Dubai';
