@@ -772,6 +772,13 @@ h1, h2, h3{
   margin-left: 76px;
 }
 
+.page-internal .the-collab,
+.page-internal .who-we-are,
+.page-internal .about-founder,
+.page-workshop .workshop-block{
+  margin-bottom: 114px;
+}
+
 /* ===============================
    BOTANICAL PAGE — FULL WIDTH
    =============================== */
