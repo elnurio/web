@@ -753,6 +753,15 @@ h1, h2, h3{
 }
 
 /* ===============================
+   WORKSHOP PAGE
+   =============================== */
+
+.page-workshop .workshop-block__text{
+  margin-top: 114px;
+  margin-left: 76px;
+}
+
+/* ===============================
    BOTANICAL PAGE — FULL WIDTH
    =============================== */
 
