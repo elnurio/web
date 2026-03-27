@@ -2,6 +2,8 @@
    URARTU — MINIMAL GALLERY STYLE
    =============================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap');
+
 /* ---- Font ---- */
 @font-face {
   font-family: "FuturaCustom";
@@ -718,8 +720,10 @@ h1, h2, h3{
 }
 
 .mailing-overlay h2{
+  font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 200;
+  font-style: normal;
   margin: 0;
 }
 
@@ -762,8 +766,9 @@ h1, h2, h3{
 }
 
 .page-botanical .flowers-institute{
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 0.55fr;
   gap: 80px;
+  align-items: center;
 }
 
 /* ===============================
