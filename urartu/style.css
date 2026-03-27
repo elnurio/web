@@ -522,7 +522,7 @@ h1, h2, h3{
 .the-collab{
   display: grid;
   grid-template-columns: minmax(280px, 1fr) minmax(300px, 1.2fr);
-  gap: 64px;
+  gap: 120px;
   align-items: start;
 }
 
@@ -718,7 +718,7 @@ h1, h2, h3{
 }
 
 .mailing-overlay h2{
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 300;
   margin: 0;
 }
@@ -746,6 +746,24 @@ h1, h2, h3{
   color:#fff;
   cursor:pointer;
   font-family: inherit;
+}
+
+/* ===============================
+   BOTANICAL PAGE — FULL WIDTH
+   =============================== */
+
+.page-botanical .page{
+  max-width: 100%;
+  padding: 0 48px;
+}
+
+.page-botanical .page-title{
+  padding-left: 0;
+}
+
+.page-botanical .flowers-institute{
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
 }
 
 /* ===============================
@@ -814,13 +832,13 @@ h1, h2, h3{
 }
 
 .page-title{
-  font-size: 42px;
+  font-size: 32px;
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  text-align: center;
+  text-align: left;
   margin: 0;
-  padding: 120px 24px 48px;
+  padding: 120px 24px 48px 0;
   line-height: 1.1;
 }
 
