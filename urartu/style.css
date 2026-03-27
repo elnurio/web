@@ -761,14 +761,30 @@ h1, h2, h3{
   padding: 0 48px;
 }
 
+
 .page-botanical .page-title{
-  padding-left: 0;
+  padding-left: 342px;
 }
 
 .page-botanical .flowers-institute{
-  grid-template-columns: 1fr 0.55fr;
+  grid-template-columns: 0.6fr 0.55fr;
   gap: 80px;
   align-items: center;
+  margin-top: 114px;
+  margin-bottom: 114px;
+}
+
+.page-botanical .flowers-institute__text{
+  max-width: 456px;
+  margin-left: 190px;
+}
+
+.page-botanical .flowers-institute__image img{
+  aspect-ratio: 4 / 3;
+  max-height: 420px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center top;
 }
 
 /* ===============================
