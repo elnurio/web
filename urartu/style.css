@@ -790,7 +790,7 @@ h1, h2, h3{
 
 
 .page-botanical .page-title{
-  padding-left: 342px;
+  padding-left: calc(342px - 8.5cm);
 }
 
 .page-botanical .flowers-institute{
@@ -803,7 +803,7 @@ h1, h2, h3{
 
 .page-botanical .flowers-institute__text{
   max-width: 456px;
-  margin-left: 190px;
+  margin-left: 80px;
 }
 
 .page-botanical .flowers-institute__image img{
@@ -880,7 +880,7 @@ h1, h2, h3{
 }
 
 .page-title{
-  font-size: 32px;
+  font-size: 22px;
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -905,6 +905,24 @@ h1, h2, h3{
 .page-internal .flowers-institute__title,
 .page-internal .about-founder__title{
   display: none;
+}
+
+/* ===============================
+   PRESS PAGE
+   =============================== */
+
+.press-text-block{
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+  margin-bottom: 320px;
+}
+
+.press-text-block p{
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
 }
 
 /* ===============================
@@ -1073,6 +1091,11 @@ body.menu-open{
 .menu.is-open .menu-panel{
   transform: translateX(0);
   opacity: 1;
+}
+
+/* on white internal pages the blurred backdrop is white — darken the panel */
+.page-internal .menu-panel{
+  background: rgba(10, 10, 10, 0.88);
 }
 
 /* top (close button) */
