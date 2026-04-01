@@ -93,6 +93,7 @@
 
   const nextBtn = document.getElementById('nextBtn');
   const prevBtn = document.getElementById('prevBtn');
+  const heroCta = document.querySelector('.hero-cta');
 
   if (!slides.length || !dotsWrap || !heroTitle || !heroSub) return;
 
@@ -125,6 +126,10 @@
 
     heroTitle.textContent = active.dataset.title || 'Exhibition';
     heroSub.textContent = active.dataset.sub || 'UrArTu Gallery, Dubai';
+
+    if (heroCta && active.dataset.href) {
+      heroCta.href = active.dataset.href;
+    }
   }
 
   function next() {
