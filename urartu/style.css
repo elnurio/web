@@ -262,7 +262,7 @@ h1, h2, h3{
 /* ---- Hero text (FIXED LAYOUT) ---- */
 .hero-overlay{
   position:absolute;
-  z-index:3;
+  z-index:5;
   left: clamp(24px, 6vw, 80px);
   top: 50%;
   transform: translateY(-50%);
@@ -340,10 +340,15 @@ h1, h2, h3{
   border:none;
   cursor:pointer;
   z-index:4;
+  pointer-events: none;
 }
 
 .half-left{ left:0; }
 .half-right{ right:0; }
+
+@media (min-width: 961px){
+  .half-right{ pointer-events: auto; }
+}
 
 @media (max-width: 960px){
   .half{ display:none; }
