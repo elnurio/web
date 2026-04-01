@@ -292,12 +292,21 @@ h1, h2, h3{
 
 .hero-cta{
   display: inline-block;
-  margin-top: 6px;              /* <- move button down (tune: 6 / 10 / 14) */
+  margin-top: 6px;
   padding: 10px 14px;
   border: 1px solid rgba(255,255,255,.8);
   background: transparent;
   color:#fff;
   font-size: 12px;
+  position: relative;
+  z-index: 5;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.hero-cta:hover{
+  background: rgba(255,255,255,.15);
+  border-color: #fff;
 }
 
 /* ---- Slider dots ---- */
