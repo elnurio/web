@@ -1032,7 +1032,7 @@ h1, h2, h3{
 .exh-texts__grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  gap: 32px;
   align-items: start;
 }
 
