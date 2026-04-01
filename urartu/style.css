@@ -1018,6 +1018,23 @@ h1, h2, h3{
     padding: 90px 16px 28px;
   }
 
+  /* сброс отступов текстовых блоков на всех внутренних страницах */
+  .page-internal .the-collab__text,
+  .page-internal .who-we-are__text,
+  .page-internal .about-founder__text,
+  .page-workshop .workshop-block__text{
+    margin-top: 0;
+    margin-left: 0;
+  }
+
+  .page-internal .the-collab,
+  .page-internal .who-we-are,
+  .page-internal .about-founder,
+  .page-workshop .workshop-block{
+    margin-bottom: 48px;
+  }
+
+  /* botanical */
   .page-botanical .page-title{
     padding-left: 16px;
   }
