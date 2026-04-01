@@ -797,7 +797,7 @@ h1, h2, h3{
   grid-template-columns: 0.6fr 0.55fr;
   gap: 80px;
   align-items: center;
-  margin-top: 114px;
+  margin-top: calc(114px - 2cm);
   margin-bottom: 114px;
 }
 
