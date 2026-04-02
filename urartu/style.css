@@ -1110,6 +1110,9 @@ h1, h2, h3{
 .exh-trio__img img{
   width: 100%;
   display: block;
+  aspect-ratio: 4 / 4;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* contact section */
