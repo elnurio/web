@@ -734,11 +734,12 @@ h1, h2, h3{
 }
 
 .mailing-overlay h2{
-  font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  font-weight: 200;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 300;
   font-style: normal;
   margin: 0;
+  line-height: 1.6;
 }
 
 .mailing-form{
