@@ -1080,6 +1080,9 @@ h1, h2, h3{
 .exh-pair__img img{
   width: 100%;
   display: block;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center top;
 }
 
 /* text block 3 */
