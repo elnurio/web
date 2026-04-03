@@ -1152,20 +1152,16 @@ h1, h2, h3{
   margin: 0;
 }
 
-/* flip: text left 40%, image right 60% bleeds right */
-.exh-editorial--flip{
-  grid-template-columns: 2fr 3fr;
-}
-
+/* flip: text left 50%, image right 50% bleeds right */
 .exh-editorial--flip .exh-editorial__img{
   order: 2;
   margin-left: 0;
-  margin-right: -24px;
+  margin-right: -100px;
 }
 
 .exh-editorial--flip .exh-editorial__text{
   order: 1;
-  padding: 0 56px 0 0;
+  padding: 0 40px 0 0;
 }
 
 /* ============================================
