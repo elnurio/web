@@ -1088,9 +1088,11 @@ h1, h2, h3{
 /* text block 3 */
 .exh-text3__inner{
   max-width: 560px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  text-align: center;
 }
 
 .exh-text3__inner p{
