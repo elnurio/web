@@ -1229,18 +1229,23 @@ h1, h2, h3{
   padding-top: 0 !important;
 }
 
-.exh-full__img{
-  display: block;
-  width: 62%;
-  height: auto;
+.exh-full__wrap{
+  display: inline-block;
   margin-left: 19%;
-  object-fit: initial;
-  max-height: none;
   transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.exh-full__img:hover{
+.exh-full__wrap:hover{
   transform: translateY(-8px);
+}
+
+.exh-full__img{
+  display: block;
+  width: 62vw;
+  max-width: 700px;
+  height: auto;
+  object-fit: initial;
+  max-height: none;
 }
 
 /* contact section */
@@ -1360,10 +1365,14 @@ h1, h2, h3{
   }
 
   /* --- full image --- */
+  .exh-full__wrap{
+    margin-left: 0;
+    width: 100%;
+  }
+
   .exh-full__img{
     width: 100%;
-    margin-left: 0;
-    transform: none !important;
+    max-width: 100%;
   }
 
   /* --- contact --- */
