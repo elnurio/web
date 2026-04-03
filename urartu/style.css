@@ -1155,7 +1155,7 @@ h1, h2, h3{
 /* flip: text left 50%, image right 50% bleeds right */
 .exh-editorial--flip .exh-editorial__img{
   order: 2;
-  margin-left: 0;
+  margin-left: 75px;
   margin-right: -100px;
 }
 
