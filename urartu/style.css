@@ -1215,12 +1215,26 @@ h1, h2, h3{
 }
 
 /* contact section */
+.exh-contact{
+  position: relative;
+}
+
+.exh-contact::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 1px;
+  background: var(--line);
+}
+
 .exh-contact__grid{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 48px;
   align-items: start;
-  border-top: 1px solid var(--line);
   padding-top: 40px;
 }
 
