@@ -1140,9 +1140,11 @@ h1, h2, h3{
   display: block;
 }
 
-/* text sits in right column with left indent */
+/* text sits in right column — vertically centered, constrained width */
 .exh-editorial__text{
-  padding: 0 0 0 56px;
+  align-self: center;
+  padding: 0 24px 0 40px;
+  max-width: 320px;
 }
 
 .exh-editorial__text p{
