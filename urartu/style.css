@@ -1172,6 +1172,15 @@ h1, h2, h3{
   margin-left: -113px;
 }
 
+/* artwork captions */
+.exh-caption{
+  font-size: 11px;
+  color: var(--muted);
+  margin: 8px 0 0;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+
 /* ============================================
    STAGGER — Two images, right one offset down
    Left  ~60% (bleeds left), Right ~40% (bleeds right)
