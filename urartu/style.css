@@ -1133,6 +1133,11 @@ h1, h2, h3{
 /* image bleeds into left page padding */
 .exh-editorial__img{
   margin-left: -100px;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.exh-editorial__img:hover{
+  transform: translateY(-8px);
 }
 
 .exh-editorial__img img{
@@ -1183,11 +1188,21 @@ h1, h2, h3{
 .exh-asymmetric__main{
   margin-left: -24px;
   padding-right: 20px;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.exh-asymmetric__main:hover{
+  transform: translateY(-8px);
 }
 
 .exh-asymmetric__secondary{
-  padding-top: 180px;   /* stagger — matches Figma ~212px at 1920 scale */
+  padding-top: 180px;
   margin-right: -24px;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.exh-asymmetric__secondary:hover{
+  transform: translateY(-8px);
 }
 
 .exh-asymmetric__grid img{
@@ -1212,6 +1227,11 @@ h1, h2, h3{
   margin-left: 19%;
   object-fit: initial;
   max-height: none;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.exh-full__img:hover{
+  transform: translateY(-8px);
 }
 
 /* contact section */
