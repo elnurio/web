@@ -1300,43 +1300,73 @@ h1, h2, h3{
     gap: 32px;
   }
 
+  /* --- exhibition editorial --- */
   .exh-editorial,
   .exh-editorial--flip{
     grid-template-columns: 1fr;
-    padding: 48px 0;
+    padding: 40px 0;
   }
 
+  /* reset all image bleeds and offsets */
   .exh-editorial__img,
   .exh-editorial--flip .exh-editorial__img{
     order: 0;
     margin-left: 0;
     margin-right: 0;
+    transform: none !important;
   }
 
+  /* images fill full width on mobile */
+  .exh-editorial__img img,
+  .exh-editorial--flip .exh-editorial__img img{
+    width: 100%;
+  }
+
+  /* text below image, no extra offsets */
   .exh-editorial__text,
   .exh-editorial--flip .exh-editorial__text{
     order: 1;
-    padding: 32px 0 0;
+    padding: 24px 0 0;
+    margin-left: 0;
+    align-self: auto;
   }
 
+  /* --- stagger section --- */
   .exh-asymmetric__grid{
     grid-template-columns: 1fr;
+    column-gap: 0;
     gap: 24px;
   }
 
   .exh-asymmetric__main{
     margin-left: 0;
     padding-right: 0;
+    transform: none !important;
   }
 
   .exh-asymmetric__secondary{
     padding-top: 0;
     margin-right: 0;
+    transform: none !important;
   }
 
+  /* --- full image --- */
   .exh-full__img{
     width: 100%;
     margin-left: 0;
+    transform: none !important;
+  }
+
+  /* --- contact --- */
+  .exh-contact__grid{
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  /* --- info strip --- */
+  .exh-info__grid{
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
   }
 }
 
