@@ -1175,7 +1175,7 @@ h1, h2, h3{
   display: grid;
   grid-template-columns: 3fr 2fr;
   align-items: start;
-  gap: 0;
+  column-gap: 113px;
 }
 
 .exh-asymmetric__main{
