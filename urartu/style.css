@@ -1115,14 +1115,23 @@ h1, h2, h3{
   object-position: center;
 }
 
-/* editorial: image half + text half */
+/* ============================================
+   EDITORIAL LAYOUT — Figma-faithful
+   Image ~60% (bleeds left/right) + Text ~40%
+   ============================================ */
+
 .exh-editorial{
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 3fr 2fr;   /* 60 / 40 */
   align-items: start;
   gap: 0;
   padding: 80px 0;
   border-bottom: 1px solid var(--line);
+}
+
+/* image bleeds into left page padding */
+.exh-editorial__img{
+  margin-left: -24px;
 }
 
 .exh-editorial__img img{
@@ -1131,10 +1140,9 @@ h1, h2, h3{
   display: block;
 }
 
+/* text sits in right column with left indent */
 .exh-editorial__text{
-  display: flex;
-  align-items: flex-start;
-  padding: 0 48px;
+  padding: 0 0 0 56px;
 }
 
 .exh-editorial__text p{
@@ -1144,30 +1152,67 @@ h1, h2, h3{
   margin: 0;
 }
 
+/* flip: text left 40%, image right 60% bleeds right */
+.exh-editorial--flip{
+  grid-template-columns: 2fr 3fr;
+}
+
 .exh-editorial--flip .exh-editorial__img{
   order: 2;
+  margin-left: 0;
+  margin-right: -24px;
 }
 
 .exh-editorial--flip .exh-editorial__text{
   order: 1;
+  padding: 0 56px 0 0;
 }
 
-/* asymmetric: two images, different natural heights */
+/* ============================================
+   STAGGER — Two images, right one offset down
+   Left  ~60% (bleeds left), Right ~40% (bleeds right)
+   Vertical offset: right image starts ~180px lower
+   ============================================ */
+
 .exh-asymmetric__grid{
   display: grid;
-  grid-template-columns: 58fr 42fr;
-  gap: 24px;
+  grid-template-columns: 3fr 2fr;
   align-items: start;
+  gap: 0;
+}
+
+.exh-asymmetric__main{
+  margin-left: -24px;
+  padding-right: 20px;
+}
+
+.exh-asymmetric__secondary{
+  padding-top: 180px;   /* stagger — matches Figma ~212px at 1920 scale */
+  margin-right: -24px;
 }
 
 .exh-asymmetric__grid img{
   width: 100%;
+  height: auto;
   display: block;
 }
 
-/* full image */
+/* ============================================
+   FULL IMAGE — positioned centre-left like Figma
+   In Figma: left=19% of content, width=60%
+   ============================================ */
+
 .exh-full{
   padding-top: 0 !important;
+}
+
+.exh-full__img{
+  display: block;
+  width: 62%;
+  height: auto;
+  margin-left: 19%;
+  object-fit: initial;
+  max-height: none;
 }
 
 /* contact section */
@@ -1222,26 +1267,43 @@ h1, h2, h3{
     gap: 32px;
   }
 
-  .exh-editorial{
+  .exh-editorial,
+  .exh-editorial--flip{
     grid-template-columns: 1fr;
-    padding: 40px 0;
+    padding: 48px 0;
   }
 
-  .exh-editorial__text{
-    padding: 32px 0 0;
-  }
-
+  .exh-editorial__img,
   .exh-editorial--flip .exh-editorial__img{
     order: 0;
+    margin-left: 0;
+    margin-right: 0;
   }
 
+  .exh-editorial__text,
   .exh-editorial--flip .exh-editorial__text{
     order: 1;
+    padding: 32px 0 0;
   }
 
   .exh-asymmetric__grid{
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 24px;
+  }
+
+  .exh-asymmetric__main{
+    margin-left: 0;
+    padding-right: 0;
+  }
+
+  .exh-asymmetric__secondary{
+    padding-top: 0;
+    margin-right: 0;
+  }
+
+  .exh-full__img{
+    width: 100%;
+    margin-left: 0;
   }
 }
 
