@@ -1131,7 +1131,7 @@ h1, h2, h3{
 
 /* image bleeds into left page padding */
 .exh-editorial__img{
-  margin-left: -24px;
+  margin-left: -100px;
 }
 
 .exh-editorial__img img{
