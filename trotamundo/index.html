@@ -61,40 +61,49 @@
   </footer>
 
   <script>
-    // ─── Cloud generator ──────────────────────────────────
+    // ─── Cloud generator v2 — flat cartoon style ──────────
     (function () {
       const layer = document.querySelector('.bg-layer');
       const rnd = (min, max) => min + Math.random() * (max - min);
       const rndInt = (min, max) => Math.floor(rnd(min, max + 1));
 
-      // Build a cloud SVG with n random bumps
+      // Flat cartoon cloud: white top bumps + gray shadow bumps underneath
       function cloudSVG() {
         const numBumps = rndInt(2, 5);
-        const vw = 90 + numBumps * 55;   // wider when more bumps
-        const vh = 75 + rnd(-10, 15);
+        const vw = 80 + numBumps * 52;
+        const vh = 72;
 
-        const baseY  = vh * 0.76;
-        const baseRx = vw * 0.48;
-        const baseRy = vh * 0.22;
+        // White = #ffffff, shadow = soft blue-gray like reference
+        const W = '#ffffff';
+        const S = '#c8d8e4'; // gray-blue shadow
 
-        // Shadow ellipse
-        const sh = `<ellipse cx="${(vw/2).toFixed(0)}" cy="${(vh*0.94).toFixed(0)}" rx="${(baseRx*0.93).toFixed(0)}" ry="${(vh*0.09).toFixed(0)}" fill="#9ec0d4" opacity="0.38"/>`;
-
-        // Base body
-        const base = `<ellipse cx="${(vw/2).toFixed(0)}" cy="${baseY.toFixed(0)}" rx="${baseRx.toFixed(0)}" ry="${baseRy.toFixed(0)}" fill="white"/>`;
-
-        // Bumps spread across width
-        let bumps = '';
+        // Bump positions — spread evenly, slight vertical jitter
+        const bumps = [];
         for (let i = 0; i < numBumps; i++) {
-          const cx = vw * (0.08 + (i / Math.max(numBumps - 1, 1)) * 0.84);
-          const cy = vh * rnd(0.28, 0.56);
-          const r  = vh * rnd(0.26, 0.48);
-          // slight size variation: first and last bumps often smaller
-          const edge = (i === 0 || i === numBumps - 1) ? 0.8 : 1;
-          bumps += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(r * edge).toFixed(1)}" fill="white"/>`;
+          const frac = numBumps === 1 ? 0.5 : i / (numBumps - 1);
+          const cx = vw * (0.1 + frac * 0.8);
+          const cy = vh * rnd(0.30, 0.46);
+          // edge bumps smaller
+          const edgeFactor = (i === 0 || i === numBumps - 1) ? rnd(0.65, 0.82) : rnd(0.88, 1.0);
+          const r = vh * rnd(0.28, 0.44) * edgeFactor;
+          bumps.push({ cx, cy, r });
         }
 
-        return `<svg viewBox="0 0 ${vw.toFixed(0)} ${vh.toFixed(0)}" xmlns="http://www.w3.org/2000/svg">${sh}${base}${bumps}</svg>`;
+        // Shadow bumps: same cx, shifted down, smaller, gray
+        const shadowBumps = bumps.map(b =>
+          `<circle cx="${b.cx.toFixed(1)}" cy="${(b.cy + b.r * 0.42).toFixed(1)}" r="${(b.r * 0.72).toFixed(1)}" fill="${S}"/>`
+        ).join('');
+
+        // White base ellipse covering the bottom gap
+        const baseY = vh * 0.70;
+        const base = `<ellipse cx="${(vw/2).toFixed(1)}" cy="${baseY.toFixed(1)}" rx="${(vw*0.46).toFixed(1)}" ry="${(vh*0.28).toFixed(1)}" fill="${W}"/>`;
+
+        // White top bumps
+        const whiteBumps = bumps.map(b =>
+          `<circle cx="${b.cx.toFixed(1)}" cy="${b.cy.toFixed(1)}" r="${b.r.toFixed(1)}" fill="${W}"/>`
+        ).join('');
+
+        return `<svg viewBox="0 0 ${vw} ${vh}" xmlns="http://www.w3.org/2000/svg">${shadowBumps}${base}${whiteBumps}</svg>`;
       }
 
       // Wait for layout so page height is known
