@@ -11,8 +11,7 @@
   <!-- Background layer -->
   <div class="bg-layer" aria-hidden="true">
 
-    <!-- Clouds (inline SVG for cartoon style) -->
-    <!-- Large -->
+    <!-- Clouds -->
     <div class="cloud c1">
       <svg viewBox="0 0 240 90" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="120" cy="85" rx="105" ry="9" fill="#a0c4d8" opacity="0.45"/>
@@ -23,7 +22,6 @@
         <circle cx="200" cy="60" r="21" fill="#fff"/>
       </svg>
     </div>
-    <!-- XL -->
     <div class="cloud c2">
       <svg viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="140" cy="95" rx="122" ry="10" fill="#a0c4d8" opacity="0.45"/>
@@ -34,7 +32,6 @@
         <circle cx="232" cy="66" r="24" fill="#fff"/>
       </svg>
     </div>
-    <!-- Medium -->
     <div class="cloud c3">
       <svg viewBox="0 0 180 72" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="90" cy="68" rx="78" ry="7" fill="#a0c4d8" opacity="0.45"/>
@@ -45,7 +42,6 @@
         <circle cx="162" cy="50" r="16" fill="#fff"/>
       </svg>
     </div>
-    <!-- Small -->
     <div class="cloud c4">
       <svg viewBox="0 0 140 58" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="70" cy="54" rx="60" ry="6" fill="#a0c4d8" opacity="0.45"/>
@@ -55,7 +51,6 @@
         <circle cx="108" cy="31" r="18" fill="#fff"/>
       </svg>
     </div>
-    <!-- Tiny -->
     <div class="cloud c5">
       <svg viewBox="0 0 110 48" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="55" cy="44" rx="46" ry="5" fill="#a0c4d8" opacity="0.45"/>
@@ -65,7 +60,6 @@
         <circle cx="84" cy="26" r="14" fill="#fff"/>
       </svg>
     </div>
-    <!-- Large left -->
     <div class="cloud c6">
       <svg viewBox="0 0 200 78" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="100" cy="74" rx="88" ry="8" fill="#a0c4d8" opacity="0.45"/>
@@ -76,7 +70,6 @@
         <circle cx="176" cy="54" r="18" fill="#fff"/>
       </svg>
     </div>
-    <!-- Medium right -->
     <div class="cloud c7">
       <svg viewBox="0 0 160 65" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="80" cy="61" rx="68" ry="7" fill="#a0c4d8" opacity="0.45"/>
@@ -87,7 +80,6 @@
         <circle cx="148" cy="46" r="14" fill="#fff"/>
       </svg>
     </div>
-    <!-- Small bottom -->
     <div class="cloud c8">
       <svg viewBox="0 0 130 54" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="65" cy="50" rx="55" ry="6" fill="#a0c4d8" opacity="0.45"/>
@@ -97,7 +89,6 @@
         <circle cx="100" cy="29" r="17" fill="#fff"/>
       </svg>
     </div>
-    <!-- XL bottom-left -->
     <div class="cloud c9">
       <svg viewBox="0 0 260 95" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="130" cy="90" rx="114" ry="9" fill="#a0c4d8" opacity="0.45"/>
@@ -108,7 +99,6 @@
         <circle cx="218" cy="64" r="22" fill="#fff"/>
       </svg>
     </div>
-    <!-- Tiny floating -->
     <div class="cloud c10">
       <svg viewBox="0 0 95 42" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="47" cy="39" rx="40" ry="5" fill="#a0c4d8" opacity="0.45"/>
@@ -141,53 +131,37 @@
   <!-- Artist sections -->
   <main class="sets">
 
-    <!-- Artist 1 -->
-    <section class="set-block">
-      <div class="set-video">
-        <div class="video-placeholder">
-          <span>Video coming soon</span>
-        </div>
-        <!-- Replace placeholder with:
-        <video controls playsinline>
-          <source src="video/artist1.mp4" type="video/mp4">
-        </video>
-        -->
+    <!-- Artist 1: video left, text right -->
+    <section class="artist-block">
+      <div class="artist-video">
+        <div class="video-placeholder"><span>Video coming soon</span></div>
+        <!-- <video controls playsinline><source src="video/artist1.mp4" type="video/mp4"></video> -->
       </div>
-      <div class="set-info">
-        <h2 class="set-artist">Artist Name</h2>
-        <p class="set-desc">
-          Description of the visual concept and how it responded to the music.
-        </p>
+      <div class="artist-text">
+        <h2 class="artist-name">Artist Name</h2>
+        <p class="artist-desc">Description of the visual concept and how it responded to the music.</p>
       </div>
     </section>
 
-    <!-- Artist 2 -->
-    <section class="set-block reverse">
-      <div class="set-video">
-        <div class="video-placeholder">
-          <span>Video coming soon</span>
-        </div>
+    <!-- Artist 2: text left, video right -->
+    <section class="artist-block artist-block--flip">
+      <div class="artist-video">
+        <div class="video-placeholder"><span>Video coming soon</span></div>
       </div>
-      <div class="set-info">
-        <h2 class="set-artist">Artist Name</h2>
-        <p class="set-desc">
-          Description of the visual concept and how it responded to the music.
-        </p>
+      <div class="artist-text">
+        <h2 class="artist-name">Artist Name</h2>
+        <p class="artist-desc">Description of the visual concept and how it responded to the music.</p>
       </div>
     </section>
 
-    <!-- Artist 3 -->
-    <section class="set-block">
-      <div class="set-video">
-        <div class="video-placeholder">
-          <span>Video coming soon</span>
-        </div>
+    <!-- Artist 3: video left, text right -->
+    <section class="artist-block">
+      <div class="artist-video">
+        <div class="video-placeholder"><span>Video coming soon</span></div>
       </div>
-      <div class="set-info">
-        <h2 class="set-artist">Artist Name</h2>
-        <p class="set-desc">
-          Description of the visual concept and how it responded to the music.
-        </p>
+      <div class="artist-text">
+        <h2 class="artist-name">Artist Name</h2>
+        <p class="artist-desc">Description of the visual concept and how it responded to the music.</p>
       </div>
     </section>
 
