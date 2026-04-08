@@ -312,7 +312,7 @@ body {
 }
 .artist-desc {
   font-family: var(--font-futura);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.8;
   color: var(--text);
   margin-bottom: 14px;
@@ -322,7 +322,7 @@ body {
 .artist-desc--accent {
   font-family: var(--font-body);
   font-style: italic;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--muted);
   margin-top: 20px;
 }
