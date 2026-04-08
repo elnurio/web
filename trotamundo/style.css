@@ -111,6 +111,20 @@ body {
 .artist-video { padding-right: 48px; }
 .artist-block--flip .artist-video { padding-right: 0; padding-left: 48px; }
 
+/* Multi-video section (3 stacked) */
+.artist-block--multi {
+  grid-template-columns: 1.1fr 0.9fr;
+}
+.artist-videos {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-right: 48px;
+}
+.artist-videos .video-placeholder {
+  aspect-ratio: 16 / 9;
+}
+
 .artist-video video,
 .video-placeholder {
   width: 100%;
@@ -148,6 +162,14 @@ body {
   line-height: 1.75;
   color: #fff;
   text-shadow: 0 1px 6px rgba(0 0 0 / 0.18);
+  margin-bottom: 14px;
+}
+.artist-desc:last-child { margin-bottom: 0; }
+
+.artist-desc--accent {
+  font-style: italic;
+  opacity: 0.75;
+  margin-top: 20px;
 }
 
 /* ─── Footer ─────────────────────────────────────────── */
