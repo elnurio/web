@@ -116,7 +116,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 28px;
-  padding: 48px max(48px, 8vw) 64px;
+  padding: 32px max(48px, 8vw) 64px;
 }
 
 /* Narrower specificity than .artist-desc--accent alone so margins stay reset */
@@ -124,6 +124,7 @@ body {
   max-width: min(40rem, 90vw);
   text-align: center;
   margin: 0;
+  margin-top: -10px;
 }
 
 /* Stage reserves the correct visual space for the rotated phone.
@@ -494,7 +495,11 @@ body {
   }
 
   .iphone-landscape-wrap {
-    padding: 28px 16px 40px;
+    padding: 18px 16px 40px;
+  }
+
+  .iphone-landscape-wrap > .ls-accent-quote.artist-desc--accent {
+    margin-top: -6px;
   }
 
   /* Desktop used tiny vw caps; on phones that made the device nearly invisible */
