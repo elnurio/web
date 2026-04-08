@@ -115,25 +115,25 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 48px;
-  padding: 40px max(48px, 8vw) 72px;
+  gap: 72px;
+  padding: 52px max(48px, 8vw) 88px;
 }
 
-/* Captions sit above the phone layer (transform + shadow were painting over text) */
+/* Captions above the phone stack (transform + compositing) */
 .iphone-landscape-wrap > .ls-wrap-quote {
   position: relative;
-  z-index: 2;
+  z-index: 10;
   max-width: min(40rem, 90vw);
   text-align: center;
   margin: 0;
 }
 
 .iphone-landscape-wrap > .ls-wrap-quote:first-of-type {
-  margin-bottom: 4px;
+  margin-bottom: 20px;
 }
 
 .iphone-landscape-wrap > .ls-wrap-quote.artist-desc--accent {
-  margin-top: 4px;
+  margin-top: 20px;
   margin-bottom: 0;
 }
 
@@ -144,6 +144,7 @@ body {
   z-index: 1;
   width: min(239.5px, 28vw);
   height: min(110px, 13vw);
+  margin-block: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -155,6 +156,16 @@ body {
   transform: rotate(90deg);
   will-change: transform;
   transform-style: preserve-3d;
+}
+
+/* Default phone shadow is huge (70px blur); it visually eats the captions next to this block */
+.iphone-landscape-wrap .iphone-frame {
+  box-shadow:
+    inset 0 0 0 0.5px rgba(255 255 255 / 0.22),
+    inset 1px 1px 2px rgba(255 255 255 / 0.08),
+    inset -1px -1px 2px rgba(0 0 0 / 0.4),
+    0 10px 28px rgba(0 0 0 / 0.42),
+    0 3px 10px rgba(0 0 0 / 0.2);
 }
 
 /* ─── Artist sections ────────────────────────────────── */
@@ -507,8 +518,20 @@ body {
   }
 
   .iphone-landscape-wrap {
-    padding: 24px 16px 48px;
-    gap: 40px;
+    padding: 32px 16px 56px;
+    gap: 56px;
+  }
+
+  .iphone-landscape-wrap .iphone-ls-stage {
+    margin-block: 28px;
+  }
+
+  .iphone-landscape-wrap > .ls-wrap-quote:first-of-type {
+    margin-bottom: 12px;
+  }
+
+  .iphone-landscape-wrap > .ls-wrap-quote.artist-desc--accent {
+    margin-top: 12px;
   }
 
   /* Desktop used tiny vw caps; on phones that made the device nearly invisible */
