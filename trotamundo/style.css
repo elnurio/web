@@ -114,9 +114,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* enough vertical room for the rotated phone */
-  min-height: min(100px, 12vw);
-  padding: 0 max(48px, 8vw) 64px;
+  padding: 48px max(48px, 8vw) 64px;
+}
+
+/* Stage reserves the correct visual space for the rotated phone.
+   Portrait: W=220px, H≈479px → Landscape visual: 479px wide × 220px tall */
+.iphone-ls-stage {
+  width: min(479px, 56vw);
+  height: min(220px, 26vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .iphone--landscape {
