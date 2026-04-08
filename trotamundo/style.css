@@ -225,8 +225,18 @@ body {
 
 /* Multi-video section (3 iPhones) */
 .artist-block--multi {
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1fr minmax(0, 34ch);
+  column-gap: clamp(48px, 6vw, 96px);
   align-items: center;
+}
+
+.artist-block--multi .iphone-trio {
+  padding-right: 0;
+}
+
+.artist-block--multi .artist-text {
+  padding-left: clamp(20px, 2.5vw, 36px);
+  max-width: 100%;
 }
 
 /* ─── iPhone trio ─────────────────────────────────────── */
@@ -457,8 +467,14 @@ body {
 @media (max-width: 900px) {
   .artist-block--multi {
     grid-template-columns: 1fr;
+    column-gap: 0;
     gap: 32px;
     align-items: stretch;
+  }
+
+  .artist-block--multi .artist-text {
+    max-width: none;
+    padding-left: 0;
   }
 
   .iphone-trio {
