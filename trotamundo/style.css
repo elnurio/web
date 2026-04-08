@@ -137,51 +137,70 @@ body {
 
 .iphone-frame {
   position: relative;
-  background: linear-gradient(160deg, #3a3a3c 0%, #1c1c1e 60%, #2c2c2e 100%);
-  border-radius: 38px;
-  padding: 11px;
+  /* iPhone 17 Pro — Natural Titanium finish */
+  background:
+    linear-gradient(180deg,
+      #5a5a5c 0%,
+      #3a3a3c 15%,
+      #2a2a2c 50%,
+      #3c3c3e 85%,
+      #4a4a4c 100%
+    );
+  border-radius: 44px;
+  padding: 8px;          /* thinner bezels vs 14 Pro */
   box-shadow:
-    inset 0 0 0 1px rgba(255 255 255 / 0.12),
-    inset 0 0 0 2px rgba(0 0 0 / 0.5),
-    0 24px 60px rgba(0 0 0 / 0.45),
-    0 4px 12px rgba(0 0 0 / 0.3);
-  /* aspect ratio: iPhone 14 Pro ~19.5:9 → height/width ≈ 2.165 */
-  aspect-ratio: 9 / 19.5;
+    /* titanium edge highlight */
+    inset 0 0 0 0.5px rgba(255 255 255 / 0.22),
+    /* inner shadow for depth */
+    inset 1px 1px 2px rgba(255 255 255 / 0.08),
+    inset -1px -1px 2px rgba(0 0 0 / 0.4),
+    /* drop shadows */
+    0 30px 70px rgba(0 0 0 / 0.5),
+    0 6px 16px rgba(0 0 0 / 0.28);
+  /* iPhone 17 Pro ~19.6:9 — slightly taller */
+  aspect-ratio: 9 / 19.6;
 }
 
-/* Side buttons */
+/* Side buttons — flatter, titanium */
 .iphone-btn {
   position: absolute;
-  background: #2c2c2e;
-  border-radius: 3px;
-  box-shadow: inset 0 0 0 0.5px rgba(255 255 255 / 0.08);
+  background: linear-gradient(90deg, #4a4a4c, #3a3a3c);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 0 0.5px rgba(255 255 255 / 0.1),
+    1px 0 2px rgba(0 0 0 / 0.3);
 }
-.vol-up  { left: -3px; top: 22%; width: 3px; height: 8%; }
-.vol-dn  { left: -3px; top: 33%; width: 3px; height: 8%; }
-.power   { right: -3px; top: 27%; width: 3px; height: 11%; }
+.vol-up { left: -3.5px; top: 20%; width: 3px; height: 7%;  }
+.vol-dn { left: -3.5px; top: 30%; width: 3px; height: 7%;  }
+.power  { right: -3.5px; top: 25%; width: 3px; height: 10%; }
 
 /* Screen */
 .iphone-screen {
   width: 100%;
   height: 100%;
-  background: #111;
-  border-radius: 28px;
+  background: #0a0a0a;
+  border-radius: 37px;   /* tighter inner radius */
   overflow: hidden;
   position: relative;
+  /* subtle inner frame line */
+  box-shadow: inset 0 0 0 0.5px rgba(255 255 255 / 0.06);
 }
 
-/* Dynamic Island */
+/* Dynamic Island — 17 Pro: same pill, refined proportions */
 .iphone-island {
   position: absolute;
-  top: 10px;
+  top: 9px;
   left: 50%;
   transform: translateX(-50%);
-  width: 38%;
-  height: 7%;
-  max-height: 26px;
+  width: 34%;
+  height: 6.5%;
+  max-height: 24px;
+  min-height: 16px;
   background: #000;
-  border-radius: 20px;
+  border-radius: 14px;
   z-index: 10;
+  /* subtle glow */
+  box-shadow: 0 0 0 0.5px rgba(255 255 255 / 0.04);
 }
 
 /* Status bar */
@@ -189,22 +208,22 @@ body {
   position: absolute;
   top: 0;
   left: 0; right: 0;
-  padding: 4px 10px 0;
+  padding: 3px 10px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 9;
-  color: rgba(255 255 255 / 0.85);
-  font-size: 9px;
+  color: rgba(255 255 255 / 0.9);
+  font-size: 8.5px;
   font-weight: 600;
   font-family: -apple-system, sans-serif;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 .st-icons {
   display: flex;
   align-items: center;
   gap: 3px;
-  color: rgba(255 255 255 / 0.85);
+  color: rgba(255 255 255 / 0.9);
 }
 
 /* Video fills screen */
