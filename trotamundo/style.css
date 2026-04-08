@@ -298,6 +298,14 @@ body {
   height: 20px;
   margin-left: 2px; /* optical centering of triangle */
 }
+
+/* Landscape shell uses rotate(90deg); unwind the glyph so play reads left→right on screen */
+.iphone--landscape .play-btn svg {
+  transform: rotate(-90deg);
+  margin-left: 0;
+  margin-top: 2px;
+}
+
 .iphone-frame:hover .play-btn {
   opacity: 1;
   transform: scale(1);
