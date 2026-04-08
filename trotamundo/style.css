@@ -22,7 +22,11 @@
   --font-futura: "FuturaCustom", "Helvetica Neue", Arial, sans-serif;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 
 body {
   background: var(--sky);
@@ -30,6 +34,14 @@ body {
   font-family: var(--font-body);
   overflow-x: hidden;
   position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.hero-logo,
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 /* ─── Background layer ───────────────────────────────── */
@@ -66,6 +78,19 @@ body {
 @keyframes twinkle {
   0%, 100% { opacity: 0.9; transform: scale(1); }
   50%       { opacity: 0.15; transform: scale(0.4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .spark {
+    animation: none !important;
+    opacity: 0.35;
+  }
+
+  .iphone {
+    transition: none !important;
+  }
 }
 
 /* ─── BG logos ───────────────────────────────────────── */
@@ -371,6 +396,8 @@ body {
   transition: background 0.3s ease;
   z-index: 5;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 .iphone-frame:hover .iphone-overlay {
   background: rgba(0 0 0 / 0.28);
@@ -387,6 +414,8 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   opacity: 0;
   transform: scale(0.75);
   transition: opacity 0.25s ease, transform 0.25s ease;
@@ -411,6 +440,11 @@ body {
 }
 .play-btn:active {
   transform: scale(0.92);
+}
+
+.play-btn:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
 }
 
 .artist-video video,
