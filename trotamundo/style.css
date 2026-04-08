@@ -321,13 +321,14 @@ body {
 .artist-block--flip .artist-text { padding-left: 0; padding-right: 16px; }
 
 .artist-name {
-  font-family: var(--font-logo);
-  font-size: clamp(1.6rem, 3vw, 2.6rem);
-  font-weight: 900;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--text);
-  letter-spacing: 0.01em;
   margin-bottom: 22px;
-  line-height: 1.1;
+  line-height: 1.0;
 }
 .artist-desc {
   font-family: var(--font-futura);
