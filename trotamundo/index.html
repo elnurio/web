@@ -121,12 +121,12 @@
     <!-- Landscape iPhone -->
     <div class="iphone-landscape-wrap">
       <div class="iphone iphone--landscape">
-        <div class="iphone-frame iphone-frame--landscape">
-          <div class="iphone-btn vol-up-ls"></div>
-          <div class="iphone-btn vol-dn-ls"></div>
-          <div class="iphone-btn power-ls"></div>
+        <div class="iphone-frame">
+          <div class="iphone-btn vol-up"></div>
+          <div class="iphone-btn vol-dn"></div>
+          <div class="iphone-btn power"></div>
           <div class="iphone-screen">
-            <div class="iphone-island iphone-island--landscape"></div>
+            <div class="iphone-island"></div>
             <video class="iphone-video" loop muted playsinline>
               <source src="" type="video/mp4">
             </video>
@@ -169,8 +169,9 @@
   <script>
     // ─── iPhone tilt + lift on hover ─────────────────────
     document.querySelectorAll('.iphone').forEach(phone => {
-      const BASE_Y = phone.closest('.iphone-trio')?.querySelector('.iphone:nth-child(2)') === phone
-        ? -16 : 0; // keep middle phone offset
+      const isMiddle = phone.closest('.iphone-trio')?.querySelector('.iphone:nth-child(2)') === phone;
+      const isLandscape = phone.classList.contains('iphone--landscape');
+      const BASE_Y = isMiddle ? -16 : 0;
 
       phone.addEventListener('mouseenter', () => {
         phone.style.transition = 'transform 0.15s ease';
@@ -178,16 +179,11 @@
 
       phone.addEventListener('mousemove', e => {
         const rect = phone.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const cx = rect.width  / 2;
-        const cy = rect.height / 2;
-
-        const rotY =  ((x - cx) / cx) * 9;   // ±9° horizontal
-        const rotX = -((y - cy) / cy) * 6;   // ±6° vertical
-
-        phone.style.transform =
-          `translateY(${BASE_Y - 12}px) perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        const rotY =  ((e.clientX - rect.left - rect.width/2)  / (rect.width/2))  * 9;
+        const rotX = -((e.clientY - rect.top  - rect.height/2) / (rect.height/2)) * 6;
+        phone.style.transform = isLandscape
+          ? `rotate(90deg) perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg)`
+          : `translateY(${BASE_Y - 12}px) perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
       });
 
       phone.addEventListener('mouseleave', () => {

@@ -113,46 +113,17 @@ body {
   z-index: 1;
   display: flex;
   justify-content: center;
-  padding: 48px max(48px, 8vw) 64px;
+  align-items: center;
+  /* enough vertical room for the rotated phone */
+  min-height: min(500px, 58vw);
+  padding: 0 max(48px, 8vw) 64px;
 }
 
 .iphone--landscape {
-  width: min(680px, 80vw);
-  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  width: min(210px, 25vw);
+  transform: rotate(90deg);
   will-change: transform;
   transform-style: preserve-3d;
-}
-
-.iphone-frame--landscape {
-  aspect-ratio: 19.6 / 9;
-  border-radius: 36px;
-  padding: 8px;
-  background: linear-gradient(180deg,
-    #5a5a5c 0%, #3a3a3c 15%, #2a2a2c 50%, #3c3c3e 85%, #4a4a4c 100%);
-  box-shadow:
-    inset 0 0 0 0.5px rgba(255 255 255 / 0.22),
-    inset 1px 1px 2px rgba(255 255 255 / 0.08),
-    inset -1px -1px 2px rgba(0 0 0 / 0.4),
-    0 24px 60px rgba(0 0 0 / 0.45),
-    0 6px 16px rgba(0 0 0 / 0.28);
-  position: relative;
-}
-
-/* Buttons on top/bottom edges */
-.vol-up-ls { top: -3px; left: 22%; width: 7%;  height: 3px; border-radius: 2px; }
-.vol-dn-ls { top: -3px; left: 32%; width: 7%;  height: 3px; border-radius: 2px; }
-.power-ls  { bottom: -3px; left: 27%; width: 10%; height: 3px; border-radius: 2px; }
-
-/* Dynamic Island on left side */
-.iphone-island--landscape {
-  top: 50%;
-  left: 9px;
-  transform: translateY(-50%);
-  width: 4.5%;
-  height: 36%;
-  max-height: none;
-  min-height: unset;
-  border-radius: 12px;
 }
 
 /* ─── Artist sections ────────────────────────────────── */
