@@ -201,8 +201,11 @@ body {
   grid-row: 1;
   padding-left: 0;
   padding-right: 0;
+}
+
+/* Narrow measure for body copy only — title stays natural width */
+.artist-block--three-ls .artist-text .artist-desc {
   max-width: 40ch;
-  width: min(100%, 40ch);
 }
 
 .artist-block--three-ls .artist-ls-top {
@@ -506,6 +509,10 @@ body {
     grid-column: 1;
     max-width: none;
     width: auto;
+  }
+
+  .artist-block--three-ls .artist-text .artist-desc {
+    max-width: none;
   }
 
   .artist-block--three-ls .artist-ls-top {
