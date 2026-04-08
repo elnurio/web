@@ -112,9 +112,18 @@ body {
   position: relative;
   z-index: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 28px;
   padding: 48px max(48px, 8vw) 64px;
+}
+
+/* Narrower specificity than .artist-desc--accent alone so margins stay reset */
+.iphone-landscape-wrap > .ls-accent-quote.artist-desc--accent {
+  max-width: min(40rem, 90vw);
+  text-align: center;
+  margin: 0;
 }
 
 /* Stage reserves the correct visual space for the rotated phone.
