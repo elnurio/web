@@ -8,175 +8,8 @@
 </head>
 <body>
 
-  <!-- Background layer -->
+  <!-- Background layer — clouds injected by JS -->
   <div class="bg-layer" aria-hidden="true">
-
-    <!-- Clouds -->
-    <div class="cloud c1">
-      <svg viewBox="0 0 240 90" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="120" cy="85" rx="105" ry="9" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="120" cy="68" rx="108" ry="22" fill="#fff"/>
-        <circle cx="46" cy="56" r="30" fill="#fff"/>
-        <circle cx="96" cy="40" r="38" fill="#fff"/>
-        <circle cx="155" cy="47" r="30" fill="#fff"/>
-        <circle cx="200" cy="60" r="21" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud c2">
-      <svg viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="140" cy="95" rx="122" ry="10" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="140" cy="76" rx="126" ry="24" fill="#fff"/>
-        <circle cx="52" cy="62" r="34" fill="#fff"/>
-        <circle cx="108" cy="44" r="44" fill="#fff"/>
-        <circle cx="178" cy="52" r="34" fill="#fff"/>
-        <circle cx="232" cy="66" r="24" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud c3">
-      <svg viewBox="0 0 180 72" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="90" cy="68" rx="78" ry="7" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="90" cy="54" rx="80" ry="18" fill="#fff"/>
-        <circle cx="34" cy="44" r="22" fill="#fff"/>
-        <circle cx="78" cy="30" r="30" fill="#fff"/>
-        <circle cx="130" cy="37" r="24" fill="#fff"/>
-        <circle cx="162" cy="50" r="16" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud c4">
-      <svg viewBox="0 0 140 58" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="70" cy="54" rx="60" ry="6" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="70" cy="43" rx="62" ry="15" fill="#fff"/>
-        <circle cx="28" cy="35" r="18" fill="#fff"/>
-        <circle cx="65" cy="24" r="24" fill="#fff"/>
-        <circle cx="108" cy="31" r="18" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud c5">
-      <svg viewBox="0 0 110 48" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="55" cy="44" rx="46" ry="5" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="55" cy="36" rx="48" ry="13" fill="#fff"/>
-        <circle cx="22" cy="29" r="14" fill="#fff"/>
-        <circle cx="52" cy="20" r="19" fill="#fff"/>
-        <circle cx="84" cy="26" r="14" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud c6">
-      <svg viewBox="0 0 200 78" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="100" cy="74" rx="88" ry="8" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="100" cy="59" rx="90" ry="20" fill="#fff"/>
-        <circle cx="38" cy="48" r="26" fill="#fff"/>
-        <circle cx="84" cy="34" r="34" fill="#fff"/>
-        <circle cx="140" cy="41" r="26" fill="#fff"/>
-        <circle cx="176" cy="54" r="18" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud c7">
-      <svg viewBox="0 0 160 65" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="80" cy="61" rx="68" ry="7" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="80" cy="48" rx="70" ry="17" fill="#fff"/>
-        <circle cx="30" cy="39" r="20" fill="#fff"/>
-        <circle cx="72" cy="26" r="27" fill="#fff"/>
-        <circle cx="118" cy="33" r="21" fill="#fff"/>
-        <circle cx="148" cy="46" r="14" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud c8">
-      <svg viewBox="0 0 130 54" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="65" cy="50" rx="55" ry="6" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="65" cy="40" rx="57" ry="14" fill="#fff"/>
-        <circle cx="26" cy="32" r="16" fill="#fff"/>
-        <circle cx="60" cy="22" r="22" fill="#fff"/>
-        <circle cx="100" cy="29" r="17" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud c9">
-      <svg viewBox="0 0 260 95" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="130" cy="90" rx="114" ry="9" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="130" cy="72" rx="116" ry="23" fill="#fff"/>
-        <circle cx="48" cy="59" r="32" fill="#fff"/>
-        <circle cx="100" cy="43" r="41" fill="#fff"/>
-        <circle cx="166" cy="50" r="32" fill="#fff"/>
-        <circle cx="218" cy="64" r="22" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud c10">
-      <svg viewBox="0 0 95 42" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="47" cy="39" rx="40" ry="5" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="47" cy="31" rx="41" ry="12" fill="#fff"/>
-        <circle cx="18" cy="25" r="12" fill="#fff"/>
-        <circle cx="45" cy="16" r="17" fill="#fff"/>
-        <circle cx="73" cy="22" r="12" fill="#fff"/>
-      </svg>
-    </div>
-
-    <!-- Extra clouds for scroll depth -->
-    <div class="cloud cx1">
-      <svg viewBox="0 0 200 78" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="100" cy="74" rx="88" ry="8" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="100" cy="59" rx="90" ry="20" fill="#fff"/>
-        <circle cx="38" cy="48" r="26" fill="#fff"/>
-        <circle cx="84" cy="34" r="34" fill="#fff"/>
-        <circle cx="140" cy="41" r="26" fill="#fff"/>
-        <circle cx="176" cy="54" r="18" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud cx2">
-      <svg viewBox="0 0 140 58" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="70" cy="54" rx="60" ry="6" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="70" cy="43" rx="62" ry="15" fill="#fff"/>
-        <circle cx="28" cy="35" r="18" fill="#fff"/>
-        <circle cx="65" cy="24" r="24" fill="#fff"/>
-        <circle cx="108" cy="31" r="18" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud cx3">
-      <svg viewBox="0 0 250 92" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="125" cy="87" rx="110" ry="9" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="125" cy="70" rx="112" ry="22" fill="#fff"/>
-        <circle cx="46" cy="57" r="31" fill="#fff"/>
-        <circle cx="100" cy="42" r="40" fill="#fff"/>
-        <circle cx="164" cy="49" r="31" fill="#fff"/>
-        <circle cx="214" cy="63" r="21" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud cx4">
-      <svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="60" cy="46" rx="52" ry="5" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="60" cy="37" rx="53" ry="14" fill="#fff"/>
-        <circle cx="24" cy="30" r="15" fill="#fff"/>
-        <circle cx="56" cy="21" r="20" fill="#fff"/>
-        <circle cx="90" cy="27" r="15" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud cx5">
-      <svg viewBox="0 0 180 72" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="90" cy="68" rx="78" ry="7" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="90" cy="54" rx="80" ry="18" fill="#fff"/>
-        <circle cx="34" cy="44" r="22" fill="#fff"/>
-        <circle cx="78" cy="30" r="30" fill="#fff"/>
-        <circle cx="130" cy="37" r="24" fill="#fff"/>
-        <circle cx="162" cy="50" r="16" fill="#fff"/>
-      </svg>
-    </div>
-    <div class="cloud cx6">
-      <svg viewBox="0 0 260 95" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="130" cy="90" rx="114" ry="9" fill="#a0c4d8" opacity="0.45"/>
-        <ellipse cx="130" cy="72" rx="116" ry="23" fill="#fff"/>
-        <circle cx="48" cy="59" r="32" fill="#fff"/>
-        <circle cx="100" cy="43" r="41" fill="#fff"/>
-        <circle cx="166" cy="50" r="32" fill="#fff"/>
-        <circle cx="218" cy="64" r="22" fill="#fff"/>
-      </svg>
-    </div>
-
-    <!-- Sparkles -->
-    <span class="spark sp1">✦</span>
-    <span class="spark sp2">✦</span>
-    <span class="spark sp3">✦</span>
-    <span class="spark sp4">✦</span>
-    <span class="spark sp5">✦</span>
-    <span class="spark sp6">✦</span>
-
     <!-- Trotamundo bg logos -->
     <div class="bg-logo bg-logo-1"><img src="assets/trotamundo.png" alt=""></div>
     <div class="bg-logo bg-logo-2"><img src="assets/trotamundo.png" alt=""></div>
@@ -191,11 +24,9 @@
   <!-- Artist sections -->
   <main class="sets">
 
-    <!-- Artist 1: video left, text right -->
     <section class="artist-block">
       <div class="artist-video">
         <div class="video-placeholder"><span>Video coming soon</span></div>
-        <!-- <video controls playsinline><source src="video/artist1.mp4" type="video/mp4"></video> -->
       </div>
       <div class="artist-text">
         <h2 class="artist-name">Artist Name</h2>
@@ -203,7 +34,6 @@
       </div>
     </section>
 
-    <!-- Artist 2: text left, video right -->
     <section class="artist-block artist-block--flip">
       <div class="artist-video">
         <div class="video-placeholder"><span>Video coming soon</span></div>
@@ -214,7 +44,6 @@
       </div>
     </section>
 
-    <!-- Artist 3: video left, text right -->
     <section class="artist-block">
       <div class="artist-video">
         <div class="video-placeholder"><span>Video coming soon</span></div>
@@ -230,6 +59,95 @@
   <footer class="site-footer">
     <a href="/">← elnurio.com</a>
   </footer>
+
+  <script>
+    // ─── Cloud generator ──────────────────────────────────
+    (function () {
+      const layer = document.querySelector('.bg-layer');
+      const rnd = (min, max) => min + Math.random() * (max - min);
+      const rndInt = (min, max) => Math.floor(rnd(min, max + 1));
+
+      // Build a cloud SVG with n random bumps
+      function cloudSVG() {
+        const numBumps = rndInt(2, 5);
+        const vw = 90 + numBumps * 55;   // wider when more bumps
+        const vh = 75 + rnd(-10, 15);
+
+        const baseY  = vh * 0.76;
+        const baseRx = vw * 0.48;
+        const baseRy = vh * 0.22;
+
+        // Shadow ellipse
+        const sh = `<ellipse cx="${(vw/2).toFixed(0)}" cy="${(vh*0.94).toFixed(0)}" rx="${(baseRx*0.93).toFixed(0)}" ry="${(vh*0.09).toFixed(0)}" fill="#9ec0d4" opacity="0.38"/>`;
+
+        // Base body
+        const base = `<ellipse cx="${(vw/2).toFixed(0)}" cy="${baseY.toFixed(0)}" rx="${baseRx.toFixed(0)}" ry="${baseRy.toFixed(0)}" fill="white"/>`;
+
+        // Bumps spread across width
+        let bumps = '';
+        for (let i = 0; i < numBumps; i++) {
+          const cx = vw * (0.08 + (i / Math.max(numBumps - 1, 1)) * 0.84);
+          const cy = vh * rnd(0.28, 0.56);
+          const r  = vh * rnd(0.26, 0.48);
+          // slight size variation: first and last bumps often smaller
+          const edge = (i === 0 || i === numBumps - 1) ? 0.8 : 1;
+          bumps += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(r * edge).toFixed(1)}" fill="white"/>`;
+        }
+
+        return `<svg viewBox="0 0 ${vw.toFixed(0)} ${vh.toFixed(0)}" xmlns="http://www.w3.org/2000/svg">${sh}${base}${bumps}</svg>`;
+      }
+
+      // Wait for layout so page height is known
+      function placeClouds() {
+        const pageH = document.documentElement.scrollHeight;
+        const count = 42;
+
+        // Divide page into bands so coverage is even, then jitter within band
+        const bandH = pageH / count;
+
+        // Shuffle order so nearby clouds aren't same size
+        const indices = Array.from({length: count}, (_, i) => i).sort(() => Math.random() - 0.5);
+
+        indices.forEach((band, _) => {
+          const topPx  = band * bandH + rnd(0, bandH * 0.85);
+          const width  = rnd(70, 310);           // px — wide variety
+          const leftPc = rnd(-4, 88);            // allow slight bleed on edges
+          const opacity = rnd(0.55, 1.0);
+          // occasional very faint distant cloud
+          const finalOpacity = Math.random() < 0.15 ? rnd(0.2, 0.45) : opacity;
+
+          const div = document.createElement('div');
+          div.className = 'cloud';
+          div.innerHTML = cloudSVG();
+          div.style.cssText =
+            `top:${topPx.toFixed(0)}px;` +
+            `left:${leftPc.toFixed(1)}%;` +
+            `width:${width.toFixed(0)}px;` +
+            `opacity:${finalOpacity.toFixed(2)};`;
+
+          layer.appendChild(div);
+        });
+
+        // Sparkles scattered throughout
+        const sparkCount = 12;
+        for (let i = 0; i < sparkCount; i++) {
+          const sp = document.createElement('span');
+          sp.className = 'spark';
+          sp.textContent = '✦';
+          const topPx = rnd(0, pageH * 0.95);
+          sp.style.cssText =
+            `top:${topPx.toFixed(0)}px;` +
+            `left:${rnd(3, 93).toFixed(1)}%;` +
+            `font-size:${rnd(0.6, 1.4).toFixed(2)}rem;` +
+            `animation-delay:${rnd(0, 3).toFixed(2)}s;`;
+          layer.appendChild(sp);
+        }
+      }
+
+      // Run after paint so scrollHeight is accurate
+      requestAnimationFrame(placeClouds);
+    })();
+  </script>
 
 </body>
 </html>

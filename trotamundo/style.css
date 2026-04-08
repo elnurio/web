@@ -4,11 +4,7 @@
 /* ─── Base ───────────────────────────────────────────── */
 :root {
   --sky: #7dd3f0;
-  --yellow: #f7e229;
   --yellow-stroke: #2a1d00;
-  --white: #fff;
-  --text: #111;
-  --muted: #555;
   --font-logo: 'Arial Black', 'Impact', sans-serif;
   --font-body: 'Segoe UI', system-ui, sans-serif;
 }
@@ -17,16 +13,16 @@ html { scroll-behavior: smooth; }
 
 body {
   background: var(--sky);
-  color: var(--text);
+  color: #111;
   font-family: var(--font-body);
   overflow-x: hidden;
+  position: relative;
 }
 
 /* ─── Background layer ───────────────────────────────── */
 .bg-layer {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -34,48 +30,29 @@ body {
   overflow: hidden;
 }
 
-/* ─── Clouds ─────────────────────────────────────────── */
-.cloud { position: absolute; pointer-events: none; }
-.cloud svg { display: block; width: 100%; height: 100%; }
+/* ─── Clouds (positioned by JS) ─────────────────────── */
+.cloud {
+  position: absolute;
+  pointer-events: none;
+}
+.cloud svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
-/* top viewport clouds */
-.c1  { width: 220px; top:  3%; left:  2%; }
-.c2  { width: 280px; top:  4%; left: 28%; }
-.c3  { width: 160px; top:  3%; right: 18%; }
-.c4  { width: 240px; top:  5%; right:  0%; }
-.c5  { width: 110px; top: 14%; left:  6%; }
-/* mid clouds */
-.c6  { width: 200px; top: 22%; left: -2%; }
-.c7  { width: 155px; top: 25%; right:  2%; }
-.c8  { width: 130px; top: 38%; left: 55%; }
-.c9  { width: 260px; top: 45%; left: -2%; }
-.c10 { width:  95px; top: 48%; right:  8%; }
-/* deep scroll clouds */
-.cx1 { width: 210px; top: 57%; left: 40%; }
-.cx2 { width: 140px; top: 60%; right:  5%; }
-.cx3 { width: 250px; top: 68%; left: -1%; }
-.cx4 { width: 120px; top: 72%; left: 62%; }
-.cx5 { width: 180px; top: 80%; right: 12%; }
-.cx6 { width: 260px; top: 88%; left:  3%; }
-
-/* ─── Sparkles ───────────────────────────────────────── */
+/* ─── Sparkles (positioned by JS) ───────────────────── */
 .spark {
   position: absolute;
   color: #fff;
   opacity: 0.9;
-  animation: twinkle 3s ease-in-out infinite;
   pointer-events: none;
+  animation: twinkle 3s ease-in-out infinite;
 }
-.sp1 { top:  9%; left: 23%;  font-size: 1.3rem; animation-delay: 0s;   }
-.sp2 { top:  8%; right: 14%; font-size: 0.9rem; animation-delay: 0.8s; }
-.sp3 { top: 28%; left:  5%;  font-size: 0.8rem; animation-delay: 1.5s; }
-.sp4 { top: 45%; left: 42%;  font-size: 1.1rem; animation-delay: 0.4s; }
-.sp5 { top: 58%; right: 22%; font-size: 0.9rem; animation-delay: 2s;   }
-.sp6 { top: 78%; left: 18%;  font-size: 0.75rem;animation-delay: 1.2s; }
 
 @keyframes twinkle {
   0%, 100% { opacity: 0.9; transform: scale(1); }
-  50%       { opacity: 0.2; transform: scale(0.5); }
+  50%       { opacity: 0.15; transform: scale(0.4); }
 }
 
 /* ─── BG logos ───────────────────────────────────────── */
@@ -86,7 +63,7 @@ body {
   border-radius: 50%;
   overflow: hidden;
   mix-blend-mode: multiply;
-  opacity: 0.28;
+  opacity: 0.25;
   user-select: none;
   pointer-events: none;
 }
@@ -97,9 +74,9 @@ body {
   transform: translate(-50%, -50%);
   object-fit: cover;
 }
-.bg-logo-1 { top: 20%;  left: 3%;  transform: rotate(-6deg); }
-.bg-logo-2 { top: 55%;  right: 2%; transform: rotate(5deg);  }
-.bg-logo-3 { top: 82%;  left: 8%;  transform: rotate(-3deg); }
+.bg-logo-1 { top: 18%;  left: 3%;  transform: rotate(-6deg); }
+.bg-logo-2 { top: 52%;  right: 2%; transform: rotate(5deg);  }
+.bg-logo-3 { top: 80%;  left: 8%;  transform: rotate(-3deg); }
 
 /* ─── Hero ───────────────────────────────────────────── */
 .hero {
@@ -111,7 +88,6 @@ body {
   justify-content: center;
   padding: 80px 20px 60px;
 }
-
 .hero-logo {
   width: clamp(260px, 42vw, 540px);
   height: auto;
@@ -119,10 +95,7 @@ body {
 }
 
 /* ─── Artist sections ────────────────────────────────── */
-.sets {
-  position: relative;
-  z-index: 1;
-}
+.sets { position: relative; z-index: 1; }
 
 .artist-block {
   display: grid;
@@ -132,18 +105,11 @@ body {
   padding: 72px max(48px, 8vw);
 }
 
-/* flip: text left, video right */
 .artist-block--flip .artist-video { order: 2; }
 .artist-block--flip .artist-text  { order: 1; }
 
-/* video column */
-.artist-video {
-  padding-right: 48px;
-}
-.artist-block--flip .artist-video {
-  padding-right: 0;
-  padding-left: 48px;
-}
+.artist-video { padding-right: 48px; }
+.artist-block--flip .artist-video { padding-right: 0; padding-left: 48px; }
 
 .artist-video video,
 .video-placeholder {
@@ -153,10 +119,9 @@ body {
   border-radius: 4px;
   object-fit: cover;
 }
-
 .video-placeholder {
-  background: rgba(255 255 255 / 0.35);
-  border: 1.5px dashed rgba(255 255 255 / 0.7);
+  background: rgba(255 255 255 / 0.3);
+  border: 1.5px dashed rgba(255 255 255 / 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -165,31 +130,24 @@ body {
   letter-spacing: 0.06em;
 }
 
-/* text column */
-.artist-text {
-  padding-left: 16px;
-}
-.artist-block--flip .artist-text {
-  padding-left: 0;
-  padding-right: 16px;
-}
+.artist-text { padding-left: 16px; }
+.artist-block--flip .artist-text { padding-left: 0; padding-right: 16px; }
 
 .artist-name {
   font-family: var(--font-logo);
   font-size: clamp(1.6rem, 3vw, 2.6rem);
   font-weight: 900;
   color: #fff;
-  text-shadow: 0 2px 8px rgba(0 0 0 / 0.25);
+  text-shadow: 0 2px 10px rgba(0 0 0 / 0.2);
   letter-spacing: 0.01em;
   margin-bottom: 20px;
   line-height: 1.1;
 }
-
 .artist-desc {
   font-size: 15px;
   line-height: 1.75;
   color: #fff;
-  text-shadow: 0 1px 4px rgba(0 0 0 / 0.2);
+  text-shadow: 0 1px 6px rgba(0 0 0 / 0.18);
 }
 
 /* ─── Footer ─────────────────────────────────────────── */
@@ -201,9 +159,9 @@ body {
 }
 .site-footer a {
   font-size: 0.85rem;
-  color: var(--yellow-stroke);
+  color: #fff;
   text-decoration: none;
-  opacity: 0.55;
+  opacity: 0.6;
   letter-spacing: 0.08em;
   transition: opacity 0.2s;
 }
@@ -211,19 +169,12 @@ body {
 
 /* ─── Responsive ─────────────────────────────────────── */
 @media (max-width: 700px) {
-  .artist-block,
-  .artist-block--flip {
+  .artist-block, .artist-block--flip {
     grid-template-columns: 1fr;
     padding: 40px 24px;
   }
   .artist-block .artist-video,
-  .artist-block--flip .artist-video {
-    order: 0;
-    padding: 0 0 24px;
-  }
+  .artist-block--flip .artist-video { order: 0; padding: 0 0 24px; }
   .artist-block .artist-text,
-  .artist-block--flip .artist-text {
-    order: 1;
-    padding: 0;
-  }
+  .artist-block--flip .artist-text  { order: 1; padding: 0; }
 }
