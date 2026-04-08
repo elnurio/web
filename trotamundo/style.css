@@ -325,7 +325,7 @@ body {
   font-size: clamp(14px, 2vw, 28px);
   font-weight: 500;
   letter-spacing: 0.04em;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--text);
   margin-bottom: 22px;
   line-height: 1.0;
