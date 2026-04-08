@@ -213,6 +213,7 @@ body {
   grid-row: 1;
   justify-self: start;
   align-self: start;
+  margin-left: 3cm;
 }
 
 .artist-block--three-ls .artist-ls-bottom {
@@ -518,6 +519,7 @@ body {
   .artist-block--three-ls .artist-ls-top {
     grid-column: 1;
     justify-self: center;
+    margin-left: 0;
   }
 
   .artist-block--three-ls .artist-ls-bottom {
