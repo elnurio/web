@@ -223,19 +223,19 @@ body {
   flex: 0 0 auto;
 }
 
-/* Multi-video section (3 iPhones) */
+/* Multi-video section (3 iPhones) — slight gap + max measure; lighter than before */
 .artist-block--multi {
-  grid-template-columns: 1fr minmax(0, 34ch);
-  column-gap: clamp(48px, 6vw, 96px);
+  grid-template-columns: 1.15fr minmax(0, 48ch);
+  column-gap: clamp(20px, 3vw, 40px);
   align-items: center;
 }
 
 .artist-block--multi .iphone-trio {
-  padding-right: 0;
+  padding-right: 32px;
 }
 
 .artist-block--multi .artist-text {
-  padding-left: clamp(20px, 2.5vw, 36px);
+  padding-left: 18px;
   max-width: 100%;
 }
 
