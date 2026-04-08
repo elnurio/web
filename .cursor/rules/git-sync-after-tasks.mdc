@@ -1,0 +1,14 @@
+---
+description: After code tasks, commit and push to GitHub so the user does not push manually.
+alwaysApply: true
+---
+
+# Git sync after tasks
+
+When a task changes files in this repository and the work is done:
+
+1. **Stage and commit** all related changes with a short, clear message (what changed and where, e.g. `trotamundo: …`).
+2. **Push** to the remote: `git push origin <current-branch>` (usually `main`). Run this in the same turn as the commit when possible.
+3. If **push fails** (e.g. `could not read Username`, auth, or network), say so plainly: commits may exist only locally. Suggest the user run `git push` in their terminal, or switch `origin` to **SSH** (`git@github.com:…`) / use **GitHub CLI** (`gh auth login`) so pushes can succeed from automated environments.
+
+Do not leave completed work uncommitted unless the user asked not to commit.
