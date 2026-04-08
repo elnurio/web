@@ -187,9 +187,11 @@ body {
 
 /* Nicolas Lutz — text left, 1 landscape iPhone right, 2 more below */
 .artist-block--three-ls {
-  grid-template-columns: minmax(0, 1fr) auto;
+  /* auto + auto: no 1fr “hole” between narrow text and phone */
+  grid-template-columns: auto auto;
   grid-template-rows: auto auto;
-  column-gap: max(36px, 5vw);
+  justify-content: start;
+  column-gap: max(28px, 4vw);
   row-gap: 40px;
   align-items: start;
 }
@@ -200,12 +202,13 @@ body {
   padding-left: 0;
   padding-right: 0;
   max-width: 40ch;
+  width: min(100%, 40ch);
 }
 
 .artist-block--three-ls .artist-ls-top {
   grid-column: 2;
   grid-row: 1;
-  justify-self: end;
+  justify-self: start;
   align-self: start;
 }
 
@@ -502,6 +505,7 @@ body {
   .artist-block--three-ls .artist-text {
     grid-column: 1;
     max-width: none;
+    width: auto;
   }
 
   .artist-block--three-ls .artist-ls-top {
