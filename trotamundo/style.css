@@ -220,10 +220,11 @@ body {
   grid-column: 1 / -1;
   grid-row: 2;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
   justify-content: center;
-  align-items: flex-start;
-  gap: max(24px, 3.5vw);
+  gap: max(28px, 4vw);
 }
 
 .artist-block--three-ls .artist-ls-bottom .iphone-ls-stage {
@@ -524,8 +525,8 @@ body {
 
   .artist-block--three-ls .artist-ls-bottom {
     grid-column: 1;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
   }
 }
