@@ -199,7 +199,7 @@ body {
   grid-row: 1;
   padding-left: 0;
   padding-right: 0;
-  max-width: 52ch;
+  max-width: 40ch;
 }
 
 .artist-block--three-ls .artist-ls-top {
