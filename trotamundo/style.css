@@ -3,8 +3,7 @@
 
 /* ─── Base ───────────────────────────────────────────── */
 :root {
-  --sky: #7dd3f0;
-  --sky-dark: #4bb8e8;
+  --sky: #8ecae6;
   --yellow: #f7e229;
   --yellow-stroke: #2a1d00;
   --white: #fff;
@@ -34,55 +33,51 @@ body {
   overflow: hidden;
 }
 
-/* Clouds */
+/* ─── Cartoon clouds ─────────────────────────────────── */
 .cloud {
   position: absolute;
-  background: #fff;
-  border-radius: 50px;
-  opacity: 0.7;
-  filter: blur(2px);
+  pointer-events: none;
 }
-.cloud::before,
-.cloud::after {
-  content: '';
+.cloud svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Cloud positions & sizes */
+.c1  { width: 220px; top:  4%; left:  2%; }
+.c2  { width: 280px; top:  6%; left: 28%; }
+.c3  { width: 160px; top:  5%; right: 18%; }
+.c4  { width: 240px; top:  7%; right:  0%; }
+.c5  { width: 110px; top: 20%; left:  8%; }
+.c6  { width: 200px; top: 35%; left: -2%; }
+.c7  { width: 155px; top: 38%; right:  2%; }
+.c8  { width: 130px; top: 62%; left: 30%; }
+.c9  { width: 260px; top: 72%; left: -2%; }
+.c10 { width:  95px; top: 70%; right: 10%; }
+
+/* ─── Sparkles ───────────────────────────────────────── */
+.spark {
   position: absolute;
-  background: #fff;
-  border-radius: 50%;
+  color: #fff;
+  font-size: 1rem;
+  opacity: 0.9;
+  animation: twinkle 3s ease-in-out infinite;
+  pointer-events: none;
+}
+.sp1 { top:  9%; left: 23%;  font-size: 1.3rem; animation-delay: 0s;   }
+.sp2 { top:  8%; right: 14%; font-size: 0.9rem; animation-delay: 0.8s; }
+.sp3 { top: 28%; left:  5%;  font-size: 0.8rem; animation-delay: 1.5s; }
+.sp4 { top: 45%; left: 42%;  font-size: 1.1rem; animation-delay: 0.4s; }
+.sp5 { top: 58%; right: 22%; font-size: 0.9rem; animation-delay: 2s;   }
+.sp6 { top: 78%; left: 18%;  font-size: 0.75rem;animation-delay: 1.2s; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50%       { opacity: 0.2; transform: scale(0.5); }
 }
 
-.cloud-1  { width: 160px; height: 50px; top:  8%; left:  5%; }
-.cloud-1::before { width: 80px; height: 80px; top: -40px; left: 20px; }
-.cloud-1::after  { width: 60px; height: 60px; top: -30px; left: 70px; }
-
-.cloud-2  { width: 120px; height: 40px; top: 18%; right: 10%; }
-.cloud-2::before { width: 70px; height: 70px; top: -35px; left: 15px; }
-.cloud-2::after  { width: 50px; height: 50px; top: -25px; left: 55px; }
-
-.cloud-3  { width: 200px; height: 60px; top: 35%; left: 60%; }
-.cloud-3::before { width: 100px; height: 100px; top: -50px; left: 25px; }
-.cloud-3::after  { width: 80px;  height: 80px;  top: -40px; left: 95px; }
-
-.cloud-4  { width: 100px; height: 35px; top: 52%; left: 15%; }
-.cloud-4::before { width: 60px; height: 60px; top: -30px; left: 12px; }
-.cloud-4::after  { width: 45px; height: 45px; top: -22px; left: 48px; }
-
-.cloud-5  { width: 180px; height: 55px; top: 65%; right:  8%; }
-.cloud-5::before { width: 90px; height: 90px; top: -45px; left: 20px; }
-.cloud-5::after  { width: 70px; height: 70px; top: -35px; left: 85px; }
-
-.cloud-6  { width: 130px; height: 45px; top: 78%; left: 40%; }
-.cloud-6::before { width: 75px; height: 75px; top: -38px; left: 18px; }
-.cloud-6::after  { width: 55px; height: 55px; top: -28px; left: 65px; }
-
-.cloud-7  { width: 90px;  height: 30px; top: 88%; left:  5%; }
-.cloud-7::before { width: 55px; height: 55px; top: -28px; left: 10px; }
-.cloud-7::after  { width: 40px; height: 40px; top: -20px; left: 42px; }
-
-.cloud-8  { width: 150px; height: 48px; top: 95%; right: 20%; }
-.cloud-8::before { width: 85px; height: 85px; top: -42px; left: 18px; }
-.cloud-8::after  { width: 65px; height: 65px; top: -32px; left: 78px; }
-
-/* Background TROTAMUNDO logos */
+/* ─── Background TROTAMUNDO logos ────────────────────── */
 .bg-logo {
   position: absolute;
   width: 300px;
@@ -94,7 +89,6 @@ body {
   user-select: none;
   pointer-events: none;
 }
-
 .bg-logo img {
   position: absolute;
   width: 136%;
@@ -104,62 +98,28 @@ body {
   transform: translate(-50%, -50%);
   object-fit: cover;
 }
-
 .bg-logo-1 { top: 20%;  left: 3%;  transform: rotate(-6deg); }
-.bg-logo-2 { top: 55%;  right: 2%; transform: rotate(5deg); }
+.bg-logo-2 { top: 55%;  right: 2%; transform: rotate(5deg);  }
 .bg-logo-3 { top: 82%;  left: 8%;  transform: rotate(-3deg); }
 
 /* ─── Hero ───────────────────────────────────────────── */
 .hero {
   position: relative;
   z-index: 1;
-  min-height: 55vh;
+  min-height: 45vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
   padding: 80px 20px 60px;
 }
 
-.hero-logo {
-  font-family: var(--font-logo);
-  font-size: clamp(3.5rem, 12vw, 9rem);
-  font-weight: 900;
-  color: var(--yellow);
-  -webkit-text-stroke: 4px var(--yellow-stroke);
-  text-shadow:
-    4px 4px 0 var(--yellow-stroke),
-    0 0 40px rgba(247, 226, 41, 0.4);
-  letter-spacing: 0.03em;
-  line-height: 1;
-}
-
 .hero-sub {
-  margin-top: 16px;
-  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  font-size: clamp(0.85rem, 2.5vw, 1.1rem);
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--yellow-stroke);
-  opacity: 0.75;
-}
-
-/* Sparkles */
-.sparkle {
-  position: absolute;
-  color: var(--white);
-  opacity: 0.8;
-  font-size: 1.2rem;
-  animation: twinkle 3s ease-in-out infinite;
-}
-.s1 { top: 20%; left: 15%; animation-delay: 0s; }
-.s2 { top: 35%; right: 12%; animation-delay: 1s; }
-.s3 { bottom: 25%; left: 30%; animation-delay: 2s; }
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0.8; transform: scale(1); }
-  50%       { opacity: 0.2; transform: scale(0.5); }
+  opacity: 0.65;
 }
 
 /* ─── Intro ──────────────────────────────────────────── */
@@ -203,12 +163,8 @@ body {
   box-shadow: 0 8px 32px rgba(0 0 0 / 0.08);
 }
 
-.set-block.reverse {
-  direction: rtl;
-}
-.set-block.reverse > * {
-  direction: ltr;
-}
+.set-block.reverse { direction: rtl; }
+.set-block.reverse > * { direction: ltr; }
 
 /* Video */
 .set-video video,
@@ -219,7 +175,6 @@ body {
   display: block;
   object-fit: cover;
 }
-
 .video-placeholder {
   background: linear-gradient(135deg, #c8eaf8 0%, #a0d8ef 100%);
   border: 2px dashed rgba(0 0 0 / 0.2);
@@ -236,10 +191,8 @@ body {
   font-family: var(--font-logo);
   font-size: clamp(1.6rem, 3vw, 2.4rem);
   color: var(--yellow-stroke);
-  -webkit-text-stroke: 1px var(--yellow-stroke);
   margin-bottom: 16px;
 }
-
 .set-desc {
   font-size: 1rem;
   line-height: 1.75;
@@ -254,7 +207,6 @@ body {
   text-align: center;
   padding: 40px 20px 60px;
 }
-
 .site-footer a {
   font-size: 0.9rem;
   color: var(--yellow-stroke);
