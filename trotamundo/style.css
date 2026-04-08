@@ -115,29 +115,33 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 28px;
-  padding: 32px max(48px, 8vw) 64px;
+  gap: 48px;
+  padding: 40px max(48px, 8vw) 72px;
 }
 
-/* Captions above / below landscape iPhone */
+/* Captions sit above the phone layer (transform + shadow were painting over text) */
 .iphone-landscape-wrap > .ls-wrap-quote {
+  position: relative;
+  z-index: 2;
   max-width: min(40rem, 90vw);
   text-align: center;
   margin: 0;
 }
 
 .iphone-landscape-wrap > .ls-wrap-quote:first-of-type {
-  margin-top: -10px;
+  margin-bottom: 4px;
 }
 
 .iphone-landscape-wrap > .ls-wrap-quote.artist-desc--accent {
-  margin-top: 0;
+  margin-top: 4px;
   margin-bottom: 0;
 }
 
 /* Stage reserves the correct visual space for the rotated phone.
    Portrait: W=110px, H≈239.5px → Landscape visual: 239.5px wide × 110px tall (½ previous) */
 .iphone-ls-stage {
+  position: relative;
+  z-index: 1;
   width: min(239.5px, 28vw);
   height: min(110px, 13vw);
   display: flex;
@@ -503,11 +507,8 @@ body {
   }
 
   .iphone-landscape-wrap {
-    padding: 18px 16px 40px;
-  }
-
-  .iphone-landscape-wrap > .ls-wrap-quote:first-of-type {
-    margin-top: -6px;
+    padding: 24px 16px 48px;
+    gap: 40px;
   }
 
   /* Desktop used tiny vw caps; on phones that made the device nearly invisible */
