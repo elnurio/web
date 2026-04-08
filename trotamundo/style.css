@@ -24,8 +24,11 @@ body {
 
 /* ─── Background layer ───────────────────────────────── */
 .bg-layer {
-  position: fixed;
-  inset: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
@@ -35,16 +38,25 @@ body {
 .cloud { position: absolute; pointer-events: none; }
 .cloud svg { display: block; width: 100%; height: 100%; }
 
-.c1  { width: 220px; top:  4%; left:  2%; }
-.c2  { width: 280px; top:  6%; left: 28%; }
-.c3  { width: 160px; top:  5%; right: 18%; }
-.c4  { width: 240px; top:  7%; right:  0%; }
-.c5  { width: 110px; top: 20%; left:  8%; }
-.c6  { width: 200px; top: 35%; left: -2%; }
-.c7  { width: 155px; top: 38%; right:  2%; }
-.c8  { width: 130px; top: 62%; left: 30%; }
-.c9  { width: 260px; top: 72%; left: -2%; }
-.c10 { width:  95px; top: 70%; right: 10%; }
+/* top viewport clouds */
+.c1  { width: 220px; top:  3%; left:  2%; }
+.c2  { width: 280px; top:  4%; left: 28%; }
+.c3  { width: 160px; top:  3%; right: 18%; }
+.c4  { width: 240px; top:  5%; right:  0%; }
+.c5  { width: 110px; top: 14%; left:  6%; }
+/* mid clouds */
+.c6  { width: 200px; top: 22%; left: -2%; }
+.c7  { width: 155px; top: 25%; right:  2%; }
+.c8  { width: 130px; top: 38%; left: 55%; }
+.c9  { width: 260px; top: 45%; left: -2%; }
+.c10 { width:  95px; top: 48%; right:  8%; }
+/* deep scroll clouds */
+.cx1 { width: 210px; top: 57%; left: 40%; }
+.cx2 { width: 140px; top: 60%; right:  5%; }
+.cx3 { width: 250px; top: 68%; left: -1%; }
+.cx4 { width: 120px; top: 72%; left: 62%; }
+.cx5 { width: 180px; top: 80%; right: 12%; }
+.cx6 { width: 260px; top: 88%; left:  3%; }
 
 /* ─── Sparkles ───────────────────────────────────────── */
 .spark {
@@ -118,13 +130,6 @@ body {
   align-items: center;
   gap: 0;
   padding: 72px max(48px, 8vw);
-  background: rgba(255 255 255 / 0.72);
-  backdrop-filter: blur(12px);
-}
-
-/* alternating bg tint */
-.artist-block:nth-child(even) {
-  background: rgba(255 255 255 / 0.55);
 }
 
 /* flip: text left, video right */
@@ -150,12 +155,12 @@ body {
 }
 
 .video-placeholder {
-  background: rgba(255 255 255 / 0.5);
-  border: 1.5px dashed rgba(0 0 0 / 0.18);
+  background: rgba(255 255 255 / 0.35);
+  border: 1.5px dashed rgba(255 255 255 / 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(0 0 0 / 0.35);
+  color: rgba(255 255 255 / 0.8);
   font-size: 0.85rem;
   letter-spacing: 0.06em;
 }
@@ -173,7 +178,8 @@ body {
   font-family: var(--font-logo);
   font-size: clamp(1.6rem, 3vw, 2.6rem);
   font-weight: 900;
-  color: var(--yellow-stroke);
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0 0 0 / 0.25);
   letter-spacing: 0.01em;
   margin-bottom: 20px;
   line-height: 1.1;
@@ -182,7 +188,8 @@ body {
 .artist-desc {
   font-size: 15px;
   line-height: 1.75;
-  color: #222;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0 0 0 / 0.2);
 }
 
 /* ─── Footer ─────────────────────────────────────────── */
