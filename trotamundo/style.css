@@ -111,18 +111,156 @@ body {
 .artist-video { padding-right: 48px; }
 .artist-block--flip .artist-video { padding-right: 0; padding-left: 48px; }
 
-/* Multi-video section (3 stacked) */
+/* Multi-video section (3 iPhones) */
 .artist-block--multi {
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
 }
-.artist-videos {
+
+/* ─── iPhone trio ─────────────────────────────────────── */
+.iphone-trio {
   display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding-right: 48px;
+  gap: 18px;
+  align-items: flex-end;
+  padding-right: 40px;
 }
-.artist-videos .video-placeholder {
-  aspect-ratio: 16 / 9;
+
+/* middle phone slightly lifted */
+.iphone-trio .iphone:nth-child(2) {
+  transform: translateY(-16px);
+}
+
+.iphone {
+  flex: 1;
+  min-width: 0;
+}
+
+.iphone-frame {
+  position: relative;
+  background: linear-gradient(160deg, #3a3a3c 0%, #1c1c1e 60%, #2c2c2e 100%);
+  border-radius: 38px;
+  padding: 11px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255 255 255 / 0.12),
+    inset 0 0 0 2px rgba(0 0 0 / 0.5),
+    0 24px 60px rgba(0 0 0 / 0.45),
+    0 4px 12px rgba(0 0 0 / 0.3);
+  /* aspect ratio: iPhone 14 Pro ~19.5:9 → height/width ≈ 2.165 */
+  aspect-ratio: 9 / 19.5;
+}
+
+/* Side buttons */
+.iphone-btn {
+  position: absolute;
+  background: #2c2c2e;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 0.5px rgba(255 255 255 / 0.08);
+}
+.vol-up  { left: -3px; top: 22%; width: 3px; height: 8%; }
+.vol-dn  { left: -3px; top: 33%; width: 3px; height: 8%; }
+.power   { right: -3px; top: 27%; width: 3px; height: 11%; }
+
+/* Screen */
+.iphone-screen {
+  width: 100%;
+  height: 100%;
+  background: #111;
+  border-radius: 28px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Dynamic Island */
+.iphone-island {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 38%;
+  height: 7%;
+  max-height: 26px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 10;
+}
+
+/* Status bar */
+.iphone-status {
+  position: absolute;
+  top: 0;
+  left: 0; right: 0;
+  padding: 4px 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 9;
+  color: rgba(255 255 255 / 0.85);
+  font-size: 9px;
+  font-weight: 600;
+  font-family: -apple-system, sans-serif;
+  letter-spacing: -0.01em;
+}
+.st-icons {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: rgba(255 255 255 / 0.85);
+}
+
+/* Video fills screen */
+.iphone-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #1a1a2e;
+}
+
+/* Hover overlay + play button */
+.iphone-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0 0 0 / 0);
+  transition: background 0.3s ease;
+  z-index: 5;
+  cursor: pointer;
+}
+.iphone-frame:hover .iphone-overlay {
+  background: rgba(0 0 0 / 0.28);
+}
+
+.play-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255 255 255 / 0.92);
+  color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.75);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  padding: 0;
+}
+.play-btn svg {
+  width: 20px;
+  height: 20px;
+  margin-left: 2px; /* optical centering of triangle */
+}
+.iphone-frame:hover .play-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+.play-btn:active {
+  transform: scale(0.92);
 }
 
 .artist-video video,
