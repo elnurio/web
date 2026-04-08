@@ -119,12 +119,20 @@ body {
   padding: 32px max(48px, 8vw) 64px;
 }
 
-/* Narrower specificity than .artist-desc--accent alone so margins stay reset */
-.iphone-landscape-wrap > .ls-accent-quote.artist-desc--accent {
+/* Captions above / below landscape iPhone */
+.iphone-landscape-wrap > .ls-wrap-quote {
   max-width: min(40rem, 90vw);
   text-align: center;
   margin: 0;
+}
+
+.iphone-landscape-wrap > .ls-wrap-quote:first-of-type {
   margin-top: -10px;
+}
+
+.iphone-landscape-wrap > .ls-wrap-quote.artist-desc--accent {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Stage reserves the correct visual space for the rotated phone.
@@ -498,7 +506,7 @@ body {
     padding: 18px 16px 40px;
   }
 
-  .iphone-landscape-wrap > .ls-accent-quote.artist-desc--accent {
+  .iphone-landscape-wrap > .ls-wrap-quote:first-of-type {
     margin-top: -6px;
   }
 
