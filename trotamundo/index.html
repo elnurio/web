@@ -145,6 +145,37 @@
   </footer>
 
   <script>
+    // ─── iPhone tilt + lift on hover ─────────────────────
+    document.querySelectorAll('.iphone').forEach(phone => {
+      const BASE_Y = phone.closest('.iphone-trio')?.querySelector('.iphone:nth-child(2)') === phone
+        ? -16 : 0; // keep middle phone offset
+
+      phone.addEventListener('mouseenter', () => {
+        phone.style.transition = 'transform 0.15s ease';
+      });
+
+      phone.addEventListener('mousemove', e => {
+        const rect = phone.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = rect.width  / 2;
+        const cy = rect.height / 2;
+
+        const rotY =  ((x - cx) / cx) * 9;   // ±9° horizontal
+        const rotX = -((y - cy) / cy) * 6;   // ±6° vertical
+
+        phone.style.transform =
+          `translateY(${BASE_Y - 12}px) perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+      });
+
+      phone.addEventListener('mouseleave', () => {
+        phone.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
+        phone.style.transform = BASE_Y ? `translateY(${BASE_Y}px)` : '';
+      });
+    });
+  </script>
+
+  <script>
     // ─── iPhone video play/pause ──────────────────────────
     document.querySelectorAll('.iphone-overlay').forEach(overlay => {
       overlay.addEventListener('click', () => {
