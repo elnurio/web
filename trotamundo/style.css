@@ -381,13 +381,128 @@ body {
 .site-footer a:hover { opacity: 1; }
 
 /* ─── Responsive ─────────────────────────────────────── */
-@media (max-width: 700px) {
-  .artist-block, .artist-block--flip {
+
+/* Tablet / narrow: Rhadoo trio stacks — three phones in a row were illegible */
+@media (max-width: 900px) {
+  .artist-block--multi {
     grid-template-columns: 1fr;
-    padding: 40px 24px;
+    gap: 32px;
+    align-items: stretch;
   }
+
+  .iphone-trio {
+    flex-direction: column;
+    align-items: center;
+    padding-right: 0;
+    gap: 22px;
+  }
+
+  .iphone-trio .iphone {
+    flex: none;
+    width: min(220px, 68vw);
+  }
+
+  .iphone-trio .iphone:nth-child(2) {
+    transform: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    min-height: 36vh;
+    padding: max(32px, env(safe-area-inset-top)) 16px 40px;
+  }
+
+  .hero-logo {
+    width: min(300px, 86vw);
+  }
+
+  /* Background marks — smaller so they don’t crowd the viewport */
+  .bg-logo {
+    width: min(200px, 48vw);
+    height: min(200px, 48vw);
+  }
+
+  .iphone-landscape-wrap {
+    padding: 28px 16px 40px;
+  }
+
+  /* Desktop used tiny vw caps; on phones that made the device nearly invisible */
+  .iphone-ls-stage {
+    width: min(300px, 90vw);
+    height: min(138px, 41vw);
+  }
+
+  .iphone--landscape {
+    width: min(138px, 41vw);
+  }
+
+  .artist-block,
+  .artist-block--flip,
+  .artist-block--multi {
+    grid-template-columns: 1fr;
+    padding: 36px max(16px, env(safe-area-inset-left)) 40px max(16px, env(safe-area-inset-right));
+    gap: 0;
+  }
+
+  .artist-block--multi {
+    gap: 28px;
+  }
+
   .artist-block .artist-video,
-  .artist-block--flip .artist-video { order: 0; padding: 0 0 24px; }
+  .artist-block--flip .artist-video {
+    order: 0;
+    padding: 0 0 22px;
+  }
+
   .artist-block .artist-text,
-  .artist-block--flip .artist-text  { order: 1; padding: 0; }
+  .artist-block--flip .artist-text {
+    order: 1;
+    padding: 0;
+  }
+
+  .artist-name {
+    font-size: clamp(1.125rem, 5vw, 1.5rem);
+    line-height: 1.2;
+    margin-bottom: 18px;
+  }
+
+  .artist-desc {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .artist-desc--accent {
+    font-size: 14px;
+    margin-top: 16px;
+  }
+
+  .site-footer {
+    padding: 36px 16px max(48px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Touch: no hover — keep play control visible and tappable */
+@media (hover: none) and (pointer: coarse) {
+  .iphone-overlay {
+    background: rgba(0 0 0 / 0.12);
+  }
+
+  .play-btn {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .iphone-frame:hover .iphone-overlay {
+    background: rgba(0 0 0 / 0.18);
+  }
+
+  .iphone-frame:hover .play-btn {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .play-btn:active {
+    transform: scale(0.94);
+  }
 }
