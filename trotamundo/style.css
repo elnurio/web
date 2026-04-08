@@ -85,21 +85,29 @@ body {
 /* Background TROTAMUNDO logos */
 .bg-logo {
   position: absolute;
-  font-family: var(--font-logo);
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: 900;
-  color: var(--yellow);
-  -webkit-text-stroke: 3px var(--yellow-stroke);
-  opacity: 0.12;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  transform: rotate(-8deg);
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  mix-blend-mode: multiply;
+  opacity: 0.28;
   user-select: none;
+  pointer-events: none;
 }
 
-.bg-logo-1 { top: 25%;  left: 5%; }
-.bg-logo-2 { top: 58%;  right: 3%; transform: rotate(5deg); }
-.bg-logo-3 { top: 82%;  left: 10%; transform: rotate(-4deg); }
+.bg-logo img {
+  position: absolute;
+  width: 136%;
+  height: 136%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+}
+
+.bg-logo-1 { top: 20%;  left: 3%;  transform: rotate(-6deg); }
+.bg-logo-2 { top: 55%;  right: 2%; transform: rotate(5deg); }
+.bg-logo-3 { top: 82%;  left: 8%;  transform: rotate(-3deg); }
 
 /* ─── Hero ───────────────────────────────────────────── */
 .hero {
