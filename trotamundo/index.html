@@ -7,6 +7,7 @@
   <meta name="format-detection" content="telephone=no">
   <title>Trotamundo — Generative Live</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="fs-grid.css">
 </head>
 <body>
 
@@ -225,6 +226,35 @@
     <a href="/">← back home</a>
   </footer>
 
+  <!-- Fullscreen video + Codrops-style grid push (GSAP Flip) -->
+  <div id="video-fs" class="video-fs" aria-hidden="true">
+    <button type="button" class="video-fs__close" aria-label="Close video">×</button>
+    <div class="video-fs__inner">
+      <div class="video-fs__main">
+        <div class="video-fs__grid grid">
+          <div class="grid__item pos-1"><div class="grid__img" style="background-image:linear-gradient(140deg,#5aa8d4,#9ad4f0)"></div></div>
+          <div class="grid__item pos-2"><div class="grid__img" style="background-image:linear-gradient(160deg,#4d9ccc,#8ecde8)"></div></div>
+          <div class="grid__item pos-3"><div class="grid__img" style="background-image:linear-gradient(130deg,#6eb8e0,#b8e8ff)"></div></div>
+          <div class="grid__item pos-4"><div class="grid__img" style="background-image:linear-gradient(145deg,#5599c8,#a0d8f2)"></div></div>
+          <div class="grid__item pos-5"><div class="grid__img" style="background-image:linear-gradient(155deg,#4a92c2,#8ecde8)"></div></div>
+          <div class="grid__item pos-6"><div class="grid__img" style="background-image:linear-gradient(125deg,#62aed8,#c4eefc)"></div></div>
+          <div class="grid__item pos-7"><div class="grid__img" style="background-image:linear-gradient(150deg,#5494c4,#9cdcf4)"></div></div>
+          <div class="grid__item pos-8"><div class="grid__img" style="background-image:linear-gradient(135deg,#5898c6,#86c8e6)"></div></div>
+          <div class="grid__item pos-9"><div class="grid__img" style="background-image:linear-gradient(165deg,#4f96c4,#b0e4fc)"></div></div>
+          <div class="grid__item pos-10"><div class="grid__img" style="background-image:linear-gradient(120deg,#6aacd6,#8ecde8)"></div></div>
+          <div class="grid__item pos-11"><div class="grid__img" style="background-image:linear-gradient(148deg,#5692be,#9ed6ee)"></div></div>
+          <div class="grid__item pos-12"><div class="grid__img" style="background-image:linear-gradient(138deg,#5ca0ce,#c8ecfc)"></div></div>
+          <div class="grid__item pos-13"><div class="grid__img" style="background-image:linear-gradient(152deg,#4d8eb8,#7ec0e4)"></div></div>
+        </div>
+      </div>
+      <div class="video-fs__fullscreen fullscreen"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js"></script>
+  <script src="video-fs.js"></script>
+
   <script>
     // ─── iPhone tilt — desktop pointer only; skip touch + reduced motion ──
     (function () {
@@ -257,25 +287,6 @@
         });
       });
     })();
-  </script>
-
-  <script>
-    // ─── iPhone video play/pause ──────────────────────────
-    document.querySelectorAll('.iphone-overlay').forEach(function (overlay) {
-      overlay.addEventListener('click', function () {
-        var screen = overlay.closest('.iphone-screen');
-        if (!screen) return;
-        var video = screen.querySelector('video');
-        if (!video) return;
-        if (!video.src && !video.querySelector('source[src]')) return;
-        if (video.paused) {
-          var p = video.play();
-          if (p && typeof p.catch === 'function') p.catch(function () {});
-        } else {
-          video.pause();
-        }
-      });
-    });
   </script>
 
   <script>
