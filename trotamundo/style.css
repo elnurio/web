@@ -530,9 +530,28 @@ img {
     padding: 44px max(18px, env(safe-area-inset-left), 4vw) 48px max(18px, env(safe-area-inset-right), 4vw);
   }
 
+  /* Rotated phone’s visual width ≈ portrait height — cap to viewport */
+  .sets {
+    --ls-vmax: min(76vw, 248px, calc(100vw - 48px));
+  }
+
+  .iphone-ls-stage {
+    width: var(--ls-vmax);
+    height: calc(var(--ls-vmax) * 9 / 19.6);
+    max-width: 100%;
+    margin-block: 24px;
+    box-sizing: border-box;
+  }
+
+  .iphone--landscape {
+    width: calc(var(--ls-vmax) * 9 / 19.6);
+  }
+
   .iphone-landscape-wrap {
     padding-left: max(16px, env(safe-area-inset-left));
     padding-right: max(16px, env(safe-area-inset-right));
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .artist-block--multi {
@@ -545,6 +564,8 @@ img {
   .artist-block--multi .artist-text {
     max-width: none;
     padding-left: 0;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .iphone-trio {
@@ -552,11 +573,15 @@ img {
     align-items: center;
     padding-right: 0;
     gap: 22px;
+    margin-inline: auto;
+    width: fit-content;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .iphone-trio .iphone {
     flex: none;
-    width: min(220px, 68vw);
+    width: min(220px, min(68vw, calc(100vw - 32px)));
   }
 
   .iphone-trio .iphone:nth-child(2) {
@@ -564,6 +589,8 @@ img {
   }
 
   .artist-block--three-ls {
+    max-width: 100%;
+    overflow-x: hidden;
     grid-template-columns: 1fr;
     column-gap: 0;
     row-gap: 32px;
@@ -600,6 +627,10 @@ img {
 }
 
 @media (max-width: 700px) {
+  .sets {
+    --ls-vmax: min(86vw, 198px, calc(100vw - 36px));
+  }
+
   .hero {
     min-height: 36vh;
     padding: max(32px, env(safe-area-inset-top)) 16px 40px;
@@ -632,15 +663,8 @@ img {
     margin-top: 12px;
   }
 
-  /* Desktop used tiny vw caps; on phones that made the device nearly invisible */
   .iphone-ls-stage {
-    width: min(280px, 92vw);
-    height: min(128px, 38vw);
-    margin-block: 20px;
-  }
-
-  .iphone--landscape {
-    width: min(128px, 38vw);
+    margin-block: 16px;
   }
 
   .artist-block,
@@ -711,8 +735,12 @@ img {
 }
 
 @media (max-width: 480px) {
+  .sets {
+    --ls-vmax: min(80vw, 176px, calc(100vw - 28px));
+  }
+
   .iphone-trio .iphone {
-    width: min(200px, 78vw);
+    width: min(200px, min(78vw, calc(100vw - 28px)));
   }
 
   .artist-block--three-ls .artist-ls-bottom {
