@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Trotamundo — Generative Live</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -217,16 +217,6 @@
       </div>
     </section>
 
-    <section class="artist-block">
-      <div class="artist-video">
-        <div class="video-placeholder"><span>Video coming soon</span></div>
-      </div>
-      <div class="artist-text">
-        <h2 class="artist-name">Artist Name</h2>
-        <p class="artist-desc">Description of the visual concept and how it responded to the music.</p>
-      </div>
-    </section>
-
   </main>
 
   <footer class="site-footer">
@@ -321,7 +311,8 @@
       // Wait for layout so page height is known
       function placeClouds() {
         const pageH = document.documentElement.scrollHeight;
-        const count = 42;
+        const narrow = window.matchMedia('(max-width: 700px)').matches;
+        const count = narrow ? 22 : 42;
 
         // Divide page into bands so coverage is even, then jitter within band
         const bandH = pageH / count;
@@ -350,7 +341,7 @@
         });
 
         // Sparkles scattered throughout
-        const sparkCount = 12;
+        const sparkCount = narrow ? 6 : 12;
         for (let i = 0; i < sparkCount; i++) {
           const sp = document.createElement('span');
           sp.className = 'spark';

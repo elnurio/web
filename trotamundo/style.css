@@ -483,6 +483,24 @@ body {
 
 /* Tablet / narrow: Rhadoo trio stacks — three phones in a row were illegible */
 @media (max-width: 900px) {
+  .hero {
+    min-height: 38vh;
+    padding: 56px max(16px, env(safe-area-inset-left)) 48px max(16px, env(safe-area-inset-right));
+  }
+
+  .hero-logo {
+    width: min(280px, 88vw);
+  }
+
+  .artist-block {
+    padding: 44px max(18px, env(safe-area-inset-left), 4vw) 48px max(18px, env(safe-area-inset-right), 4vw);
+  }
+
+  .iphone-landscape-wrap {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+
   .artist-block--multi {
     grid-template-columns: 1fr;
     column-gap: 0;
@@ -514,7 +532,7 @@ body {
   .artist-block--three-ls {
     grid-template-columns: 1fr;
     column-gap: 0;
-    row-gap: 28px;
+    row-gap: 32px;
   }
 
   .artist-block--three-ls .artist-text {
@@ -541,7 +559,9 @@ body {
   }
 
   .artist-block--three-ls .artist-ls-bottom .artist-ls-caption {
-    max-width: none;
+    max-width: min(40ch, 100%);
+    padding-inline: 4px;
+    box-sizing: border-box;
   }
 }
 
@@ -562,8 +582,8 @@ body {
   }
 
   .iphone-landscape-wrap {
-    padding: 32px 16px 56px;
-    gap: 56px;
+    padding: 28px max(14px, env(safe-area-inset-left)) 48px max(14px, env(safe-area-inset-right));
+    gap: 40px;
   }
 
   .iphone-landscape-wrap .iphone-ls-stage {
@@ -580,12 +600,13 @@ body {
 
   /* Desktop used tiny vw caps; on phones that made the device nearly invisible */
   .iphone-ls-stage {
-    width: min(300px, 90vw);
-    height: min(138px, 41vw);
+    width: min(280px, 92vw);
+    height: min(128px, 38vw);
+    margin-block: 20px;
   }
 
   .iphone--landscape {
-    width: min(138px, 41vw);
+    width: min(128px, 38vw);
   }
 
   .artist-block,
@@ -602,7 +623,16 @@ body {
   }
 
   .artist-block--three-ls {
-    row-gap: 24px;
+    row-gap: 28px;
+  }
+
+  .artist-block--three-ls .artist-ls-bottom {
+    gap: max(22px, 5vw);
+  }
+
+  .artist-block--three-ls .artist-ls-bottom .artist-ls-caption {
+    max-width: 100%;
+    padding-inline: 0;
   }
 
   .artist-block .artist-video,
@@ -625,9 +655,10 @@ body {
   }
 
   .artist-name {
-    font-size: clamp(1.125rem, 5vw, 1.5rem);
+    font-size: clamp(1.05rem, 4.8vw, 1.45rem);
     line-height: 1.2;
     margin-bottom: 18px;
+    overflow-wrap: break-word;
   }
 
   .artist-desc {
@@ -642,6 +673,20 @@ body {
 
   .site-footer {
     padding: 36px 16px max(48px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 480px) {
+  .iphone-trio .iphone {
+    width: min(200px, 78vw);
+  }
+
+  .artist-block--three-ls .artist-ls-bottom {
+    gap: 20px;
+  }
+
+  .hero-logo {
+    width: min(260px, 84vw);
   }
 }
 
