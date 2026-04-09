@@ -268,17 +268,25 @@ img {
   margin: 0;
 }
 
-/* Multi-video section: text above, iPhones below, all centered */
+/* Multi-video section: text above, iPhones below */
 .artist-block--multi {
-  grid-template-columns: 1fr;
-  justify-items: center;
-  gap: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  padding-top: 72px;
+  padding-bottom: 72px;
 }
 
 .artist-block--multi .artist-text {
   text-align: center;
   max-width: 52ch;
   padding: 0;
+  width: 100%;
+}
+
+.artist-block--multi .iphone-trio {
+  width: 100%;
 }
 
 /* ─── iPhone trio ─────────────────────────────────────── */
