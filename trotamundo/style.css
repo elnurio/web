@@ -225,14 +225,14 @@ img {
   grid-column: 1;
   grid-row: 1;
   text-align: center;
-  max-width: 52ch;
+  max-width: 32ch;
   padding-left: 0;
   padding-right: 0;
 }
 
 /* Narrow measure for body copy */
 .artist-block--three-ls .artist-text .artist-desc {
-  max-width: 40ch;
+  max-width: 32ch;
   margin: 0 auto;
 }
 
@@ -587,12 +587,12 @@ img {
 
   .artist-block--three-ls .artist-text {
     grid-column: 1;
-    max-width: none;
+    max-width: 32ch;
     width: auto;
   }
 
   .artist-block--three-ls .artist-text .artist-desc {
-    max-width: none;
+    max-width: 32ch;
   }
 
   .artist-block--three-ls .artist-ls-top {
