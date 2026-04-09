@@ -202,10 +202,13 @@ img:not(.iphone-poster) {
   border-radius: 3px;
 }
 
-/* Vol buttons top edge (right side), power bottom edge */
-.iphone--landscape .vol-up  { top: -4px; left: 55%; width: 13%; height: 4px; bottom: auto; right: auto; }
-.iphone--landscape .vol-dn  { top: -4px; left: 71%; width: 13%; height: 4px; bottom: auto; right: auto; }
-.iphone--landscape .power   { bottom: -4px; right: 22%; width: 20%; height: 4px; top: auto; left: auto; }
+/* Vol buttons top edge (right side), power bottom edge — slightly finer than portrait rails */
+.iphone--landscape .iphone-btn {
+  border-radius: 2px;
+}
+.iphone--landscape .vol-up  { top: -3px; left: 56%; width: 10%; height: 3px; bottom: auto; right: auto; }
+.iphone--landscape .vol-dn  { top: -3px; left: 68%; width: 10%; height: 3px; bottom: auto; right: auto; }
+.iphone--landscape .power   { bottom: -3px; right: 23%; width: 15%; height: 3px; top: auto; left: auto; }
 
 /* Match landscape frame exactly to portrait iPhones */
 .iphone-landscape-wrap .iphone-frame,
