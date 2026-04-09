@@ -39,7 +39,7 @@ body {
 }
 
 .hero-logo,
-img {
+img:not(.iphone-poster) {
   max-width: 100%;
   height: auto;
 }
@@ -402,13 +402,17 @@ img {
 
 /*
  * Poster as <img> (not video poster=): WebKit often letterboxes native video posters.
- * z-index above video so preview shows until play hides it (.is-hidden).
+ * Excluded from global `img { max-width; height:auto }` so cover can fill the screen.
  */
 .iphone-poster {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  max-width: none;
+  max-height: none;
+  min-width: 100%;
+  min-height: 100%;
   object-fit: cover;
   object-position: center;
   display: block;
