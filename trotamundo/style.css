@@ -313,8 +313,7 @@ img {
 
 .iphone-frame {
   position: relative;
-  /* Minimal dark frame — no visible gray */
-  background: #111114;
+  background: transparent;
   border-radius: 46px;
   padding: 5px;
   box-shadow: none;
