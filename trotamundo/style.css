@@ -617,7 +617,7 @@ img {
 
 @media (max-width: 700px) {
   .sets {
-    --ls-vmax: min(86vw, 198px, calc(100vw - 36px));
+    --ls-vmax: min(88vw, 280px, calc(100vw - 20px));
   }
 
   .hero {
@@ -778,7 +778,7 @@ img {
 
 @media (max-width: 480px) {
   .sets {
-    --ls-vmax: min(80vw, 176px, calc(100vw - 28px));
+    --ls-vmax: min(88vw, 260px, calc(100vw - 20px));
   }
 
   /* trio phones: flex:1 from 900px breakpoint scales automatically */
