@@ -280,7 +280,7 @@ img {
 
 .artist-block--multi .artist-text {
   text-align: center;
-  max-width: 52ch;
+  max-width: 32ch;
   padding: 0;
   width: 100%;
 }
