@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light">
   <meta name="format-detection" content="telephone=no">
   <title>Trotamundo — Generative Live</title>
-  <link rel="stylesheet" href="style.css?v=11">
+  <link rel="stylesheet" href="style.css?v=12">
   <link rel="stylesheet" href="fs-grid.css">
 </head>
 <body>
@@ -293,7 +293,7 @@
           var rotY = ((e.clientX - rect.left - rect.width / 2) / (rect.width / 2)) * 9;
           var rotX = -((e.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * 6;
           phone.style.transform = isLandscape
-            ? 'rotate(90deg) perspective(900px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)'
+            ? 'perspective(900px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)'
             : 'translateY(' + (BASE_Y - 12) + 'px) perspective(900px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
         });
 

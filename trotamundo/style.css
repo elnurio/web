@@ -162,28 +162,49 @@ img {
   margin-bottom: 0;
 }
 
-/* Stage reserves the correct visual space for the rotated phone.
-   Portrait: W, H = W*19.6/9 → Landscape visual: H wide × W tall */
+/* Landscape iPhone stage — native landscape, no rotation */
 .iphone-ls-stage {
-  --phone-w: min(220px, 28vw);
+  --ls-w: min(480px, 52vw);
   position: relative;
   z-index: 1;
-  width: calc(var(--phone-w) * 19.6 / 9);
-  height: var(--phone-w);
+  width: var(--ls-w);
   margin-block: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
 }
 
 .iphone.iphone--landscape {
-  flex: none;
-  width: var(--phone-w);
-  transform: rotate(90deg);
+  width: 100%;
+  transform: none;
   will-change: transform;
-  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* Landscape frame: flip aspect-ratio to 19.6/9 */
+.iphone--landscape .iphone-frame {
+  aspect-ratio: 19.6 / 9;
+}
+
+/* Screen corners proportional to landscape height */
+.iphone--landscape .iphone-screen {
+  border-radius: 36px;
+}
+
+/* Dynamic Island repositioned to left side in landscape */
+.iphone--landscape .iphone-island {
+  top: 50%;
+  left: 13px;
+  right: auto;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 32%;
+  max-height: 38px;
+  min-height: 18px;
+  border-radius: 4px;
+}
+
+/* Buttons repositioned for landscape */
+.iphone--landscape .vol-up  { left: 22%; top: -4px; bottom: auto; right: auto; width: 7%;  height: 4px; }
+.iphone--landscape .vol-dn  { left: 31%; top: -4px; bottom: auto; right: auto; width: 7%;  height: 4px; }
+.iphone--landscape .power   { left: auto; right: 22%; bottom: -4px; top: auto;  width: 11%; height: 4px; }
 
 /* Match landscape frame exactly to portrait iPhones */
 .iphone-landscape-wrap .iphone-frame,
@@ -418,11 +439,10 @@ img {
   margin-left: 2px; /* optical centering of triangle */
 }
 
-/* Landscape shell uses rotate(90deg); unwind the glyph so play reads left→right on screen */
+/* Landscape play button — no counter-rotation needed */
 .iphone--landscape .play-btn svg {
-  transform: rotate(-90deg);
-  margin-left: 0;
-  margin-top: 2px;
+  margin-left: 2px;
+  margin-top: 0;
 }
 
 .iphone-frame:hover .play-btn {
@@ -528,14 +548,13 @@ img {
 
   .iphone-ls-stage {
     width: var(--ls-vmax);
-    height: calc(var(--ls-vmax) * 9 / 19.6);
     max-width: 100%;
     margin-block: 24px;
     box-sizing: border-box;
   }
 
   .iphone--landscape {
-    width: calc(var(--ls-vmax) * 9 / 19.6);
+    width: 100%;
   }
 
   .iphone-landscape-wrap {
