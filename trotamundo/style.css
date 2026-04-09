@@ -202,10 +202,10 @@ img {
   border-radius: 3px;
 }
 
-/* Buttons on long sides (top/bottom) — mirror portrait left/right buttons */
-.iphone--landscape .vol-up  { top: -4px; left: 22%; width: 13%; height: 4px; bottom: auto; right: auto; }
-.iphone--landscape .vol-dn  { top: -4px; left: 38%; width: 13%; height: 4px; bottom: auto; right: auto; }
-.iphone--landscape .power   { bottom: -4px; right: 22%; width: 20%; height: 4px; top: auto; left: auto; }
+/* Vol on left short side, power on right short side — same as portrait left/right */
+.iphone--landscape .vol-up  { left: -4px; top: 18%; width: 4px; height: 17%; bottom: auto; right: auto; }
+.iphone--landscape .vol-dn  { left: -4px; top: 42%; width: 4px; height: 17%; bottom: auto; right: auto; }
+.iphone--landscape .power   { right: -4px; top: 28%; width: 4px; height: 26%; bottom: auto; left: auto; }
 
 /* Match landscape frame exactly to portrait iPhones */
 .iphone-landscape-wrap .iphone-frame,
