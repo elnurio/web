@@ -255,6 +255,24 @@
   <script src="video-fs.js"></script>
 
   <script>
+    // ─── Scroll trio to 2nd phone on load (mobile) ───────
+    (function () {
+      const trio = document.querySelector('.iphone-trio');
+      if (!trio) return;
+      function centerSecond() {
+        if (window.innerWidth > 700) return;
+        const phone = trio.querySelectorAll('.iphone')[0];
+        if (!phone) return;
+        const phoneW = phone.offsetWidth;
+        const gap = parseFloat(getComputedStyle(trio).gap) || 14;
+        trio.scrollLeft = phoneW + gap;
+      }
+      // Run after layout is painted
+      requestAnimationFrame(() => requestAnimationFrame(centerSecond));
+    })();
+  </script>
+
+  <script>
     // ─── iPhone tilt — desktop pointer only; skip touch + reduced motion ──
     (function () {
       var mqReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
