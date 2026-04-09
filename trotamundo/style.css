@@ -313,52 +313,55 @@ img {
 
 .iphone-frame {
   position: relative;
-  background: transparent;
-  border-radius: 46px;
-  padding: 5px;
-  box-shadow: none;
+  /* Space Black titanium — exact match to reference */
+  background: #1e1e20;
+  border-radius: 50px;
+  padding: 11px;
+  box-shadow:
+    /* outer metallic rim */
+    0 0 0 0.75px rgba(255 255 255 / 0.12),
+    /* inner edge */
+    inset 0 0 0 0.5px rgba(255 255 255 / 0.06),
+    /* very subtle depth — no bloom */
+    0 8px 24px rgba(0 0 0 / 0.28);
   aspect-ratio: 9 / 19.6;
 }
 
-/* Side buttons — dark titanium */
+/* Side buttons — dark titanium, match reference proportions */
 .iphone-btn {
   position: absolute;
-  background: linear-gradient(90deg, #48484a, #3a3a3c);
-  border-radius: 2px;
-  box-shadow:
-    inset 0 0 0 0.5px rgba(255 255 255 / 0.08),
-    1px 0 2px rgba(0 0 0 / 0.45);
+  background: #2c2c2e;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 0.5px rgba(255 255 255 / 0.07);
 }
-.vol-up { left: -3px; top: 20%; width: 3px; height: 7%;  }
-.vol-dn { left: -3px; top: 30%; width: 3px; height: 7%;  }
-.power  { right: -3px; top: 25%; width: 3px; height: 10%; }
+.vol-up { left: -4px; top: 22%; width: 4px; height: 8%;  }
+.vol-dn { left: -4px; top: 33%; width: 4px; height: 8%;  }
+.power  { right: -4px; top: 26%; width: 4px; height: 12%; }
 
 /* Screen */
 .iphone-screen {
   width: 100%;
   height: 100%;
   background: #0a0a0a;
-  border-radius: 41px;
+  border-radius: 40px;
   overflow: hidden;
   position: relative;
-  /* subtle inner frame line */
-  box-shadow: inset 0 0 0 0.5px rgba(255 255 255 / 0.06);
+  box-shadow: inset 0 0 0 0.5px rgba(255 255 255 / 0.04);
 }
 
-/* Dynamic Island */
+/* Dynamic Island — wide pill matching reference */
 .iphone-island {
   position: absolute;
-  top: 10px;
+  top: 11px;
   left: 50%;
   transform: translateX(-50%);
-  width: 36%;
-  height: 7%;
-  max-height: 28px;
-  min-height: 18px;
+  width: 38%;
+  height: 6%;
+  max-height: 26px;
+  min-height: 17px;
   background: #000;
   border-radius: 20px;
   z-index: 10;
-  box-shadow: 0 0 12px rgba(0 0 0 / 0.8);
 }
 
 /* Status bar — hidden */
