@@ -402,7 +402,7 @@ img {
 
 /*
  * Poster as <img> (not video poster=): WebKit often letterboxes native video posters.
- * Cover guarantees the frame is filled like the playing video.
+ * z-index above video so preview shows until play hides it (.is-hidden).
  */
 .iphone-poster {
   position: absolute;
@@ -414,12 +414,10 @@ img {
   display: block;
   pointer-events: none;
   z-index: 3;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-.iphone-screen.is-frame-ready .iphone-poster {
-  opacity: 0;
-  visibility: hidden;
+.iphone-poster.is-hidden {
+  display: none;
 }
 
 /* Hover overlay + play button */
@@ -430,6 +428,7 @@ img {
   align-items: center;
   justify-content: center;
   background: rgba(0 0 0 / 0);
+  z-index: 2;
   transition: background 0.3s ease;
   z-index: 5;
   cursor: pointer;
