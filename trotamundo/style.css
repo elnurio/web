@@ -4,6 +4,8 @@
 /* ─── Base ───────────────────────────────────────────── */
 :root {
   --sky: #8ecde8;
+  --color-black: #000000;
+  --color-white: #ffffff;
   --yellow-stroke: #2a1d00;
   --text: #0f1d35;
   --muted: rgba(15, 29, 53, 0.62);
@@ -430,7 +432,7 @@ img:not(.iphone-poster) {
   max-height: 100dvh;
   object-fit: contain;
   object-position: center;
-  background: #000;
+  background: var(--color-black);
   flex-shrink: 0;
 }
 
@@ -456,6 +458,81 @@ img:not(.iphone-poster) {
 
 .iphone-poster.is-hidden {
   display: none;
+}
+
+/*
+ * Desktop / non‑iOS: fake fullscreen so object-fit: contain actually works
+ * (Chrome’s video fullscreen often crops vertical clips).
+ */
+.desktop-video-fs {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  background: var(--color-black);
+  box-sizing: border-box;
+  padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+  display: none;
+}
+.desktop-video-fs.is-open {
+  display: flex;
+}
+
+.desktop-video-fs__close {
+  position: absolute;
+  top: max(12px, env(safe-area-inset-top, 0px));
+  right: max(12px, env(safe-area-inset-right, 0px));
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 200px;
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--color-white);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.desktop-video-fs__close:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+.desktop-video-fs__close:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+.desktop-video-fs__stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 52px 16px 24px;
+  box-sizing: border-box;
+}
+
+.desktop-video-fs__stage .iphone-video {
+  position: relative !important;
+  inset: auto !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  background: var(--color-black) !important;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desktop-video-fs__close {
+    transition: none;
+  }
 }
 
 /* Hover overlay + play button */

@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light">
   <meta name="format-detection" content="telephone=no">
   <title>Trotamundo — Generative Live</title>
-  <link rel="stylesheet" href="style.css?v=27">
+  <link rel="stylesheet" href="style.css?v=28">
   <link rel="stylesheet" href="fs-grid.css">
 </head>
 <body>
@@ -188,7 +188,7 @@
       </div>
 
       <div class="artist-ls-bottom">
-        <p class="artist-desc artist-ls-caption">The direction moved into more cosmic and psychedelic territory - less grounded, more expansive.</p>
+        <p class="artist-desc artist-ls-caption">Particle systems became the core language, forming drifting constellations, dense clusters, and unstable structures that kept reshaping themselves.</p>
         <div class="iphone-ls-stage">
           <div class="iphone iphone--landscape">
             <div class="iphone-frame">
@@ -212,7 +212,7 @@
             </div>
           </div>
         </div>
-        <p class="artist-desc artist-ls-caption">Particle systems became the core language, forming drifting constellations, dense clusters, and unstable structures that kept reshaping themselves.</p>
+        <p class="artist-desc artist-ls-caption">The direction moved into more cosmic and psychedelic territory - less grounded, more expansive.</p>
         <div class="iphone-ls-stage">
           <div class="iphone iphone--landscape">
             <div class="iphone-frame">
@@ -245,6 +245,11 @@
     <a href="/">← back home</a>
   </footer>
 
+  <!-- Desktop “fullscreen”: real CSS contain (Chrome native FS crops video) -->
+  <div id="desktop-video-fs" class="desktop-video-fs" aria-hidden="true" hidden>
+    <button type="button" class="desktop-video-fs__close" aria-label="Close video">×</button>
+    <div class="desktop-video-fs__stage"></div>
+  </div>
 
   <script>
     // ─── Scroll trio to 2nd phone on load (mobile) ───────
@@ -401,9 +406,14 @@
   </script>
 
   <script>
-    // ─── Play → native fullscreen; exit → poster + pause ───
+    // ─── Play: iOS → webkit fullscreen; else → fixed overlay (contain, no crop) ───
     (function () {
-      function restoreAfterFullscreen(video) {
+      var layer = document.getElementById('desktop-video-fs');
+      var stage = layer ? layer.querySelector('.desktop-video-fs__stage') : null;
+      var closeBtn = layer ? layer.querySelector('.desktop-video-fs__close') : null;
+      var fsState = null;
+
+      function restoreIosAfterNativeFs(video) {
         if (!video) return;
         video.pause();
         try { video.currentTime = 0; } catch (e) {}
@@ -414,23 +424,69 @@
         }
       }
 
-      var lastFsVideo = null;
-      document.addEventListener('fullscreenchange', function () {
-        var el = document.fullscreenElement;
-        if (el && el.classList && el.classList.contains('iphone-fs-shell')) {
-          lastFsVideo = el.querySelector('.iphone-video');
-        } else if (el && el.tagName === 'VIDEO' && el.classList.contains('iphone-video')) {
-          lastFsVideo = el;
-        } else if (!el && lastFsVideo) {
-          restoreAfterFullscreen(lastFsVideo);
-          lastFsVideo = null;
+      function useIosNativeVideoFs(video) {
+        return typeof video.webkitEnterFullscreen === 'function' &&
+          (/iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1));
+      }
+
+      function closeDesktopFs() {
+        if (!fsState || !layer || !stage) return;
+        var video = fsState.video;
+        var shell = fsState.shell;
+        var screen = fsState.screen;
+        video.pause();
+        try { video.currentTime = 0; } catch (e) {}
+        video.removeAttribute('controls');
+        video.removeAttribute('tabindex');
+        shell.appendChild(video);
+        layer.classList.remove('is-open');
+        layer.hidden = true;
+        layer.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        if (screen) {
+          var poster = screen.querySelector('.iphone-poster');
+          if (poster) poster.classList.remove('is-hidden');
         }
-      });
+        fsState = null;
+      }
+
+      function openDesktopFs(video, shell, screen) {
+        if (!layer || !stage) return;
+        if (fsState) closeDesktopFs();
+        fsState = { video: video, shell: shell, screen: screen };
+        stage.appendChild(video);
+        layer.hidden = false;
+        layer.setAttribute('aria-hidden', 'false');
+        layer.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+        video.setAttribute('controls', '');
+        try {
+          video.setAttribute('tabindex', '-1');
+          video.focus();
+        } catch (err) {}
+        video.play().catch(function () {});
+      }
 
       document.querySelectorAll('.iphone-video').forEach(function (video) {
         video.addEventListener('webkitendfullscreen', function () {
-          restoreAfterFullscreen(video);
+          restoreIosAfterNativeFs(video);
         });
+      });
+
+      if (layer && stage) {
+        layer.addEventListener('click', function (e) {
+          if (e.target === layer || e.target === stage) closeDesktopFs();
+        });
+      }
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          closeDesktopFs();
+        });
+      }
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && fsState) closeDesktopFs();
       });
 
       document.querySelectorAll('.iphone-overlay').forEach(function (overlay) {
@@ -443,25 +499,13 @@
           if (!video) return;
           var shell = screen.querySelector('.iphone-fs-shell');
           var src = video.querySelector('source') ? video.querySelector('source').getAttribute('src') : video.getAttribute('src');
-          if (!src) return;
+          if (!src || !shell) return;
 
-          if (video.webkitEnterFullscreen) {
+          if (useIosNativeVideoFs(video)) {
             video.webkitEnterFullscreen();
             video.play().catch(function () {});
-          } else if (shell && shell.requestFullscreen) {
-            shell.requestFullscreen().then(function () {
-              video.play().catch(function () {});
-            }).catch(function () {
-              video.play().catch(function () {});
-            });
-          } else if (video.requestFullscreen) {
-            video.requestFullscreen().then(function () {
-              video.play().catch(function () {});
-            }).catch(function () {
-              video.play().catch(function () {});
-            });
           } else {
-            video.play().catch(function () {});
+            openDesktopFs(video, shell, screen);
           }
         });
       });
