@@ -178,27 +178,28 @@ img {
   transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Landscape frame: flip aspect-ratio to 19.6/9 */
+/* Landscape frame: flip aspect-ratio, scale radius to height (not fixed 50px) */
 .iphone--landscape .iphone-frame {
   aspect-ratio: 19.6 / 9;
+  border-radius: min(50px, 14%);
 }
 
-/* Screen corners proportional to landscape height */
+/* Screen corners match frame proportionally */
 .iphone--landscape .iphone-screen {
-  border-radius: 36px;
+  border-radius: min(40px, 11%);
 }
 
-/* Dynamic Island repositioned to left side in landscape */
+/* Dynamic Island: small pill on left side */
 .iphone--landscape .iphone-island {
   top: 50%;
-  left: 13px;
+  left: 12px;
   right: auto;
   transform: translateY(-50%);
-  width: 7px;
-  height: 32%;
-  max-height: 38px;
-  min-height: 18px;
-  border-radius: 4px;
+  width: 6px;
+  height: 28%;
+  max-height: 32px;
+  min-height: 14px;
+  border-radius: 3px;
 }
 
 /* Buttons repositioned for landscape */
