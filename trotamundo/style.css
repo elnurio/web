@@ -491,17 +491,22 @@ img:not(.iphone-poster) {
   width: 44px;
   height: 44px;
   border: none;
-  border-radius: 200px;
-  background: rgba(255, 255, 255, 0.18);
+  border-radius: 0;
+  background: transparent;
   color: var(--color-white);
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 300;
   line-height: 1;
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  opacity: 0.92;
 }
 .desktop-video-fs__close:hover {
-  background: rgba(255, 255, 255, 0.28);
+  opacity: 1;
+}
+.desktop-video-fs__close:active {
+  opacity: 0.75;
 }
 .desktop-video-fs__close:focus-visible {
   outline: 2px solid var(--color-white);
@@ -961,6 +966,10 @@ img:not(.iphone-poster) {
 
 /* Wider copy — desktop only (narrow layouts use rules in max-width blocks above) */
 @media (min-width: 901px) {
+  .artist-block--multi {
+    gap: 64px;
+  }
+
   .artist-block--multi .artist-text {
     max-width: min(56ch, 92vw);
   }
