@@ -313,26 +313,14 @@ img {
 
 .iphone-frame {
   position: relative;
-  /* Black Titanium — matches reference */
-  background:
-    linear-gradient(145deg,
-      #3c3c3e 0%,
-      #2a2a2c 12%,
-      #1c1c1e 40%,
-      #222224 72%,
-      #303032 100%
-    );
-  border-radius: 50px;
-  padding: 10px;
+  /* Minimal dark frame — no visible gray */
+  background: #111114;
+  border-radius: 46px;
+  padding: 5px;
   box-shadow:
-    /* rim highlight */
-    inset 0 1px 0 rgba(255 255 255 / 0.14),
-    inset 0 -1px 0 rgba(255 255 255 / 0.06),
-    inset 1px 0 0 rgba(255 255 255 / 0.09),
-    inset -1px 0 0 rgba(255 255 255 / 0.04),
-    /* depth */
-    0 32px 72px rgba(0 0 0 / 0.58),
-    0 8px 22px rgba(0 0 0 / 0.32);
+    0 0 0 1px rgba(255 255 255 / 0.10),
+    0 20px 50px rgba(0 0 0 / 0.38),
+    0 4px 12px rgba(0 0 0 / 0.22);
   aspect-ratio: 9 / 19.6;
 }
 
@@ -704,7 +692,7 @@ img {
     padding-right: 14vw;
     padding-top: 20px;
     padding-bottom: 24px;
-    box-sizing: content-box;
+    box-sizing: border-box;
     gap: 14px;
     align-items: center;
     justify-content: flex-start;
@@ -764,15 +752,15 @@ img {
   }
 
   .artist-name {
-    font-size: clamp(1.05rem, 4.8vw, 1.45rem);
-    line-height: 1.2;
-    margin-bottom: 18px;
+    font-size: clamp(28px, 8vw, 38px);
+    line-height: 1.1;
+    margin-bottom: 14px;
     overflow-wrap: break-word;
   }
 
   .artist-desc {
-    font-size: 15px;
-    line-height: 1.65;
+    font-size: 18px;
+    line-height: 1.6;
   }
 
   .artist-desc--accent {
