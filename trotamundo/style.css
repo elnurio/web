@@ -211,42 +211,41 @@ img {
 .artist-video { padding-right: 48px; }
 .artist-block--flip .artist-video { padding-right: 0; padding-left: 48px; }
 
-/* Nicolas Lutz — text left, 1 landscape iPhone right, 2 more below */
+/* Nicolas Lutz — text top, all phones stacked below */
 .artist-block--three-ls {
-  /* 1fr so row 2 spans full section width; bottom stack can truly center */
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-rows: auto auto;
-  justify-content: start;
-  column-gap: max(28px, 4vw);
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  justify-items: center;
   row-gap: 40px;
-  align-items: start;
+  align-items: center;
   width: 100%;
 }
 
 .artist-block--three-ls .artist-text {
   grid-column: 1;
   grid-row: 1;
-  justify-self: start;
+  text-align: center;
+  max-width: 52ch;
   padding-left: 0;
   padding-right: 0;
 }
 
-/* Narrow measure for body copy only — title stays natural width */
+/* Narrow measure for body copy */
 .artist-block--three-ls .artist-text .artist-desc {
   max-width: 40ch;
+  margin: 0 auto;
 }
 
 .artist-block--three-ls .artist-ls-top {
-  grid-column: 2;
-  grid-row: 1;
-  justify-self: start;
-  align-self: start;
-  margin-left: 4cm;
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: center;
+  margin-left: 0;
 }
 
 .artist-block--three-ls .artist-ls-bottom {
-  grid-column: 1 / -1;
-  grid-row: 2;
+  grid-column: 1;
+  grid-row: 3;
   justify-self: stretch;
   width: 100%;
   display: flex;
