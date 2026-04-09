@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light">
   <meta name="format-detection" content="telephone=no">
   <title>Trotamundo — Generative Live</title>
-  <link rel="stylesheet" href="style.css?v=22">
+  <link rel="stylesheet" href="style.css?v=23">
   <link rel="stylesheet" href="fs-grid.css">
 </head>
 <body>
@@ -384,10 +384,14 @@
     document.querySelectorAll('.iphone-video').forEach(function (v) {
       var src = v.querySelector('source') ? v.querySelector('source').getAttribute('src') : v.getAttribute('src');
       if (!src) return;
-      // Show first frame
-      function seekFirst() { try { v.currentTime = 0.001; } catch(e){} }
-      if (v.readyState >= 1) { seekFirst(); }
-      else { v.addEventListener('loadedmetadata', seekFirst, { once: true }); }
+      v.preload = 'auto';
+      function seekFirst() {
+        try { v.currentTime = 0.1; } catch(e){}
+      }
+      // Try on metadata, then again on canplay (more data available)
+      v.addEventListener('loadedmetadata', seekFirst, { once: true });
+      v.addEventListener('canplay', seekFirst, { once: true });
+      if (v.readyState >= 3) { seekFirst(); }
     });
 
     // ─── Play button → native device fullscreen ───────────
