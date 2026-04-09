@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light">
   <meta name="format-detection" content="telephone=no">
   <title>Trotamundo — Generative Live</title>
-  <link rel="stylesheet" href="style.css?v=23">
+  <link rel="stylesheet" href="style.css?v=24">
   <link rel="stylesheet" href="fs-grid.css">
 </head>
 <body>
@@ -129,7 +129,8 @@
           <div class="iphone-btn power"></div>
           <div class="iphone-screen">
             <div class="iphone-island"></div>
-            <video class="iphone-video" loop playsinline preload="metadata" poster="assets/cover/poster-4.webp">
+            <img class="iphone-poster" src="assets/cover/poster-4.webp" alt="">
+            <video class="iphone-video" loop playsinline preload="metadata">
               <source src="assets/SDFB4453.mp4" type="video/mp4">
             </video>
             <div class="iphone-overlay">
@@ -385,6 +386,8 @@
       overlay.addEventListener('click', function () {
         var screen = overlay.closest('.iphone-screen');
         if (!screen) return;
+        var poster = screen.querySelector('.iphone-poster');
+        if (poster) poster.classList.add('is-hidden');
         var video = screen.querySelector('.iphone-video');
         if (!video) return;
         var src = video.querySelector('source') ? video.querySelector('source').getAttribute('src') : video.getAttribute('src');

@@ -398,6 +398,20 @@ img {
   background: #1a1a2e;
 }
 
+/* Poster image overlay (reliable cover across browsers) */
+.iphone-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  z-index: 1;
+  pointer-events: none;
+}
+.iphone-poster.is-hidden { display: none; }
+
 /* Hover overlay + play button */
 .iphone-overlay {
   position: absolute;
@@ -406,6 +420,7 @@ img {
   align-items: center;
   justify-content: center;
   background: rgba(0 0 0 / 0);
+  z-index: 2;
   transition: background 0.3s ease;
   z-index: 5;
   cursor: pointer;
