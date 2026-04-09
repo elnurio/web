@@ -748,6 +748,14 @@ img {
     padding: 0;
   }
 
+  /* Multi section: text must stay above iPhones */
+  .artist-block--multi .artist-text {
+    order: -1;
+  }
+  .artist-block--multi .iphone-trio {
+    order: 0;
+  }
+
   /* Keep three-ls DOM order (text → phones); don’t inherit flip’s text order */
   .artist-block--three-ls .artist-text,
   .artist-block--three-ls .artist-ls-top,
