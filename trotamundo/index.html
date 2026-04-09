@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light">
   <meta name="format-detection" content="telephone=no">
   <title>Trotamundo — Generative Live</title>
-  <link rel="stylesheet" href="style.css?v=26">
+  <link rel="stylesheet" href="style.css?v=27">
   <link rel="stylesheet" href="fs-grid.css">
 </head>
 <body>
@@ -50,9 +50,11 @@
                 </span>
               </div>
               <img class="iphone-poster" src="assets/cover/poster-1.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
+              <div class="iphone-fs-shell">
               <video class="iphone-video" loop playsinline preload="metadata">
                 <source src="assets/IMG_5181.mp4" type="video/mp4">
               </video>
+              </div>
               <div class="iphone-overlay">
                 <button type="button" class="play-btn" aria-label="Play video">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4.5L19.5 12L6 19.5V4.5Z" fill="currentColor"/></svg>
@@ -78,9 +80,11 @@
                 </span>
               </div>
               <img class="iphone-poster" src="assets/cover/poster-2.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
+              <div class="iphone-fs-shell">
               <video class="iphone-video" loop playsinline preload="metadata">
                 <source src="assets/JNLTE1245.mp4" type="video/mp4">
               </video>
+              </div>
               <div class="iphone-overlay">
                 <button type="button" class="play-btn" aria-label="Play video">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4.5L19.5 12L6 19.5V4.5Z" fill="currentColor"/></svg>
@@ -106,9 +110,11 @@
                 </span>
               </div>
               <img class="iphone-poster" src="assets/cover/poster-3.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
+              <div class="iphone-fs-shell">
               <video class="iphone-video" loop playsinline preload="metadata">
                 <source src="assets/IMG_5180.mp4" type="video/mp4">
               </video>
+              </div>
               <div class="iphone-overlay">
                 <button type="button" class="play-btn" aria-label="Play video">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4.5L19.5 12L6 19.5V4.5Z" fill="currentColor"/></svg>
@@ -133,9 +139,11 @@
           <div class="iphone-screen">
             <div class="iphone-island"></div>
             <img class="iphone-poster" src="assets/cover/poster-4.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
+            <div class="iphone-fs-shell">
             <video class="iphone-video" loop playsinline preload="metadata">
               <source src="assets/SDFB4453.mp4" type="video/mp4">
             </video>
+            </div>
             <div class="iphone-overlay">
               <button type="button" class="play-btn" aria-label="Play video">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4.5L19.5 12L6 19.5V4.5Z" fill="currentColor"/></svg>
@@ -163,9 +171,11 @@
               <div class="iphone-screen">
                 <div class="iphone-island"></div>
                 <img class="iphone-poster" src="assets/cover/poster-5.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
+                <div class="iphone-fs-shell">
                 <video class="iphone-video" loop playsinline preload="metadata">
                   <source src="assets/IMG_5192.mp4" type="video/mp4">
                 </video>
+                </div>
                 <div class="iphone-overlay">
                   <button type="button" class="play-btn" aria-label="Play video">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4.5L19.5 12L6 19.5V4.5Z" fill="currentColor"/></svg>
@@ -188,9 +198,11 @@
               <div class="iphone-screen">
                 <div class="iphone-island"></div>
                 <img class="iphone-poster" src="assets/cover/poster-6.webp" alt="" aria-hidden="true" decoding="async">
+                <div class="iphone-fs-shell">
                 <video class="iphone-video" loop playsinline preload="metadata">
                   <source src="assets/EWCD7760.mp4" type="video/mp4">
                 </video>
+                </div>
                 <div class="iphone-overlay">
                   <button type="button" class="play-btn" aria-label="Play video">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4.5L19.5 12L6 19.5V4.5Z" fill="currentColor"/></svg>
@@ -210,9 +222,11 @@
               <div class="iphone-screen">
                 <div class="iphone-island"></div>
                 <img class="iphone-poster" src="assets/cover/poster-7.webp" alt="" aria-hidden="true" decoding="async">
+                <div class="iphone-fs-shell">
                 <video class="iphone-video" loop playsinline preload="metadata">
                   <source src="assets/IMG_5189.mp4" type="video/mp4">
                 </video>
+                </div>
                 <div class="iphone-overlay">
                   <button type="button" class="play-btn" aria-label="Play video">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4.5L19.5 12L6 19.5V4.5Z" fill="currentColor"/></svg>
@@ -403,7 +417,9 @@
       var lastFsVideo = null;
       document.addEventListener('fullscreenchange', function () {
         var el = document.fullscreenElement;
-        if (el && el.tagName === 'VIDEO' && el.classList.contains('iphone-video')) {
+        if (el && el.classList && el.classList.contains('iphone-fs-shell')) {
+          lastFsVideo = el.querySelector('.iphone-video');
+        } else if (el && el.tagName === 'VIDEO' && el.classList.contains('iphone-video')) {
           lastFsVideo = el;
         } else if (!el && lastFsVideo) {
           restoreAfterFullscreen(lastFsVideo);
@@ -425,12 +441,19 @@
           if (poster) poster.classList.add('is-hidden');
           var video = screen.querySelector('.iphone-video');
           if (!video) return;
+          var shell = screen.querySelector('.iphone-fs-shell');
           var src = video.querySelector('source') ? video.querySelector('source').getAttribute('src') : video.getAttribute('src');
           if (!src) return;
 
           if (video.webkitEnterFullscreen) {
             video.webkitEnterFullscreen();
             video.play().catch(function () {});
+          } else if (shell && shell.requestFullscreen) {
+            shell.requestFullscreen().then(function () {
+              video.play().catch(function () {});
+            }).catch(function () {
+              video.play().catch(function () {});
+            });
           } else if (video.requestFullscreen) {
             video.requestFullscreen().then(function () {
               video.play().catch(function () {});
