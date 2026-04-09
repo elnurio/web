@@ -395,6 +395,20 @@ img:not(.iphone-poster) {
 }
 
 /*
+ * Desktop Fullscreen API: full visible frame (portrait video on 16:9 — letterbox sides,
+ * no crop). Mockup slot above still uses object-fit: cover.
+ */
+.iphone-video:fullscreen,
+.iphone-video:-webkit-full-screen,
+.iphone-video:-moz-full-screen {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  background: #000;
+}
+
+/*
  * Poster as <img> (not video poster=): WebKit often letterboxes native video posters.
  * Excluded from global `img { max-width; height:auto }` so cover can fill the screen.
  */
