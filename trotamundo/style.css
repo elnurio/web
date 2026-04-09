@@ -959,6 +959,21 @@ img:not(.iphone-poster) {
   }
 }
 
+/* Wider copy — desktop only (narrow layouts use rules in max-width blocks above) */
+@media (min-width: 901px) {
+  .artist-block--multi .artist-text {
+    max-width: min(56ch, 92vw);
+  }
+
+  .iphone-landscape-wrap > .ls-wrap-quote.artist-desc--accent {
+    max-width: min(56rem, 96vw);
+  }
+
+  .artist-block--three-ls .artist-ls-bottom .artist-ls-caption {
+    max-width: min(52ch, 92vw);
+  }
+}
+
 /* Touch: no hover — keep play control visible and tappable */
 @media (hover: none) and (pointer: coarse) {
   .iphone-overlay {
