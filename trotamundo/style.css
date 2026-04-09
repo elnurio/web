@@ -163,21 +163,23 @@ img {
 }
 
 /* Stage reserves the correct visual space for the rotated phone.
-   Portrait: W=110px, H≈239.5px → Landscape visual: 239.5px wide × 110px tall (½ previous) */
+   Portrait: W, H = W*19.6/9 → Landscape visual: H wide × W tall */
 .iphone-ls-stage {
+  --phone-w: min(110px, 13vw);
   position: relative;
   z-index: 1;
-  width: min(239.5px, 28vw);
-  height: min(110px, 13vw);
+  width: calc(var(--phone-w) * 19.6 / 9);
+  height: var(--phone-w);
   margin-block: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
-.iphone--landscape {
+.iphone.iphone--landscape {
   flex: none;
-  width: min(110px, 13vw);
+  width: var(--phone-w);
   transform: rotate(90deg);
   will-change: transform;
   transform-style: preserve-3d;
@@ -569,23 +571,21 @@ img {
   }
 
   .iphone-trio {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    align-items: flex-end;
     padding-right: 0;
-    gap: 22px;
-    margin-inline: auto;
-    width: fit-content;
-    max-width: 100%;
+    gap: 10px;
+    width: 100%;
     box-sizing: border-box;
   }
 
   .iphone-trio .iphone {
-    flex: none;
-    width: min(220px, min(68vw, calc(100vw - 32px)));
+    flex: 1;
+    min-width: 0;
   }
 
   .iphone-trio .iphone:nth-child(2) {
-    transform: none;
+    transform: translateY(-8px);
   }
 
   .artist-block--three-ls {
@@ -739,9 +739,7 @@ img {
     --ls-vmax: min(80vw, 176px, calc(100vw - 28px));
   }
 
-  .iphone-trio .iphone {
-    width: min(200px, min(78vw, calc(100vw - 28px)));
-  }
+  /* trio phones: flex:1 from 900px breakpoint scales automatically */
 
   .artist-block--three-ls .artist-ls-bottom {
     gap: 20px;
