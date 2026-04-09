@@ -268,20 +268,17 @@ img {
   margin: 0;
 }
 
-/* Multi-video section (3 iPhones) — slight gap + max measure; lighter than before */
+/* Multi-video section: text above, iPhones below, all centered */
 .artist-block--multi {
-  grid-template-columns: 1.15fr minmax(0, 48ch);
-  column-gap: clamp(20px, 3vw, 40px);
-  align-items: center;
-}
-
-.artist-block--multi .iphone-trio {
-  padding-right: 32px;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 40px;
 }
 
 .artist-block--multi .artist-text {
-  padding-left: 18px;
-  max-width: 100%;
+  text-align: center;
+  max-width: 52ch;
+  padding: 0;
 }
 
 /* ─── iPhone trio ─────────────────────────────────────── */
