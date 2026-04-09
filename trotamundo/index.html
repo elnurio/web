@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light">
   <meta name="format-detection" content="telephone=no">
   <title>Trotamundo — Generative Live</title>
-  <link rel="stylesheet" href="style.css?v=28">
+  <link rel="stylesheet" href="style.css?v=29">
   <link rel="stylesheet" href="fs-grid.css">
 </head>
 <body>
@@ -438,6 +438,7 @@
         video.pause();
         try { video.currentTime = 0; } catch (e) {}
         video.removeAttribute('controls');
+        video.removeAttribute('controlsList');
         video.removeAttribute('tabindex');
         shell.appendChild(video);
         layer.classList.remove('is-open');
@@ -455,12 +456,16 @@
         if (!layer || !stage) return;
         if (fsState) closeDesktopFs();
         fsState = { video: video, shell: shell, screen: screen };
-        stage.appendChild(video);
+        /* Black layer first so we never paint one frame of video inside the phone mockup */
         layer.hidden = false;
         layer.setAttribute('aria-hidden', 'false');
         layer.classList.add('is-open');
         document.body.style.overflow = 'hidden';
+        stage.appendChild(video);
         video.setAttribute('controls', '');
+        try {
+          video.setAttribute('controlsList', 'nofullscreen');
+        } catch (err) {}
         try {
           video.setAttribute('tabindex', '-1');
           video.focus();
@@ -494,7 +499,6 @@
           var screen = overlay.closest('.iphone-screen');
           if (!screen) return;
           var poster = screen.querySelector('.iphone-poster');
-          if (poster) poster.classList.add('is-hidden');
           var video = screen.querySelector('.iphone-video');
           if (!video) return;
           var shell = screen.querySelector('.iphone-fs-shell');
@@ -502,9 +506,11 @@
           if (!src || !shell) return;
 
           if (useIosNativeVideoFs(video)) {
+            if (poster) poster.classList.add('is-hidden');
             video.webkitEnterFullscreen();
             video.play().catch(function () {});
           } else {
+            /* Desktop: keep poster on the mockup; video only exists in the overlay */
             openDesktopFs(video, shell, screen);
           }
         });
