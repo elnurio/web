@@ -380,20 +380,6 @@
   </script>
 
   <script>
-    // ─── First-frame preview + native fullscreen play ─────
-    document.querySelectorAll('.iphone-video').forEach(function (v) {
-      var src = v.querySelector('source') ? v.querySelector('source').getAttribute('src') : v.getAttribute('src');
-      if (!src) return;
-      v.preload = 'auto';
-      function seekFirst() {
-        try { v.currentTime = 0.1; } catch(e){}
-      }
-      // Try on metadata, then again on canplay (more data available)
-      v.addEventListener('loadedmetadata', seekFirst, { once: true });
-      v.addEventListener('canplay', seekFirst, { once: true });
-      if (v.readyState >= 3) { seekFirst(); }
-    });
-
     // ─── Play button → native device fullscreen ───────────
     document.querySelectorAll('.iphone-overlay').forEach(function (overlay) {
       overlay.addEventListener('click', function () {
