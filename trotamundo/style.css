@@ -676,6 +676,45 @@ img {
 
   .artist-block--multi {
     gap: 28px;
+    /* Remove side padding — trio breaks edge-to-edge */
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Give artist text its own padding */
+  .artist-block--multi .artist-text {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+
+  /* ─── iPhone trio → horizontal swipe slider ─── */
+  .iphone-trio {
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Side padding so first/last phone centers */
+    padding-left: 14vw;
+    padding-right: 14vw;
+    padding-top: 20px;
+    padding-bottom: 24px;
+    box-sizing: content-box;
+    gap: 14px;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100vw;
+  }
+  .iphone-trio::-webkit-scrollbar { display: none; }
+
+  .iphone-trio .iphone {
+    flex: none;
+    width: 72vw;
+    scroll-snap-align: center;
+  }
+
+  /* No vertical offset on mobile slider */
+  .iphone-trio .iphone:nth-child(2) {
+    transform: none;
   }
 
   .artist-block--three-ls {
