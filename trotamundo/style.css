@@ -674,10 +674,13 @@ img {
     padding-right: 0;
   }
 
-  /* Give artist text its own padding */
+  /* Give artist text its own padding + constrain width */
   .artist-block--multi .artist-text {
     padding-left: max(16px, env(safe-area-inset-left));
     padding-right: max(16px, env(safe-area-inset-right));
+    max-width: 26ch;
+    font-size: 22px;
+    line-height: 1.5;
   }
 
   /* ─── iPhone trio → horizontal swipe slider ─── */
