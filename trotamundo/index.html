@@ -51,7 +51,7 @@
               </div>
               <img class="iphone-poster" src="assets/cover/poster-1.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
               <div class="iphone-fs-shell">
-              <video class="iphone-video" loop playsinline preload="metadata">
+              <video class="iphone-video" loop playsinline preload="metadata" disablepictureinpicture controlslist="nodownload nofullscreen noplaybackrate noremoteplayback">
                 <source src="assets/IMG_5181.mp4" type="video/mp4">
               </video>
               </div>
@@ -81,7 +81,7 @@
               </div>
               <img class="iphone-poster" src="assets/cover/poster-2.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
               <div class="iphone-fs-shell">
-              <video class="iphone-video" loop playsinline preload="metadata">
+              <video class="iphone-video" loop playsinline preload="metadata" disablepictureinpicture controlslist="nodownload nofullscreen noplaybackrate noremoteplayback">
                 <source src="assets/JNLTE1245.mp4" type="video/mp4">
               </video>
               </div>
@@ -111,7 +111,7 @@
               </div>
               <img class="iphone-poster" src="assets/cover/poster-3.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
               <div class="iphone-fs-shell">
-              <video class="iphone-video" loop playsinline preload="metadata">
+              <video class="iphone-video" loop playsinline preload="metadata" disablepictureinpicture controlslist="nodownload nofullscreen noplaybackrate noremoteplayback">
                 <source src="assets/IMG_5180.mp4" type="video/mp4">
               </video>
               </div>
@@ -140,7 +140,7 @@
             <div class="iphone-island"></div>
             <img class="iphone-poster" src="assets/cover/poster-4.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
             <div class="iphone-fs-shell">
-            <video class="iphone-video" loop playsinline preload="metadata">
+            <video class="iphone-video" loop playsinline preload="metadata" disablepictureinpicture controlslist="nodownload nofullscreen noplaybackrate noremoteplayback">
               <source src="assets/SDFB4453.mp4" type="video/mp4">
             </video>
             </div>
@@ -172,7 +172,7 @@
                 <div class="iphone-island"></div>
                 <img class="iphone-poster" src="assets/cover/poster-5.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
                 <div class="iphone-fs-shell">
-                <video class="iphone-video" loop playsinline preload="metadata">
+                <video class="iphone-video" loop playsinline preload="metadata" disablepictureinpicture controlslist="nodownload nofullscreen noplaybackrate noremoteplayback">
                   <source src="assets/IMG_5192.mp4" type="video/mp4">
                 </video>
                 </div>
@@ -199,7 +199,7 @@
                 <div class="iphone-island"></div>
                 <img class="iphone-poster" src="assets/cover/poster-6.webp" alt="" aria-hidden="true" decoding="async">
                 <div class="iphone-fs-shell">
-                <video class="iphone-video" loop playsinline preload="metadata">
+                <video class="iphone-video" loop playsinline preload="metadata" disablepictureinpicture controlslist="nodownload nofullscreen noplaybackrate noremoteplayback">
                   <source src="assets/EWCD7760.mp4" type="video/mp4">
                 </video>
                 </div>
@@ -223,7 +223,7 @@
                 <div class="iphone-island"></div>
                 <img class="iphone-poster" src="assets/cover/poster-7.webp" alt="" aria-hidden="true" decoding="async">
                 <div class="iphone-fs-shell">
-                <video class="iphone-video" loop playsinline preload="metadata">
+                <video class="iphone-video" loop playsinline preload="metadata" disablepictureinpicture controlslist="nodownload nofullscreen noplaybackrate noremoteplayback">
                   <source src="assets/IMG_5189.mp4" type="video/mp4">
                 </video>
                 </div>
@@ -438,7 +438,6 @@
         video.pause();
         try { video.currentTime = 0; } catch (e) {}
         video.removeAttribute('controls');
-        video.removeAttribute('controlsList');
         video.removeAttribute('tabindex');
         shell.appendChild(video);
         layer.classList.remove('is-open');
@@ -463,9 +462,6 @@
         document.body.style.overflow = 'hidden';
         stage.appendChild(video);
         video.setAttribute('controls', '');
-        try {
-          video.setAttribute('controlsList', 'nofullscreen');
-        } catch (err) {}
         try {
           video.setAttribute('tabindex', '-1');
           video.focus();
