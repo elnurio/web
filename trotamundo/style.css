@@ -165,7 +165,7 @@ img {
 /* Stage reserves the correct visual space for the rotated phone.
    Portrait: W, H = W*19.6/9 → Landscape visual: H wide × W tall */
 .iphone-ls-stage {
-  --phone-w: min(110px, 13vw);
+  --phone-w: min(220px, 28vw);
   position: relative;
   z-index: 1;
   width: calc(var(--phone-w) * 19.6 / 9);
