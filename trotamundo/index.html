@@ -129,7 +129,8 @@
           <div class="iphone-btn power"></div>
           <div class="iphone-screen">
             <div class="iphone-island"></div>
-            <video class="iphone-video" loop playsinline preload="metadata" poster="assets/poster-ls.jpg">
+            <img class="iphone-poster" src="assets/cover/poster-4.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
+            <video class="iphone-video" loop playsinline preload="metadata">
               <source src="assets/SDFB4453.mp4" type="video/mp4">
             </video>
             <div class="iphone-overlay">
@@ -385,8 +386,21 @@
       var src = v.querySelector('source') ? v.querySelector('source').getAttribute('src') : v.getAttribute('src');
       if (!src) return;
       v.preload = 'auto';
+      var screen = v.closest('.iphone-screen');
+      function markFrameReady() {
+        if (screen && screen.querySelector('.iphone-poster')) screen.classList.add('is-frame-ready');
+      }
       function seekFirst() {
         try { v.currentTime = 0.1; } catch(e){}
+      }
+      if (screen && screen.querySelector('.iphone-poster')) {
+        v.addEventListener('play', markFrameReady);
+        v.addEventListener('seeked', function () {
+          if (v.currentTime > 0) markFrameReady();
+        });
+        v.addEventListener('loadeddata', function () {
+          if (v.readyState >= 2 && v.currentTime > 0) markFrameReady();
+        });
       }
       // Try on metadata, then again on canplay (more data available)
       v.addEventListener('loadedmetadata', seekFirst, { once: true });
