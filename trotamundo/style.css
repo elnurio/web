@@ -1,16 +1,6 @@
 /* ─── Reset ─────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap');
-
-@font-face {
-  font-family: "FuturaCustom";
-  src: url("../urartu/descriptionfont/Futura Book font.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* ─── Base ───────────────────────────────────────────── */
 :root {
   --sky: #8ecde8;
@@ -18,8 +8,8 @@
   --text: #0f1d35;
   --muted: rgba(15, 29, 53, 0.62);
   --font-logo: 'Arial Black', 'Impact', sans-serif;
+  /* 300 = Helvetica Neue Light on Apple; Arial/CSS synthetic light elsewhere */
   --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-futura: "FuturaCustom", "Helvetica Neue", Arial, sans-serif;
 }
 
 html {
@@ -32,6 +22,7 @@ body {
   background: var(--sky);
   color: var(--text);
   font-family: var(--font-body);
+  font-weight: 300;
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
@@ -512,9 +503,9 @@ img:not(.iphone-poster) {
 .artist-block--flip .artist-text { padding-left: 0; padding-right: 16px; }
 
 .artist-name {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--font-body);
   font-size: clamp(14px, 2vw, 28px);
-  font-weight: 500;
+  font-weight: 300;
   letter-spacing: 0.04em;
   text-transform: none;
   color: var(--text);
@@ -522,7 +513,8 @@ img:not(.iphone-poster) {
   line-height: 1.0;
 }
 .artist-desc {
-  font-family: var(--font-futura);
+  font-family: var(--font-body);
+  font-weight: 300;
   font-size: 16px;
   line-height: 1.8;
   color: var(--text);
@@ -532,6 +524,7 @@ img:not(.iphone-poster) {
 
 .artist-desc--accent {
   font-family: var(--font-body);
+  font-weight: 300;
   font-style: italic;
   font-size: 15px;
   color: var(--muted);
