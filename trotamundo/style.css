@@ -7,10 +7,11 @@
   --color-black: #000000;
   --color-white: #ffffff;
   --yellow-stroke: #2a1d00;
-  --text: #0f1d35;
-  --muted: rgba(15, 29, 53, 0.62);
+  /* Body copy — gray (not near-black) on sky background */
+  --text: #4d5863;
+  --muted: rgba(77, 88, 99, 0.72);
   --font-logo: 'Arial Black', 'Impact', sans-serif;
-  /* 300 = Helvetica Neue Light on Apple; Arial/CSS synthetic light elsewhere */
+  /* 400 = Helvetica Neue / Arial Regular */
   --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -24,7 +25,7 @@ body {
   background: var(--sky);
   color: var(--text);
   font-family: var(--font-body);
-  font-weight: 300;
+  font-weight: 400;
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
@@ -495,7 +496,7 @@ img:not(.iphone-poster) {
   background: transparent;
   color: var(--color-white);
   font-size: 1.75rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1;
   cursor: pointer;
   touch-action: manipulation;
@@ -572,7 +573,7 @@ img:not(.iphone-poster) {
   border-radius: 50%;
   border: none;
   background: rgba(255 255 255 / 0.92);
-  color: #111;
+  color: var(--text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -634,7 +635,7 @@ img:not(.iphone-poster) {
 .artist-name {
   font-family: var(--font-body);
   font-size: clamp(14px, 2vw, 28px);
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: none;
   color: var(--text);
@@ -643,7 +644,7 @@ img:not(.iphone-poster) {
 }
 .artist-desc {
   font-family: var(--font-body);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 16px;
   line-height: 1.8;
   color: var(--text);
@@ -653,7 +654,7 @@ img:not(.iphone-poster) {
 
 .artist-desc--accent {
   font-family: var(--font-body);
-  font-weight: 300;
+  font-weight: 400;
   font-style: italic;
   font-size: 15px;
   color: var(--muted);
