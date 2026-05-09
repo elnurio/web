@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rigpa — Паутина Знаний</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <div id="graph-container"></div>
+
+    <!-- Thinking overlay -->
+    <div id="thinking-overlay">
+      <div id="thinking-dot"></div>
+      <div id="thinking-words"></div>
+    </div>
+
+    <!-- Detail panel (slides in from right) -->
+    <div id="detail-panel">
+      <button id="close-detail">← паутина</button>
+      <div id="detail-inner">
+        <h1 id="detail-title"></h1>
+        <div id="detail-images"></div>
+        <p id="detail-text"></p>
+        <div id="detail-related">
+          <span class="related-label">Связано с</span>
+          <div id="related-chips"></div>
+        </div>
+      </div>
+      <div id="detail-question">
+        <input type="text" id="detail-input" placeholder="Спроси дальше...">
+        <button id="detail-ask">→</button>
+      </div>
+    </div>
+
+    <!-- Main question bar -->
+    <div id="question-bar">
+      <div id="journey-crumbs"></div>
+      <div id="input-row">
+        <input type="text" id="main-input" placeholder="Задай вопрос паутине знаний..." autocomplete="off">
+        <button id="main-ask">→</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="js/mock.js"></script>
+  <script src="js/graph.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
