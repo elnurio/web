@@ -56,10 +56,10 @@ const Graph = (() => {
       .text(d => d.label);
 
     simulation = d3.forceSimulation(nodes)
-      .force('link', d3.forceLink(links).id(d => d.id).distance(140).strength(0.4))
-      .force('charge', d3.forceManyBody().strength(-520))
+      .force('link', d3.forceLink(links).id(d => d.id).distance(160).strength(0.35))
+      .force('charge', d3.forceManyBody().strength(-900))
       .force('center', d3.forceCenter(W() / 2, H() / 2))
-      .force('collide', d3.forceCollide(d => d.weight * 13))
+      .force('collide', d3.forceCollide(d => d.weight * 14))
       .on('tick', () => {
         linkSel
           .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
