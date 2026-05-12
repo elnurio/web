@@ -185,7 +185,63 @@ const Graph = (() => {
     });
   }
 
+  // Called when Claude returns new nodes from a PDF response
+  function addNodes(newNodes, newLinks) {
+    const nodeG = g.select('.nodes');
+    const linkG = g.select('.links');
+
+    newNodes.forEach(n => {
+      nodeById[n.id] = n;
+      n.x = W() / 2 + (Math.random() - 0.5) * 200;
+      n.y = H() / 2 + (Math.random() - 0.5) * 200;
+    });
+
+    // Add new link elements
+    const allLinks = KNOWLEDGE_GRAPH.links;
+    linkG.selectAll('line').data(allLinks).join('line').attr('class', 'link');
+
+    // Add new node groups
+    const allNodes = KNOWLEDGE_GRAPH.nodes;
+    const nodeSel = nodeG.selectAll('g').data(allNodes, d => d.id).join(
+      enter => {
+        const grp = enter.append('g').attr('class', 'node-g').style('cursor', 'pointer')
+          .attr('opacity', 0)
+          .call(d3.drag()
+            .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+            .on('drag',  (e, d) => { d.fx = e.x; d.fy = e.y; })
+            .on('end',   (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
+          )
+          .on('click', (e, d) => { e.stopPropagation(); if (clickCb) clickCb(d); });
+
+        grp.append('circle').attr('class', 'node-aura')
+          .attr('r', d => d.weight * 9).attr('fill', d => d.color)
+          .attr('opacity', 0.12).attr('filter', 'url(#glow)');
+        grp.append('circle').attr('class', 'node-core')
+          .attr('r', d => d.weight * 4).attr('fill', d => d.color)
+          .attr('opacity', 0.92).attr('filter', 'url(#glow)');
+        grp.append('text').attr('class', 'node-label')
+          .attr('dy', d => d.weight * 4 + 15).text(d => d.label);
+
+        grp.transition().duration(600).attr('opacity', 1);
+        return grp;
+      },
+      update => update,
+      exit => exit.remove()
+    );
+
+    simulation.nodes(allNodes);
+    simulation.force('link').links(allLinks);
+    simulation.alpha(0.4).restart();
+
+    simulation.on('tick', () => {
+      linkG.selectAll('line')
+        .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+      nodeG.selectAll('g').attr('transform', d => `translate(${d.x},${d.y})`);
+    });
+  }
+
   function onNodeClick(cb) { clickCb = cb; }
 
-  return { init, highlightNode, pulseNode, focusNode, resetAll, resetZoom, animateTrail, onNodeClick };
+  return { init, highlightNode, pulseNode, focusNode, resetAll, resetZoom, animateTrail, onNodeClick, addNodes };
 })();
