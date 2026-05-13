@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rigpa — Паутина Знаний</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <div id="graph-container"></div>
+
+    <!-- Thinking overlay -->
+    <div id="thinking-overlay">
+      <div id="thinking-dot"></div>
+      <div id="thinking-words"></div>
+    </div>
+
+    <!-- Upload panel (top-left) -->
+    <div id="upload-panel">
+      <button id="upload-toggle" title="Загрузить книги PDF">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="12" y1="18" x2="12" y2="12"/>
+          <line x1="9" y1="15" x2="15" y2="15"/>
+        </svg>
+        <span id="upload-label">Книги</span>
+      </button>
+
+      <div id="upload-drawer">
+        <div id="upload-status"></div>
+        <div id="books-list"></div>
+        <label id="drop-zone">
+          <input type="file" id="file-input" accept=".pdf" multiple hidden>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <span>Перетащи PDF или нажми</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Detail panel (slides in from right) -->
+    <div id="detail-panel">
+      <button id="close-detail">← паутина</button>
+      <div id="detail-inner">
+        <h1 id="detail-title"></h1>
+        <div id="detail-images"></div>
+        <p id="detail-text"></p>
+        <div id="detail-related">
+          <span class="related-label">Связано с</span>
+          <div id="related-chips"></div>
+        </div>
+      </div>
+      <div id="detail-question">
+        <input type="text" id="detail-input" placeholder="Спроси дальше...">
+        <button id="detail-ask">→</button>
+      </div>
+    </div>
+
+    <!-- Main question bar -->
+    <div id="question-bar">
+      <div id="journey-crumbs"></div>
+      <div id="input-row">
+        <input type="text" id="main-input" placeholder="Задай вопрос паутине знаний..." autocomplete="off">
+        <button id="main-ask">→</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="js/mock.js"></script>
+  <script src="js/graph.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
