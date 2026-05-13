@@ -120,7 +120,7 @@ ${existingNodes.map(n => `- id: "${n.id}", label: "${n.label}"`).join('\n')}
 
   try {
     const response = await client.messages.create({
-      model: 'claude-sonnet-4-6',
+      model: 'claude-sonnet-4-5',  // FIXED: was 'claude-sonnet-4-6' (doesn't exist)
       max_tokens: 1500,
       system: systemPrompt,
       messages: [
@@ -128,7 +128,7 @@ ${existingNodes.map(n => `- id: "${n.id}", label: "${n.label}"`).join('\n')}
           role: 'user',
           content: [
             ...docBlocks,
-            { type: 'text', text: question }
+            { type: 'text', text: question.trim() || ' ' }  // FIXED: guard against empty string
           ]
         }
       ]
