@@ -24,7 +24,6 @@ const Graph = (() => {
       .on('zoom', e => g.attr('transform', e.transform));
     svg.call(zoomBeh).on('dblclick.zoom', null);
 
-    // Click on empty space closes detail
     svg.on('click', () => App && App.closeDetail && App.closeDetail());
 
     const linkG = g.append('g').attr('class', 'links');
@@ -40,21 +39,13 @@ const Graph = (() => {
       )
       .on('click', (e, d) => { e.stopPropagation(); if (clickCb) clickCb(d); });
 
-    nodeSel.append('circle').attr('class', 'node-aura')
-      .attr('r', d => d.weight * 9)
-      .attr('fill', d => d.color)
-      .attr('opacity', 0.22)
-      .attr('filter', 'url(#glow)');
+    // Standard nodes
+    nodeSel.filter(d => d.id !== 'dzogchen')
+      .call(appendStandardNode);
 
-    nodeSel.append('circle').attr('class', 'node-core')
-      .attr('r', d => d.weight * 4)
-      .attr('fill', d => d.color)
-      .attr('opacity', 0.95)
-      .attr('filter', 'url(#shadow)');
-
-    nodeSel.append('text').attr('class', 'node-label')
-      .attr('dy', d => d.weight * 4 + 15)
-      .text(d => d.label);
+    // Special Dzogchen icon
+    nodeSel.filter(d => d.id === 'dzogchen')
+      .call(appendDzogchenIcon);
 
     simulation = d3.forceSimulation(nodes)
       .alphaDecay(0.03)
@@ -70,7 +61,6 @@ const Graph = (() => {
         nodeSel.attr('transform', d => `translate(${d.x},${d.y})`);
       });
 
-    // Fade nodes in as simulation settles
     nodeSel.attr('opacity', 0)
       .transition().delay((_, i) => i * 30).duration(600)
       .attr('opacity', 1);
@@ -78,6 +68,52 @@ const Graph = (() => {
     window.addEventListener('resize', () => {
       simulation.force('center', d3.forceCenter(W() / 2, H() / 2)).alpha(0.1).restart();
     });
+  }
+
+  function appendStandardNode(sel) {
+    sel.append('circle').attr('class', 'node-aura')
+      .attr('r', d => d.weight * 9)
+      .attr('fill', d => d.color)
+      .attr('opacity', 0.22)
+      .attr('filter', 'url(#glow)');
+    sel.append('circle').attr('class', 'node-core')
+      .attr('r', d => d.weight * 4)
+      .attr('fill', d => d.color)
+      .attr('opacity', 0.95)
+      .attr('filter', 'url(#shadow)');
+    sel.append('text').attr('class', 'node-label')
+      .attr('dy', d => d.weight * 4 + 15)
+      .text(d => d.label);
+  }
+
+  function appendDzogchenIcon(sel) {
+    const icon = sel.append('g').attr('class', 'dzogchen-icon')
+      .attr('filter', 'url(#shadow)');
+
+    // Five-color rings (outer → inner): blue, yellow, red, green, blue
+    icon.append('circle').attr('r', 52).attr('fill', '#2244cc');
+    icon.append('circle').attr('r', 43).attr('fill', '#f5c800');
+    icon.append('circle').attr('r', 35).attr('fill', '#cc2020');
+    icon.append('circle').attr('r', 27).attr('fill', '#228033');
+    icon.append('circle').attr('r', 21).attr('fill', '#2244cc');
+
+    // Tibetan "A" syllable — primordial syllable of Dzogchen
+    icon.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dominant-baseline', 'central')
+      .attr('dy', '0.05em')
+      .attr('font-size', '28px')
+      .attr('fill', 'white')
+      .attr('font-family', 'serif, "Noto Serif Tibetan", Georgia')
+      .attr('font-weight', 'bold')
+      .text('ཨ');
+
+    // Label below
+    sel.append('text').attr('class', 'node-label')
+      .attr('dy', 70)
+      .attr('font-size', '13px')
+      .attr('font-weight', '700')
+      .text(d => d.label);
   }
 
   function mkGlow(defs, id, blur, spread) {
@@ -94,21 +130,34 @@ const Graph = (() => {
       .attr('x', '-40%').attr('y', '-40%').attr('width', '180%').attr('height', '180%');
     f.append('feDropShadow')
       .attr('dx', 0).attr('dy', 2)
-      .attr('stdDeviation', 4)
-      .attr('flood-color', 'rgba(0,0,0,0.25)');
+      .attr('stdDeviation', 5)
+      .attr('flood-color', 'rgba(0,0,0,0.3)');
   }
 
   function highlightNode(id) {
     d3.selectAll('.node-g').each(function(d) {
       const s = d3.select(this);
       const on = d.id === id;
-      s.select('.node-core').attr('opacity', on ? 1 : 0.18).attr('filter', on ? 'url(#glow-strong)' : 'url(#glow)');
-      s.select('.node-aura').attr('opacity', on ? 0.45 : 0.03);
-      s.select('.node-label').attr('opacity', on ? 1 : 0.18);
+      if (d.id === 'dzogchen') {
+        s.select('.dzogchen-icon').attr('opacity', on ? 1 : 0.25);
+        s.select('.node-label').attr('opacity', on ? 1 : 0.25);
+      } else {
+        s.select('.node-core').attr('opacity', on ? 1 : 0.18).attr('filter', on ? 'url(#glow-strong)' : 'url(#shadow)');
+        s.select('.node-aura').attr('opacity', on ? 0.45 : 0.03);
+        s.select('.node-label').attr('opacity', on ? 1 : 0.18);
+      }
     });
   }
 
   function pulseNode(id) {
+    if (id === 'dzogchen') {
+      const icon = d3.selectAll('.node-g').filter(d => d.id === 'dzogchen').select('.dzogchen-icon');
+      icon.transition().duration(180).attr('transform', 'scale(1.2)')
+        .transition().duration(180).attr('transform', 'scale(0.95)')
+        .transition().duration(120).attr('transform', 'scale(1.1)')
+        .transition().duration(120).attr('transform', 'scale(1)');
+      return;
+    }
     const core = d3.selectAll('.node-g').filter(d => d.id === id).select('.node-core');
     const r = +core.attr('r');
     core
@@ -131,11 +180,16 @@ const Graph = (() => {
   }
 
   function resetAll() {
-    d3.selectAll('.node-g').each(function() {
+    d3.selectAll('.node-g').each(function(d) {
       const s = d3.select(this);
-      s.select('.node-core').attr('opacity', 0.92).attr('filter', 'url(#glow)');
-      s.select('.node-aura').attr('opacity', 0.12);
-      s.select('.node-label').attr('opacity', 1);
+      if (d.id === 'dzogchen') {
+        s.select('.dzogchen-icon').attr('opacity', 1);
+        s.select('.node-label').attr('opacity', 1);
+      } else {
+        s.select('.node-core').attr('opacity', 0.92).attr('filter', 'url(#shadow)');
+        s.select('.node-aura').attr('opacity', 0.22);
+        s.select('.node-label').attr('opacity', 1);
+      }
     });
     d3.selectAll('.link').classed('lit', false);
   }
@@ -148,7 +202,6 @@ const Graph = (() => {
     const pts = trailIds.map(id => nodeById[id]).filter(n => n && n.x != null);
     if (pts.length < 2) return Promise.resolve();
 
-    // Light up edges along the trail
     d3.selectAll('.link').classed('lit', d => {
       for (let i = 0; i < pts.length - 1; i++) {
         const a = pts[i].id, b = pts[i + 1].id;
@@ -177,7 +230,6 @@ const Graph = (() => {
       arc.transition().duration(750).ease(d3.easeLinear)
         .attr('stroke-dashoffset', 0)
         .on('end', () => {
-          // Glowing dot travels along the arc
           const dot = g.append('circle')
             .attr('r', 5).attr('fill', 'white').attr('opacity', 1)
             .attr('filter', 'url(#glow-strong)');
@@ -197,7 +249,6 @@ const Graph = (() => {
     });
   }
 
-  // Called when Claude returns new nodes from a PDF response
   function addNodes(newNodes, newLinks) {
     const nodeG = g.select('.nodes');
     const linkG = g.select('.links');
@@ -208,11 +259,9 @@ const Graph = (() => {
       n.y = H() / 2 + (Math.random() - 0.5) * 200;
     });
 
-    // Add new link elements
     const allLinks = KNOWLEDGE_GRAPH.links;
     linkG.selectAll('line').data(allLinks).join('line').attr('class', 'link');
 
-    // Add new node groups
     const allNodes = KNOWLEDGE_GRAPH.nodes;
     const nodeSel = nodeG.selectAll('g').data(allNodes, d => d.id).join(
       enter => {
@@ -225,15 +274,7 @@ const Graph = (() => {
           )
           .on('click', (e, d) => { e.stopPropagation(); if (clickCb) clickCb(d); });
 
-        grp.append('circle').attr('class', 'node-aura')
-          .attr('r', d => d.weight * 9).attr('fill', d => d.color)
-          .attr('opacity', 0.12).attr('filter', 'url(#glow)');
-        grp.append('circle').attr('class', 'node-core')
-          .attr('r', d => d.weight * 4).attr('fill', d => d.color)
-          .attr('opacity', 0.92).attr('filter', 'url(#glow)');
-        grp.append('text').attr('class', 'node-label')
-          .attr('dy', d => d.weight * 4 + 15).text(d => d.label);
-
+        grp.call(appendStandardNode);
         grp.transition().duration(600).attr('opacity', 1);
         return grp;
       },
