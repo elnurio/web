@@ -8,7 +8,7 @@ const App = (() => {
   let knowledgeBase = {};
 
   // Tracking which nodes are visible and explored
-  const visibleNodeIds = new Set(['rigpa']);
+  const visibleNodeIds = new Set(['dzogchen']);
   const exploredNodeIds = new Set();
   const addedLinkKeys = new Set();
 

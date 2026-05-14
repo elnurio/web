@@ -737,10 +737,10 @@ const ALL_GRAPH_DATA = (() => {
   return { nodeById, links };
 })();
 
-// ── Начальный граф — только Ригпа ─────────────────────────────────────────────
+// ── Начальный граф — только Дзогчен ───────────────────────────────────────────
 const KNOWLEDGE_GRAPH = (() => {
-  const { relatedTo, ...rigpa } = ALL_GRAPH_DATA.nodeById['rigpa'];
-  return { nodes: [rigpa], links: [] };
+  const { relatedTo, ...dzogchen } = ALL_GRAPH_DATA.nodeById['dzogchen'];
+  return { nodes: [dzogchen], links: [] };
 })();
 
 // ── Mock ответы ──────────────────────────────────────────────────────────────
