@@ -5,6 +5,7 @@ const App = (() => {
   let thinkTimer = null;
   let busy = false;
   let apiMode = false; // switches to true when server is reachable + has key
+  let knowledgeBase = {}; // loaded from dzogchen-knowledge-base.json
 
   // ── Init ──────────────────────────────────────────────────────────────────────────
   function init() {
@@ -19,6 +20,14 @@ const App = (() => {
 
     initUploadPanel();
     checkServerHealth();
+    loadKnowledgeBase();
+  }
+
+  function loadKnowledgeBase() {
+    fetch('dzogchen-knowledge-base.json')
+      .then(r => r.json())
+      .then(data => { data.nodes.forEach(n => { knowledgeBase[n.id] = n; }); })
+      .catch(() => {});
   }
 
   function on(id, ev, fn) {
@@ -248,9 +257,9 @@ const App = (() => {
     if (busy) return;
 
     const mockResp = MOCK_RESPONSES.find(r => r.targetNode === node.id);
+    const kb = knowledgeBase[node.id];
 
-    // Build related nodes from graph links for nodes without a mock response
-    const related = KNOWLEDGE_GRAPH.links
+    const graphRelated = KNOWLEDGE_GRAPH.links
       .filter(l => {
         const s = typeof l.source === 'object' ? l.source.id : l.source;
         const t = typeof l.target === 'object' ? l.target.id : l.target;
@@ -260,16 +269,18 @@ const App = (() => {
         const s = typeof l.source === 'object' ? l.source.id : l.source;
         const t = typeof l.target === 'object' ? l.target.id : l.target;
         return s === node.id ? t : s;
-      })
+      });
+
+    const related = (kb?.relatedTo || graphRelated)
+      .filter(id => KNOWLEDGE_GRAPH.nodes.find(n => n.id === id))
       .slice(0, 6);
 
-    const resp = mockResp || {
-      title: node.label,
-      content: `${node.label} — концепция учений Дзогчен. Задай вопрос в строке ниже, чтобы раскрыть эту тему глубже.`,
-      images: [],
-      relatedNodes: related,
-      thinking: []
-    };
+    const subtitle = kb ? [kb.tibetan, kb.sanskrit].filter(Boolean).join(' · ') : '';
+    const content = kb?.description
+      || `${node.label} — концепция учений Дзогчен. Задай вопрос в строке ниже, чтобы раскрыть эту тему глубже.`;
+
+    const resp = mockResp || { title: node.label, subtitle, content, images: [], relatedNodes: related, thinking: [] };
+    if (!mockResp && subtitle) resp.subtitle = subtitle;
 
     Graph.highlightNode(node.id);
     Graph.pulseNode(node.id);
@@ -299,6 +310,7 @@ const App = (() => {
   // ── Detail panel ─────────────────────────────────────────────────────────────────────
   function showDetail(resp) {
     document.getElementById('detail-title').textContent = resp.title || '';
+    document.getElementById('detail-subtitle').textContent = resp.subtitle || '';
     document.getElementById('detail-text').textContent = resp.content || '';
 
     const imgEl = document.getElementById('detail-images');
