@@ -364,18 +364,368 @@ const _NODES_DATA = [
     category: 'master', weight: 3, color: '#ffcc80',
     relatedTo: ['bon','zhang_zhung']
   },
+  {
+    id: 'rtsal', label: 'Тсал — Энергия Ригпы', tibetan: 'rtsal',
+    category: 'core_concept', weight: 4, color: '#ffcc80',
+    relatedTo: ['rigpa', 'gdangs', 'rol_pa', 'gzhi', 'ngo_bo', 'rang_bzhin']
+  },
+  {
+    id: 'gdangs', label: 'Гданг — Сияние Ригпы', tibetan: 'gdangs',
+    category: 'core_concept', weight: 3, color: '#ffb74d',
+    relatedTo: ['rtsal', 'rol_pa', 'rigpa', 'osel', 'togal']
+  },
+  {
+    id: 'rol_pa', label: 'Ролпа — Проявление-Игра Ригпы', tibetan: 'rol pa',
+    category: 'core_concept', weight: 3, color: '#ffe0b2',
+    relatedTo: ['rtsal', 'gdangs', 'rigpa', 'lhundrup', 'rangdrol', 'snang_ba']
+  },
+  {
+    id: 'ngo_bo', label: 'Нго бо — Сущность Ригпы', tibetan: 'ngo bo',
+    category: 'core_concept', weight: 4, color: '#ffcc80',
+    relatedTo: ['rang_bzhin', 'thugje', 'gzhi', 'kadak', 'rigpa']
+  },
+  {
+    id: 'rang_bzhin', label: 'Ранг жин — Природа Ригпы', tibetan: 'rang bzhin',
+    category: 'core_concept', weight: 4, color: '#ffb74d',
+    relatedTo: ['ngo_bo', 'thugje', 'gzhi', 'lhundrup', 'osel', 'rigpa']
+  },
+  {
+    id: 'snang_ba', label: 'Нангва — Явление', tibetan: 'snang ba',
+    category: 'core_concept', weight: 3, color: '#ffe0b2',
+    relatedTo: ['rol_pa', 'four_visions', 'dharmata', 'rigpa', 'togal']
+  },
+  {
+    id: 'klong', label: 'Клонг — Пространство', tibetan: 'klong',
+    category: 'core_concept', weight: 3, color: '#ffcc80',
+    relatedTo: ['longde', 'sky_gazing', 'shunyata', 'dharmadhatu', 'rigpa', 'gzhi']
+  },
+  {
+    id: 'alaya', label: 'Кунжи — Алаявиджняна', tibetan: 'kun gzhi',
+    category: 'core_concept', weight: 3, color: '#ffb74d',
+    relatedTo: ['gzhi', 'ma_rigpa', 'eight_consciousnesses', 'sems', 'rigpa']
+  },
+  {
+    id: 'dharmadhatu', label: 'Дхармадхату — Пространство Явлений', tibetan: 'chos kyi dbyings',
+    category: 'philosophy', weight: 3, color: '#ce93d8',
+    relatedTo: ['shunyata', 'five_wisdoms', 'klong', 'gzhi', 'dharmakaya', 'rigpa']
+  },
+  {
+    id: 'shunyata', label: 'Шуньята — Пустота', tibetan: 'stong pa nyid',
+    category: 'philosophy', weight: 4, color: '#ba68c8',
+    relatedTo: ['dharmadhatu', 'rigpa', 'nonduality', 'mahamudra', 'pratityasamutpada', 'two_truths']
+  },
+  {
+    id: 'mahamudra', label: 'Махамудра — Великий Символ', tibetan: 'phyag rgya chen po',
+    category: 'philosophy', weight: 4, color: '#ce93d8',
+    relatedTo: ['shunyata', 'rigpa', 'nonduality', 'dzogchen', 'pointing_out', 'trekcho']
+  },
+  {
+    id: 'two_truths', label: 'Две Истины', tibetan: 'bden pa gnyis',
+    category: 'philosophy', weight: 3, color: '#ba68c8',
+    relatedTo: ['shunyata', 'pratityasamutpada', 'nonduality', 'rigpa', 'dzogchen']
+  },
+  {
+    id: 'pratityasamutpada', label: 'Взаимозависимое Возникновение', tibetan: 'rten cing 'brel bar 'byung ba',
+    category: 'philosophy', weight: 3, color: '#f48fb1',
+    relatedTo: ['shunyata', 'two_truths', 'karma', 'six_realms', 'nonduality']
+  },
+  {
+    id: 'eight_consciousnesses', label: 'Восемь Сознаний', tibetan: 'rnam shes tshogs brgyad',
+    category: 'philosophy', weight: 3, color: '#ce93d8',
+    relatedTo: ['alaya', 'five_wisdoms', 'sems', 'rigpa', 'gzhi', 'ma_rigpa']
+  },
+  {
+    id: 'bodhicitta', label: 'Бодхичитта', tibetan: 'byang chub kyi sems',
+    category: 'philosophy', weight: 4, color: '#ce93d8',
+    relatedTo: ['bodhisattva', 'rigpa', 'nonduality', 'shunyata', 'thugje', 'six_realms']
+  },
+  {
+    id: 'bodhisattva', label: 'Бодхисаттва', tibetan: 'byang chub sems dpa'',
+    category: 'philosophy', weight: 3, color: '#ba68c8',
+    relatedTo: ['bodhicitta', 'six_realms', 'thugje', 'three_jewels', 'vajrayana', 'nyingma']
+  },
+  {
+    id: 'three_poisons', label: 'Три Яда', tibetan: 'dug gsum',
+    category: 'philosophy', weight: 3, color: '#f48fb1',
+    relatedTo: ['klesha', 'ma_rigpa', 'rangdrol', 'rigpa', 'sems', 'six_realms']
+  },
+  {
+    id: 'klesha', label: 'Клеши — Омрачения', tibetan: 'nyon mongs',
+    category: 'philosophy', weight: 3, color: '#ba68c8',
+    relatedTo: ['three_poisons', 'ma_rigpa', 'karma', 'rangdrol', 'rigpa', 'five_wisdoms']
+  },
+  {
+    id: 'karma', label: 'Карма', tibetan: 'las',
+    category: 'philosophy', weight: 3, color: '#f48fb1',
+    relatedTo: ['alaya', 'pratityasamutpada', 'klesha', 'six_realms', 'bardo', 'ma_rigpa']
+  },
+  {
+    id: 'six_realms', label: 'Шесть Миров', tibetan: ''gro ba rigs drug',
+    category: 'philosophy', weight: 3, color: '#ce93d8',
+    relatedTo: ['karma', 'klesha', 'bardo', 'bodhicitta', 'pratityasamutpada', 'pure_land']
+  },
+  {
+    id: 'six_bardos', label: 'Шесть Бардо', tibetan: 'bar do drug',
+    category: 'philosophy', weight: 3, color: '#ba68c8',
+    relatedTo: ['bardo', 'bardo_thodol', 'osel', 'ground_luminosity', 'dharmata', 'togal', 'dream_yoga']
+  },
+  {
+    id: 'three_jewels', label: 'Три Драгоценности', tibetan: 'dkon mchog gsum',
+    category: 'philosophy', weight: 3, color: '#f48fb1',
+    relatedTo: ['bodhicitta', 'vajrayana', 'ngondro', 'transmission', 'dzogchen']
+  },
+  {
+    id: 'vajrayana', label: 'Ваджраяна', tibetan: 'rdo rje theg pa',
+    category: 'philosophy', weight: 4, color: '#ce93d8',
+    relatedTo: ['tantra', 'nine_yanas', 'atiyoga', 'ngondro', 'four_empowerments', 'nyingma', 'dzogchen']
+  },
+  {
+    id: 'tantra', label: 'Тантра', tibetan: 'rgyud',
+    category: 'philosophy', weight: 3, color: '#ba68c8',
+    relatedTo: ['vajrayana', 'nine_yanas', 'guhyagarbha', 'seventeen_tantras', 'dzogchen', 'atiyoga']
+  },
+  {
+    id: 'five_aggregates', label: 'Пять Скандх', tibetan: 'phung po lnga',
+    category: 'philosophy', weight: 3, color: '#f48fb1',
+    relatedTo: ['shunyata', 'five_wisdoms', 'five_buddha_families', 'karma', 'alaya']
+  },
+  {
+    id: 'two_accumulations', label: 'Два Накопления', tibetan: 'tshogs gnyis',
+    category: 'philosophy', weight: 3, color: '#ce93d8',
+    relatedTo: ['ngondro', 'bodhicitta', 'rigpa', 'mandala_offering', 'yeshe']
+  },
+  {
+    id: 'ngondro', label: 'Нгондро — Предварительные Практики', tibetan: 'sngon 'gro',
+    category: 'practice', weight: 4, color: '#80cbc4',
+    relatedTo: ['guru_yoga', 'vajrasattva', 'mandala_offering', 'four_thoughts', 'longchen_nyingthig', 'transmission']
+  },
+  {
+    id: 'guru_yoga', label: 'Гуру Йога', tibetan: 'bla ma'i rnal 'byor',
+    category: 'practice', weight: 4, color: '#4db6ac',
+    relatedTo: ['ngondro', 'padmasambhava', 'transmission', 'pointing_out', 'rigpa', 'lama']
+  },
+  {
+    id: 'phowa', label: 'Пхова — Перенос Сознания', tibetan: ''pho ba',
+    category: 'practice', weight: 3, color: '#80deea',
+    relatedTo: ['bardo', 'pure_land', 'six_bardos', 'ground_luminosity', 'osel']
+  },
+  {
+    id: 'tummo', label: 'Туммо — Внутренний Огонь', tibetan: 'gtum mo',
+    category: 'practice', weight: 3, color: '#80cbc4',
+    relatedTo: ['tsa_lung', 'dream_yoga', 'illusory_body', 'rigpa', 'thigle']
+  },
+  {
+    id: 'dream_yoga', label: 'Йога Сновидений', tibetan: 'rmi lam',
+    category: 'practice', weight: 3, color: '#4db6ac',
+    relatedTo: ['six_bardos', 'illusory_body', 'tummo', 'namkhai_norbu', 'integration', 'bardo']
+  },
+  {
+    id: 'chod', label: 'Чод — Отсечение', tibetan: 'gcod',
+    category: 'practice', weight: 3, color: '#80deea',
+    relatedTo: ['rigpa', 'rangdrol', 'shunyata', 'bodhicitta', 'dakini']
+  },
+  {
+    id: 'mandala_offering', label: 'Подношение Мандалы', tibetan: 'mandal 'bul ba',
+    category: 'practice', weight: 3, color: '#80cbc4',
+    relatedTo: ['ngondro', 'two_accumulations', 'mandala', 'four_empowerments', 'vajrayana']
+  },
+  {
+    id: 'four_empowerments', label: 'Четыре Посвящения', tibetan: 'dbang bzhi',
+    category: 'practice', weight: 3, color: '#4db6ac',
+    relatedTo: ['transmission', 'vajrayana', 'ngondro', 'guru_yoga', 'mandala_offering', 'pointing_out']
+  },
+  {
+    id: 'four_thoughts', label: 'Четыре Мысли', tibetan: 'blo ldog rnam bzhi',
+    category: 'practice', weight: 3, color: '#80deea',
+    relatedTo: ['ngondro', 'karma', 'bardo', 'patrul_rinpoche', 'bodhicitta']
+  },
+  {
+    id: 'samadhi', label: 'Самадхи — Медитативное Поглощение', tibetan: 'ting nge 'dzin',
+    category: 'practice', weight: 3, color: '#4db6ac',
+    relatedTo: ['trekcho', 'rigpa', 'nyam', 'integration', 'sky_gazing']
+  },
+  {
+    id: 'dakini', label: 'Дакини', tibetan: 'mkha' 'gro ma',
+    category: 'lineage', weight: 3, color: '#ffab91',
+    relatedTo: ['yeshe_tsogyal', 'padmasambhava', 'terma', 'terton', 'transmission', 'vidyadhara']
+  },
+  {
+    id: 'terton', label: 'Тертон — Открыватель Сокровищ', tibetan: 'gter ston',
+    category: 'lineage', weight: 3, color: '#ff8a65',
+    relatedTo: ['terma', 'padmasambhava', 'dakini', 'jigme_lingpa', 'karma_lingpa', 'pema_lingpa', 'lerab_lingpa']
+  },
+  {
+    id: 'tulku', label: 'Тулку — Воплощённый Мастер', tibetan: 'sprul sku',
+    category: 'lineage', weight: 3, color: '#ffa726',
+    relatedTo: ['nirmanakaya', 'tulku_urgyen', 'dilgo_khyentse', 'nyingma', 'transmission', 'lama']
+  },
+  {
+    id: 'lama', label: 'Лама — Коренной Учитель', tibetan: 'bla ma',
+    category: 'lineage', weight: 4, color: '#ffab91',
+    relatedTo: ['guru_yoga', 'transmission', 'pointing_out', 'tulku', 'vidyadhara', 'nyingma']
+  },
+  {
+    id: 'yidam', label: 'Йидам — Медитативное Божество', tibetan: 'yi dam',
+    category: 'lineage', weight: 3, color: '#ff8a65',
+    relatedTo: ['vajrayana', 'mandala', 'four_empowerments', 'dakini', 'transmission', 'five_buddha_families']
+  },
+  {
+    id: 'vidyadhara', label: 'Видьядхара — Ригдзин', tibetan: 'rig 'dzin',
+    category: 'lineage', weight: 3, color: '#ffa726',
+    relatedTo: ['transmission', 'padmasambhava', 'garab_dorje', 'rainbow_body', 'lama', 'dakini']
+  },
+  {
+    id: 'mahasiddha', label: 'Махасиддха', tibetan: 'grub pa chen po',
+    category: 'lineage', weight: 3, color: '#ffab91',
+    relatedTo: ['vidyadhara', 'vajrayana', 'tantra', 'rainbow_body', 'transmission', 'lama']
+  },
+  {
+    id: 'khyentse_wangpo', label: 'Джамьянг Кхьенце Вангпо', tibetan: ''jam dbyangs mkhyen brtse'i dbang po',
+    category: 'lineage', weight: 4, color: '#ff8a65',
+    relatedTo: ['kongtrul', 'dilgo_khyentse', 'nyingma', 'longchenpa', 'terma', 'nyingtik']
+  },
+  {
+    id: 'kongtrul', label: 'Джамгон Конгтрул Лодро Тайе', tibetan: 'kong sprul blo gros mtha' yas',
+    category: 'lineage', weight: 4, color: '#ffa726',
+    relatedTo: ['khyentse_wangpo', 'nyingma', 'terma', 'longchen_nyingthig', 'seven_treasuries', 'transmission']
+  },
+  {
+    id: 'tulku_urgyen', label: 'Тулку Ургьен Ринпоче', tibetan: 'sprul sku u rgyan rin po che',
+    category: 'lineage', weight: 3, color: '#ffab91',
+    relatedTo: ['pointing_out', 'mahamudra', 'nyingma', 'transmission', 'longchen_nyingthig', 'tulku']
+  },
+  {
+    id: 'nyoshul_khen', label: 'Ньошул Кхен Ринпоче', tibetan: 'smyo shul mkhan rin po che',
+    category: 'lineage', weight: 3, color: '#ff8a65',
+    relatedTo: ['longchen_nyingthig', 'patrul_rinpoche', 'nyingma', 'transmission', 'trekcho']
+  },
+  {
+    id: 'chogyam_trungpa', label: 'Чогьям Трунгпа Ринпоче', tibetan: 'chos rgyal grung pa rin po che',
+    category: 'lineage', weight: 3, color: '#ffa726',
+    relatedTo: ['mahamudra', 'vajrayana', 'nyingma', 'terton', 'transmission', 'dzogchen']
+  },
+  {
+    id: 'pema_lingpa', label: 'Пема Лингпа', tibetan: 'pad ma gling pa',
+    category: 'lineage', weight: 3, color: '#ffab91',
+    relatedTo: ['terton', 'terma', 'nyingma', 'padmasambhava', 'nyingtik', 'dilgo_khyentse']
+  },
+  {
+    id: 'karma_lingpa', label: 'Карма Лингпа', tibetan: 'karma gling pa',
+    category: 'lineage', weight: 3, color: '#ff8a65',
+    relatedTo: ['bardo_thodol', 'terton', 'terma', 'bardo', 'six_bardos', 'padmasambhava']
+  },
+  {
+    id: 'nubchen', label: 'Нубчен Сангье Еше', tibetan: 'gnubs chen sangs rgyas ye shes',
+    category: 'lineage', weight: 3, color: '#ffa726',
+    relatedTo: ['padmasambhava', 'nyingma', 'atiyoga', 'dzogchen', 'transmission', 'zhang_zhung']
+  },
+  {
+    id: 'dzongsar_khyentse', label: 'Дзонгсар Кхьенце Чокьи Лодро', tibetan: 'rdzong gsar mkhyen brtse chos kyi blo gros',
+    category: 'lineage', weight: 3, color: '#ffab91',
+    relatedTo: ['khyentse_wangpo', 'nyingma', 'dilgo_khyentse', 'transmission', 'dzogchen', 'vajrayana']
+  },
+  {
+    id: 'sera_khandro', label: 'Сера Кхандро', tibetan: 'se ra mkha' 'gro',
+    category: 'lineage', weight: 3, color: '#ff8a65',
+    relatedTo: ['terton', 'terma', 'dakini', 'yeshe_tsogyal', 'nyingma', 'dzogchen']
+  },
+  {
+    id: 'minling_terchen', label: 'Минлинг Терчен', tibetan: 'smin gling gter chen',
+    category: 'lineage', weight: 3, color: '#ffa726',
+    relatedTo: ['terton', 'terma', 'nyingma', 'padmasambhava', 'transmission']
+  },
+  {
+    id: 'lerab_lingpa', label: 'Лераб Лингпа — Тертон Согьял', tibetan: 'las rab gling pa',
+    category: 'lineage', weight: 3, color: '#ffab91',
+    relatedTo: ['terton', 'terma', 'nyingma', 'padmasambhava', 'dzogchen', 'transmission']
+  },
+  {
+    id: 'bardo_thodol', label: 'Бардо Тёдол — Тибетская Книга Мёртвых', tibetan: 'bar do thos grol',
+    category: 'ground', weight: 4, color: '#a5d6a7',
+    relatedTo: ['karma_lingpa', 'bardo', 'six_bardos', 'ground_luminosity', 'dharmata', 'five_wisdoms', 'five_pure_lights']
+  },
+  {
+    id: 'kunjed_gyalpo', label: 'Кунджед Гьялпо — Всетворящий Царь', tibetan: 'kun byed rgyal po',
+    category: 'ground', weight: 3, color: '#a5d6a7',
+    relatedTo: ['semde', 'kuntuzangpo', 'dzogchen', 'rigpa', 'gzhi', 'namkhai_norbu']
+  },
+  {
+    id: 'seventeen_tantras', label: 'Семнадцать Тантр Менагде', tibetan: 'man ngag sde'i rgyud bcu bdun',
+    category: 'ground', weight: 3, color: '#a5d6a7',
+    relatedTo: ['mennagde', 'trekcho', 'togal', 'vimalamitra', 'nyingtik', 'dark_retreat']
+  },
+  {
+    id: 'seven_treasuries', label: 'Семь Сокровищниц Лонгченпы', tibetan: 'mdzod bdun',
+    category: 'ground', weight: 4, color: '#a5d6a7',
+    relatedTo: ['longchenpa', 'dzogchen', 'nyingtik', 'mennagde', 'gzhi', 'kadak', 'lhundrup']
+  },
+  {
+    id: 'guhyagarbha', label: 'Гухьягарбха Тантра', tibetan: 'gsang ba snying po',
+    category: 'ground', weight: 3, color: '#a5d6a7',
+    relatedTo: ['nyingma', 'tantra', 'mipham_rinpoche', 'bardo_thodol', 'mennagde', 'five_buddha_families']
+  },
+  {
+    id: 'samye', label: 'Монастырь Самье', tibetan: 'bsam yas',
+    category: 'ground', weight: 3, color: '#a5d6a7',
+    relatedTo: ['padmasambhava', 'yeshe_tsogyal', 'nyingma', 'jigme_lingpa', 'longchenpa', 'transmission']
+  },
+  {
+    id: 'oddiyana', label: 'Уддияна — Родина Тантры', tibetan: 'o rgyan',
+    category: 'ground', weight: 3, color: '#a5d6a7',
+    relatedTo: ['garab_dorje', 'padmasambhava', 'dakini', 'vajrayana', 'tantra', 'vidyadhara']
+  },
+  {
+    id: 'tibet', label: 'Тибет и Распространение Дзогчена', tibetan: 'bod',
+    category: 'ground', weight: 3, color: '#a5d6a7',
+    relatedTo: ['nyingma', 'padmasambhava', 'vimalamitra', 'samye', 'terma', 'longchenpa', 'zhang_zhung']
+  },
+  {
+    id: 'vajra', label: 'Ваджра — Скипетр', tibetan: 'rdo rje',
+    category: 'ground', weight: 3, color: '#a5d6a7',
+    relatedTo: ['vajrasattva', 'vajrayana', 'tantra', 'kuntuzangpo', 'phurba']
+  },
+  {
+    id: 'mandala', label: 'Мандала', tibetan: 'dkyil 'khor',
+    category: 'ground', weight: 3, color: '#a5d6a7',
+    relatedTo: ['mandala_offering', 'yidam', 'five_buddha_families', 'vajrayana', 'samye']
+  },
+  {
+    id: 'mantra', label: 'Мантра в Контексте Дзогчен', tibetan: 'sngags',
+    category: 'practice', weight: 3, color: '#80cbc4',
+    relatedTo: ['vajrasattva', 'padmasambhava', 'ngondro', 'tantra', 'transmission', 'gdangs']
+  },
+  {
+    id: 'phurba', label: 'Пхурба — Ваджракила', tibetan: 'phur ba',
+    category: 'ground', weight: 3, color: '#a5d6a7',
+    relatedTo: ['vajra', 'yidam', 'padmasambhava', 'nyingma', 'tantra']
+  },
+  {
+    id: 'pure_land', label: 'Чистые Земли', tibetan: 'dag pa'i zhing khams',
+    category: 'ground', weight: 3, color: '#a5d6a7',
+    relatedTo: ['phowa', 'bardo', 'padmasambhava', 'six_realms', 'five_buddha_families', 'sambhogakaya']
+  },
+  {
+    id: 'rangrig', label: 'Рангриг — Самопознающее Осознавание', tibetan: 'rang rig',
+    category: 'core_concept', weight: 4, color: '#ffcc80',
+    relatedTo: ['rigpa', 'nonduality', 'pointing_out', 'sems', 'gzhi', 'ngo_bo']
+  },
+  {
+    id: 'illusory_body', label: 'Иллюзорное Тело', tibetan: 'sgyu lus',
+    category: 'practice', weight: 3, color: '#4db6ac',
+    relatedTo: ['dream_yoga', 'tummo', 'phowa', 'rol_pa', 'shunyata', 'rainbow_body']
+  }
 ];
 
-// ── Автосборка графа ─────────────────────────────────────────────────────────
-const KNOWLEDGE_GRAPH = (() => {
-  const nodeIds = new Set(_NODES_DATA.map(n => n.id));
-  const nodes = _NODES_DATA.map(({ relatedTo, ...n }) => n);
+// ── Полный словарь всех узлов и связей (для прогрессивного раскрытия) ────────
+const ALL_GRAPH_DATA = (() => {
+  const nodeById = {};
+  _NODES_DATA.forEach(n => { nodeById[n.id] = n; });
 
   const seen = new Set();
   const links = [];
   _NODES_DATA.forEach(node => {
     (node.relatedTo || []).forEach(targetId => {
-      if (!nodeIds.has(targetId)) return;
+      if (!nodeById[targetId]) return;
       const key = [node.id, targetId].sort().join('|');
       if (!seen.has(key)) {
         seen.add(key);
@@ -384,7 +734,13 @@ const KNOWLEDGE_GRAPH = (() => {
     });
   });
 
-  return { nodes, links };
+  return { nodeById, links };
+})();
+
+// ── Начальный граф — только Ригпа ─────────────────────────────────────────────
+const KNOWLEDGE_GRAPH = (() => {
+  const { relatedTo, ...rigpa } = ALL_GRAPH_DATA.nodeById['rigpa'];
+  return { nodes: [rigpa], links: [] };
 })();
 
 // ── Mock ответы ──────────────────────────────────────────────────────────────

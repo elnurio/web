@@ -4,8 +4,13 @@ const App = (() => {
   let journey = [];
   let thinkTimer = null;
   let busy = false;
-  let apiMode = false; // switches to true when server is reachable + has key
-  let knowledgeBase = {}; // loaded from dzogchen-knowledge-base.json
+  let apiMode = false;
+  let knowledgeBase = {};
+
+  // Tracking which nodes are visible and explored
+  const visibleNodeIds = new Set(['rigpa']);
+  const exploredNodeIds = new Set();
+  const addedLinkKeys = new Set();
 
   // ── Init ──────────────────────────────────────────────────────────────────────────
   function init() {
@@ -34,6 +39,62 @@ const App = (() => {
     document.getElementById(id)?.addEventListener(ev, fn);
   }
 
+  // ── Progressive graph expansion ───────────────────────────────────────────────────
+  function expandNeighbors(nodeId) {
+    if (exploredNodeIds.has(nodeId)) return;
+    exploredNodeIds.add(nodeId);
+
+    const nodeData = ALL_GRAPH_DATA.nodeById[nodeId];
+    if (!nodeData) return;
+
+    const newIds = (nodeData.relatedTo || []).filter(
+      id => !visibleNodeIds.has(id) && ALL_GRAPH_DATA.nodeById[id]
+    );
+    if (!newIds.length) return;
+
+    newIds.forEach(id => visibleNodeIds.add(id));
+
+    const newNodes = newIds.map(id => {
+      const { relatedTo, ...n } = ALL_GRAPH_DATA.nodeById[id];
+      return n;
+    });
+    newNodes.forEach(n => KNOWLEDGE_GRAPH.nodes.push(n));
+
+    const newLinks = ALL_GRAPH_DATA.links.filter(l => {
+      if (!visibleNodeIds.has(l.source) || !visibleNodeIds.has(l.target)) return false;
+      const key = [l.source, l.target].sort().join('|');
+      if (addedLinkKeys.has(key)) return false;
+      addedLinkKeys.add(key);
+      return true;
+    });
+    newLinks.forEach(l => KNOWLEDGE_GRAPH.links.push({ source: l.source, target: l.target }));
+
+    Graph.addNodes(newNodes, newLinks);
+  }
+
+  // Ensures a node is in the graph, then calls onNodeClick
+  function visitNode(id) {
+    if (!visibleNodeIds.has(id)) {
+      const data = ALL_GRAPH_DATA.nodeById[id];
+      if (!data) return;
+      const { relatedTo, ...n } = data;
+      visibleNodeIds.add(id);
+      KNOWLEDGE_GRAPH.nodes.push(n);
+      const newLinks = ALL_GRAPH_DATA.links.filter(l => {
+        const key = [l.source, l.target].sort().join('|');
+        if (addedLinkKeys.has(key)) return false;
+        const inv = l.source === id || l.target === id;
+        const other = l.source === id ? l.target : l.source;
+        if (inv && visibleNodeIds.has(other)) { addedLinkKeys.add(key); return true; }
+        return false;
+      });
+      newLinks.forEach(l => KNOWLEDGE_GRAPH.links.push({ source: l.source, target: l.target }));
+      Graph.addNodes([n], newLinks);
+    }
+    const node = KNOWLEDGE_GRAPH.nodes.find(n => n.id === id);
+    if (node) onNodeClick(node);
+  }
+
   // ── Server health check ─────────────────────────────────────────────────────
   async function checkServerHealth() {
     try {
@@ -43,7 +104,7 @@ const App = (() => {
       renderModeBadge(data);
       if (data.books > 0) refreshBooksList();
     } catch {
-      renderModeBadge(null); // server offline → mock mode
+      renderModeBadge(null);
     }
   }
 
@@ -185,13 +246,11 @@ const App = (() => {
     busy = false;
   }
 
-  // ── Mock response ───────────────────────────────────────────────────────────────────
   function findMockResponse(q) {
     const lower = q.toLowerCase();
     return MOCK_RESPONSES.find(r => r.keywords.some(kw => lower.includes(kw))) || DEFAULT_RESPONSE;
   }
 
-  // ── API response ────────────────────────────────────────────────────────────────────
   async function askAPI(q) {
     const existingNodes = KNOWLEDGE_GRAPH.nodes.map(n => ({ id: n.id, label: n.label }));
     startThinking(['Читаю книги...', 'Ищу нити...', 'Формирую ответ...', 'Нахожу связи...']);
@@ -211,10 +270,10 @@ const App = (() => {
 
     const data = await r.json();
 
-    // Dynamically expand graph with new nodes from Claude
     if (data.newNodes?.length) {
       data.newNodes.forEach(n => {
-        if (!KNOWLEDGE_GRAPH.nodes.find(x => x.id === n.id)) {
+        if (!visibleNodeIds.has(n.id)) {
+          visibleNodeIds.add(n.id);
           KNOWLEDGE_GRAPH.nodes.push({ weight: 3, ...n });
         }
       });
@@ -241,6 +300,7 @@ const App = (() => {
     const target = resp.targetNode || (resp.newNodes?.[0]?.id) || null;
 
     if (target) {
+      expandNeighbors(target);
       Graph.highlightNode(target);
       Graph.pulseNode(target);
       await wait(250);
@@ -256,30 +316,22 @@ const App = (() => {
   function onNodeClick(node) {
     if (busy) return;
 
-    const mockResp = MOCK_RESPONSES.find(r => r.targetNode === node.id);
+    // Reveal this node's neighbors in the graph
+    expandNeighbors(node.id);
+
     const kb = knowledgeBase[node.id];
+    const mockResp = MOCK_RESPONSES.find(r => r.targetNode === node.id);
 
-    const graphRelated = KNOWLEDGE_GRAPH.links
-      .filter(l => {
-        const s = typeof l.source === 'object' ? l.source.id : l.source;
-        const t = typeof l.target === 'object' ? l.target.id : l.target;
-        return s === node.id || t === node.id;
-      })
-      .map(l => {
-        const s = typeof l.source === 'object' ? l.source.id : l.source;
-        const t = typeof l.target === 'object' ? l.target.id : l.target;
-        return s === node.id ? t : s;
-      });
-
-    const related = (kb?.relatedTo || graphRelated)
-      .filter(id => KNOWLEDGE_GRAPH.nodes.find(n => n.id === id))
-      .slice(0, 6);
+    // Related nodes from KB (includes not-yet-visible nodes as chips)
+    const relatedIds = kb?.relatedTo
+      || ALL_GRAPH_DATA.nodeById[node.id]?.relatedTo
+      || [];
 
     const subtitle = kb ? [kb.tibetan, kb.sanskrit].filter(Boolean).join(' · ') : '';
     const content = kb?.description
       || `${node.label} — концепция учений Дзогчен. Задай вопрос в строке ниже, чтобы раскрыть эту тему глубже.`;
 
-    const resp = mockResp || { title: node.label, subtitle, content, images: [], relatedNodes: related, thinking: [] };
+    const resp = mockResp || { title: node.label, subtitle, content, images: [], relatedNodes: relatedIds, thinking: [] };
     if (!mockResp && subtitle) resp.subtitle = subtitle;
 
     Graph.highlightNode(node.id);
@@ -333,15 +385,24 @@ const App = (() => {
     const chipsEl = document.getElementById('related-chips');
     chipsEl.innerHTML = '';
     (resp.relatedNodes || []).forEach(id => {
-      const node = KNOWLEDGE_GRAPH.nodes.find(n => n.id === id);
-      if (!node) return;
+      // Look up in visible graph first, then in full data
+      const graphNode = KNOWLEDGE_GRAPH.nodes.find(n => n.id === id);
+      const fullData = ALL_GRAPH_DATA.nodeById[id];
+      if (!graphNode && !fullData) return;
+
+      const color = (graphNode || fullData).color;
+      const label = (graphNode || fullData).label;
+      const isNew = !visibleNodeIds.has(id);
+
       const chip = document.createElement('button');
-      chip.className = 'chip';
-      chip.textContent = node.label;
-      chip.style.cssText = `border-color:${node.color}66; color:${node.color}; background:${node.color}16;`;
+      chip.className = isNew ? 'chip chip-new' : 'chip';
+      chip.textContent = label;
+      chip.style.cssText = `border-color:${color}66; color:${color}; background:${color}16;`;
+      if (isNew) chip.title = 'Открыть новый термин';
+
       chip.addEventListener('click', () => {
         closeDetail(false);
-        setTimeout(() => onNodeClick(node), 280);
+        setTimeout(() => visitNode(id), 280);
       });
       chipsEl.appendChild(chip);
     });
