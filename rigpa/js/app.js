@@ -6,7 +6,7 @@ const App = (() => {
   let busy = false;
   let apiMode = false; // switches to true when server is reachable + has key
 
-  // ── Init ──────────────────────────────────────────────────────────────────
+  // ── Init ──────────────────────────────────────────────────────────────────────────
   function init() {
     Graph.init(document.getElementById('graph-container'), KNOWLEDGE_GRAPH);
     Graph.onNodeClick(onNodeClick);
@@ -25,7 +25,7 @@ const App = (() => {
     document.getElementById(id)?.addEventListener(ev, fn);
   }
 
-  // ── Server health check ──────────────────────────────────────────────────
+  // ── Server health check ─────────────────────────────────────────────────────
   async function checkServerHealth() {
     try {
       const r = await fetch(`${API_BASE}/api/health`, { signal: AbortSignal.timeout(2000) });
@@ -57,7 +57,7 @@ const App = (() => {
     }
   }
 
-  // ── Upload panel ─────────────────────────────────────────────────────────
+  // ── Upload panel ─────────────────────────────────────────────────────────────────
   function initUploadPanel() {
     const toggle  = document.getElementById('upload-toggle');
     const drawer  = document.getElementById('upload-drawer');
@@ -142,7 +142,7 @@ const App = (() => {
     el.className = type;
   }
 
-  // ── Ask logic ─────────────────────────────────────────────────────────────
+  // ── Ask logic ─────────────────────────────────────────────────────────────────────
   async function onMainAsk() {
     if (busy) return;
     const el = document.getElementById('main-input');
@@ -176,13 +176,13 @@ const App = (() => {
     busy = false;
   }
 
-  // ── Mock response ─────────────────────────────────────────────────────────
+  // ── Mock response ───────────────────────────────────────────────────────────────────
   function findMockResponse(q) {
     const lower = q.toLowerCase();
     return MOCK_RESPONSES.find(r => r.keywords.some(kw => lower.includes(kw))) || DEFAULT_RESPONSE;
   }
 
-  // ── API response ──────────────────────────────────────────────────────────
+  // ── API response ────────────────────────────────────────────────────────────────────
   async function askAPI(q) {
     const existingNodes = KNOWLEDGE_GRAPH.nodes.map(n => ({ id: n.id, label: n.label }));
     startThinking(['Читаю книги...', 'Ищу нити...', 'Формирую ответ...', 'Нахожу связи...']);
@@ -216,7 +216,7 @@ const App = (() => {
     return data;
   }
 
-  // ── Display response ──────────────────────────────────────────────────────
+  // ── Display response ──────────────────────────────────────────────────────────────────
   async function displayResponse(resp) {
     if (!resp.thinking?.length) startThinking(['Думаю...', 'Ищу...', 'Нахожу...']);
     else startThinking(resp.thinking);
@@ -246,31 +246,39 @@ const App = (() => {
 
   function onNodeClick(node) {
     if (busy) return;
-    const resp = MOCK_RESPONSES.find(r => r.targetNode === node.id);
-    if (!resp && !apiMode) return;
 
-    if (apiMode) {
-      // In API mode, clicking a node opens a generic detail with the node name
-      const mockResp = MOCK_RESPONSES.find(r => r.targetNode === node.id) || {
-        title: node.label,
-        content: `Узел «${node.label}» — часть паутины Дзогчен. Задай вопрос об этой теме, чтобы раскрыть его.`,
-        images: [], relatedNodes: [], thinking: []
-      };
-      Graph.highlightNode(node.id);
-      Graph.pulseNode(node.id);
-      Graph.focusNode(node.id, true);
-      addCrumb(node.id, node.label);
-      showDetail(mockResp);
-    } else {
-      Graph.highlightNode(node.id);
-      Graph.pulseNode(node.id);
-      Graph.focusNode(node.id, true);
-      addCrumb(node.id, node.label);
-      showDetail(resp);
-    }
+    const mockResp = MOCK_RESPONSES.find(r => r.targetNode === node.id);
+
+    // Build related nodes from graph links for nodes without a mock response
+    const related = KNOWLEDGE_GRAPH.links
+      .filter(l => {
+        const s = typeof l.source === 'object' ? l.source.id : l.source;
+        const t = typeof l.target === 'object' ? l.target.id : l.target;
+        return s === node.id || t === node.id;
+      })
+      .map(l => {
+        const s = typeof l.source === 'object' ? l.source.id : l.source;
+        const t = typeof l.target === 'object' ? l.target.id : l.target;
+        return s === node.id ? t : s;
+      })
+      .slice(0, 6);
+
+    const resp = mockResp || {
+      title: node.label,
+      content: `${node.label} — концепция учений Дзогчен. Задай вопрос в строке ниже, чтобы раскрыть эту тему глубже.`,
+      images: [],
+      relatedNodes: related,
+      thinking: []
+    };
+
+    Graph.highlightNode(node.id);
+    Graph.pulseNode(node.id);
+    Graph.focusNode(node.id, true);
+    addCrumb(node.id, node.label);
+    showDetail(resp);
   }
 
-  // ── Thinking animation ────────────────────────────────────────────────────
+  // ── Thinking animation ─────────────────────────────────────────────────────────────────
   function startThinking(words) {
     const overlay = document.getElementById('thinking-overlay');
     const txt = document.getElementById('thinking-words');
@@ -288,7 +296,7 @@ const App = (() => {
     document.getElementById('thinking-overlay').classList.remove('active');
   }
 
-  // ── Detail panel ──────────────────────────────────────────────────────────
+  // ── Detail panel ─────────────────────────────────────────────────────────────────────
   function showDetail(resp) {
     document.getElementById('detail-title').textContent = resp.title || '';
     document.getElementById('detail-text').textContent = resp.content || '';
@@ -337,7 +345,7 @@ const App = (() => {
     }
   }
 
-  // ── Journey crumbs ────────────────────────────────────────────────────────
+  // ── Journey crumbs ────────────────────────────────────────────────────────────────
   function addCrumb(nodeId, label) {
     if (journey.length && journey[journey.length - 1].nodeId === nodeId) return;
     journey.push({ nodeId, label });
