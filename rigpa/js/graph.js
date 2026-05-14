@@ -16,6 +16,7 @@ const Graph = (() => {
     mkGlow(defs, 'glow', 3, 1);
     mkGlow(defs, 'glow-strong', 9, 1);
     mkGlow(defs, 'glow-trail', 5, 2);
+    mkDropShadow(defs, 'shadow');
 
     g = svg.append('g').attr('id', 'scene');
 
@@ -42,14 +43,14 @@ const Graph = (() => {
     nodeSel.append('circle').attr('class', 'node-aura')
       .attr('r', d => d.weight * 9)
       .attr('fill', d => d.color)
-      .attr('opacity', 0.12)
+      .attr('opacity', 0.22)
       .attr('filter', 'url(#glow)');
 
     nodeSel.append('circle').attr('class', 'node-core')
       .attr('r', d => d.weight * 4)
       .attr('fill', d => d.color)
-      .attr('opacity', 0.92)
-      .attr('filter', 'url(#glow)');
+      .attr('opacity', 0.95)
+      .attr('filter', 'url(#shadow)');
 
     nodeSel.append('text').attr('class', 'node-label')
       .attr('dy', d => d.weight * 4 + 15)
@@ -86,6 +87,15 @@ const Graph = (() => {
     const m = f.append('feMerge');
     m.append('feMergeNode').attr('in', 'b');
     m.append('feMergeNode').attr('in', 'SourceGraphic');
+  }
+
+  function mkDropShadow(defs, id) {
+    const f = defs.append('filter').attr('id', id)
+      .attr('x', '-40%').attr('y', '-40%').attr('width', '180%').attr('height', '180%');
+    f.append('feDropShadow')
+      .attr('dx', 0).attr('dy', 2)
+      .attr('stdDeviation', 4)
+      .attr('flood-color', 'rgba(0,0,0,0.25)');
   }
 
   function highlightNode(id) {
