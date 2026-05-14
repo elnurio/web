@@ -425,7 +425,7 @@ const _NODES_DATA = [
     relatedTo: ['shunyata', 'pratityasamutpada', 'nonduality', 'rigpa', 'dzogchen']
   },
   {
-    id: 'pratityasamutpada', label: 'Взаимозависимое Возникновение', tibetan: 'rten cing 'brel bar 'byung ba',
+    id: 'pratityasamutpada', label: 'Взаимозависимое Возникновение', tibetan: "rten cing 'brel bar 'byung ba",
     category: 'philosophy', weight: 3, color: '#f48fb1',
     relatedTo: ['shunyata', 'two_truths', 'karma', 'six_realms', 'nonduality']
   },
@@ -440,7 +440,7 @@ const _NODES_DATA = [
     relatedTo: ['bodhisattva', 'rigpa', 'nonduality', 'shunyata', 'thugje', 'six_realms']
   },
   {
-    id: 'bodhisattva', label: 'Бодхисаттва', tibetan: 'byang chub sems dpa'',
+    id: 'bodhisattva', label: 'Бодхисаттва', tibetan: "byang chub sems dpa'",
     category: 'philosophy', weight: 3, color: '#ba68c8',
     relatedTo: ['bodhicitta', 'six_realms', 'thugje', 'three_jewels', 'vajrayana', 'nyingma']
   },
@@ -460,7 +460,7 @@ const _NODES_DATA = [
     relatedTo: ['alaya', 'pratityasamutpada', 'klesha', 'six_realms', 'bardo', 'ma_rigpa']
   },
   {
-    id: 'six_realms', label: 'Шесть Миров', tibetan: ''gro ba rigs drug',
+    id: 'six_realms', label: 'Шесть Миров', tibetan: "'gro ba rigs drug",
     category: 'philosophy', weight: 3, color: '#ce93d8',
     relatedTo: ['karma', 'klesha', 'bardo', 'bodhicitta', 'pratityasamutpada', 'pure_land']
   },
@@ -495,17 +495,17 @@ const _NODES_DATA = [
     relatedTo: ['ngondro', 'bodhicitta', 'rigpa', 'mandala_offering', 'yeshe']
   },
   {
-    id: 'ngondro', label: 'Нгондро — Предварительные Практики', tibetan: 'sngon 'gro',
+    id: 'ngondro', label: 'Нгондро — Предварительные Практики', tibetan: "sngon 'gro",
     category: 'practice', weight: 4, color: '#80cbc4',
     relatedTo: ['guru_yoga', 'vajrasattva', 'mandala_offering', 'four_thoughts', 'longchen_nyingthig', 'transmission']
   },
   {
-    id: 'guru_yoga', label: 'Гуру Йога', tibetan: 'bla ma'i rnal 'byor',
+    id: 'guru_yoga', label: 'Гуру Йога', tibetan: "bla ma'i rnal 'byor",
     category: 'practice', weight: 4, color: '#4db6ac',
     relatedTo: ['ngondro', 'padmasambhava', 'transmission', 'pointing_out', 'rigpa', 'lama']
   },
   {
-    id: 'phowa', label: 'Пхова — Перенос Сознания', tibetan: ''pho ba',
+    id: 'phowa', label: 'Пхова — Перенос Сознания', tibetan: "'pho ba",
     category: 'practice', weight: 3, color: '#80deea',
     relatedTo: ['bardo', 'pure_land', 'six_bardos', 'ground_luminosity', 'osel']
   },
@@ -525,7 +525,7 @@ const _NODES_DATA = [
     relatedTo: ['rigpa', 'rangdrol', 'shunyata', 'bodhicitta', 'dakini']
   },
   {
-    id: 'mandala_offering', label: 'Подношение Мандалы', tibetan: 'mandal 'bul ba',
+    id: 'mandala_offering', label: 'Подношение Мандалы', tibetan: "mandal 'bul ba",
     category: 'practice', weight: 3, color: '#80cbc4',
     relatedTo: ['ngondro', 'two_accumulations', 'mandala', 'four_empowerments', 'vajrayana']
   },
@@ -540,12 +540,12 @@ const _NODES_DATA = [
     relatedTo: ['ngondro', 'karma', 'bardo', 'patrul_rinpoche', 'bodhicitta']
   },
   {
-    id: 'samadhi', label: 'Самадхи — Медитативное Поглощение', tibetan: 'ting nge 'dzin',
+    id: 'samadhi', label: 'Самадхи — Медитативное Поглощение', tibetan: "ting nge 'dzin",
     category: 'practice', weight: 3, color: '#4db6ac',
     relatedTo: ['trekcho', 'rigpa', 'nyam', 'integration', 'sky_gazing']
   },
   {
-    id: 'dakini', label: 'Дакини', tibetan: 'mkha' 'gro ma',
+    id: 'dakini', label: 'Дакини', tibetan: "mkha' 'gro ma",
     category: 'lineage', weight: 3, color: '#ffab91',
     relatedTo: ['yeshe_tsogyal', 'padmasambhava', 'terma', 'terton', 'transmission', 'vidyadhara']
   },
@@ -570,7 +570,7 @@ const _NODES_DATA = [
     relatedTo: ['vajrayana', 'mandala', 'four_empowerments', 'dakini', 'transmission', 'five_buddha_families']
   },
   {
-    id: 'vidyadhara', label: 'Видьядхара — Ригдзин', tibetan: 'rig 'dzin',
+    id: 'vidyadhara', label: 'Видьядхара — Ригдзин', tibetan: "rig 'dzin",
     category: 'lineage', weight: 3, color: '#ffa726',
     relatedTo: ['transmission', 'padmasambhava', 'garab_dorje', 'rainbow_body', 'lama', 'dakini']
   },
@@ -580,12 +580,12 @@ const _NODES_DATA = [
     relatedTo: ['vidyadhara', 'vajrayana', 'tantra', 'rainbow_body', 'transmission', 'lama']
   },
   {
-    id: 'khyentse_wangpo', label: 'Джамьянг Кхьенце Вангпо', tibetan: ''jam dbyangs mkhyen brtse'i dbang po',
+    id: 'khyentse_wangpo', label: 'Джамьянг Кхьенце Вангпо', tibetan: "'jam dbyangs mkhyen brtse'i dbang po",
     category: 'lineage', weight: 4, color: '#ff8a65',
     relatedTo: ['kongtrul', 'dilgo_khyentse', 'nyingma', 'longchenpa', 'terma', 'nyingtik']
   },
   {
-    id: 'kongtrul', label: 'Джамгон Конгтрул Лодро Тайе', tibetan: 'kong sprul blo gros mtha' yas',
+    id: 'kongtrul', label: 'Джамгон Конгтрул Лодро Тайе', tibetan: "kong sprul blo gros mtha' yas",
     category: 'lineage', weight: 4, color: '#ffa726',
     relatedTo: ['khyentse_wangpo', 'nyingma', 'terma', 'longchen_nyingthig', 'seven_treasuries', 'transmission']
   },
@@ -625,7 +625,7 @@ const _NODES_DATA = [
     relatedTo: ['khyentse_wangpo', 'nyingma', 'dilgo_khyentse', 'transmission', 'dzogchen', 'vajrayana']
   },
   {
-    id: 'sera_khandro', label: 'Сера Кхандро', tibetan: 'se ra mkha' 'gro',
+    id: 'sera_khandro', label: 'Сера Кхандро', tibetan: "se ra mkha' 'gro",
     category: 'lineage', weight: 3, color: '#ff8a65',
     relatedTo: ['terton', 'terma', 'dakini', 'yeshe_tsogyal', 'nyingma', 'dzogchen']
   },
@@ -650,7 +650,7 @@ const _NODES_DATA = [
     relatedTo: ['semde', 'kuntuzangpo', 'dzogchen', 'rigpa', 'gzhi', 'namkhai_norbu']
   },
   {
-    id: 'seventeen_tantras', label: 'Семнадцать Тантр Менагде', tibetan: 'man ngag sde'i rgyud bcu bdun',
+    id: 'seventeen_tantras', label: 'Семнадцать Тантр Менагде', tibetan: "man ngag sde'i rgyud bcu bdun",
     category: 'ground', weight: 3, color: '#a5d6a7',
     relatedTo: ['mennagde', 'trekcho', 'togal', 'vimalamitra', 'nyingtik', 'dark_retreat']
   },
@@ -685,7 +685,7 @@ const _NODES_DATA = [
     relatedTo: ['vajrasattva', 'vajrayana', 'tantra', 'kuntuzangpo', 'phurba']
   },
   {
-    id: 'mandala', label: 'Мандала', tibetan: 'dkyil 'khor',
+    id: 'mandala', label: 'Мандала', tibetan: "dkyil 'khor",
     category: 'ground', weight: 3, color: '#a5d6a7',
     relatedTo: ['mandala_offering', 'yidam', 'five_buddha_families', 'vajrayana', 'samye']
   },
@@ -700,7 +700,7 @@ const _NODES_DATA = [
     relatedTo: ['vajra', 'yidam', 'padmasambhava', 'nyingma', 'tantra']
   },
   {
-    id: 'pure_land', label: 'Чистые Земли', tibetan: 'dag pa'i zhing khams',
+    id: 'pure_land', label: 'Чистые Земли', tibetan: "dag pa'i zhing khams",
     category: 'ground', weight: 3, color: '#a5d6a7',
     relatedTo: ['phowa', 'bardo', 'padmasambhava', 'six_realms', 'five_buddha_families', 'sambhogakaya']
   },
