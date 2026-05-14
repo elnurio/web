@@ -123,16 +123,6 @@ ${existingNodes.map(n => `- id: "${n.id}", label: "${n.label}"`).join('\n')}
     { type: 'text', text: question.trim() || ' ' }
   ];
 
-  console.log('--- DEBUG ---');
-  console.log('docBlocks count:', docBlocks.length);
-  console.log('question:', JSON.stringify(question));
-  console.log('blocks:', JSON.stringify(contentBlocks.map(b => ({
-    type: b.type,
-    hasData: b.source?.data?.length > 0,
-    textLen: b.text?.length
-  }))));
-  console.log('-------------');
-
   try {
     const response = await client.messages.create({
       model: 'claude-sonnet-4-6',
