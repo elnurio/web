@@ -1,7 +1,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #07070f;
+  --bg: #b8d8ef;
   --surface: rgba(12, 12, 28, 0.96);
   --border: rgba(90, 90, 180, 0.18);
   --text: #e2e2ee;
@@ -21,20 +21,26 @@ html, body {
 
 #app { width: 100vw; height: 100vh; position: relative; }
 
-/* ── Graph ── */
+/* ── Graph — небесное пространство дхармадхату ── */
 #graph-container {
   position: absolute; inset: 0;
+  background: linear-gradient(to bottom,
+    #8fc8e8 0%,
+    #aed8f0 25%,
+    #c8e8f8 60%,
+    #dff2fc 100%
+  );
 }
 #graph-container svg { width: 100%; height: 100%; }
 
 .link {
-  stroke: rgba(80, 80, 170, 0.18);
+  stroke: rgba(60, 100, 160, 0.22);
   stroke-width: 1;
   fill: none;
   transition: stroke 0.4s, stroke-width 0.4s, stroke-opacity 0.4s;
 }
 .link.lit {
-  stroke: rgba(123, 111, 255, 0.7);
+  stroke: rgba(80, 60, 200, 0.65);
   stroke-width: 1.5;
 }
 
@@ -47,15 +53,15 @@ html, body {
   transition: opacity 0.4s, r 0.1s;
 }
 .node-label {
-  fill: rgba(210, 210, 235, 0.65);
+  fill: rgba(20, 40, 80, 0.75);
   font-size: 11px;
   text-anchor: middle;
   pointer-events: none;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.02em;
   transition: opacity 0.4s;
 }
-.node-g:hover .node-label { fill: rgba(240, 240, 255, 1); }
+.node-g:hover .node-label { fill: rgba(10, 20, 60, 1); }
 
 /* trail animation */
 .trail-arc {
