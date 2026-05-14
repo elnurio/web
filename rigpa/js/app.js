@@ -130,6 +130,8 @@ const App = (() => {
   // ── Upload panel ─────────────────────────────────────────────────────────────────
   function initUploadPanel() {
     const toggle  = document.getElementById('upload-toggle');
+    if (!toggle) return; // panel removed from UI
+
     const drawer  = document.getElementById('upload-drawer');
     const fileIn  = document.getElementById('file-input');
     const dropZone = document.getElementById('drop-zone');

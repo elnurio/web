@@ -740,6 +740,8 @@ const ALL_GRAPH_DATA = (() => {
 // ── Начальный граф — только Дзогчен ───────────────────────────────────────────
 const KNOWLEDGE_GRAPH = (() => {
   const { relatedTo, ...dzogchen } = ALL_GRAPH_DATA.nodeById['dzogchen'];
+  dzogchen.x = window.innerWidth / 2;
+  dzogchen.y = window.innerHeight / 2;
   return { nodes: [dzogchen], links: [] };
 })();
 
