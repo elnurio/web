@@ -127,17 +127,34 @@ body {
 .pp-specialist { width: 100%; aspect-ratio: 3/4; }
 
 /* ── LOGO ── */
-.logo { display: flex; align-items: center; gap: 10px; }
-.logo-leaf {
-  width: 26px; height: 26px;
-  background: var(--accent);
-  border-radius: 50% 0 50% 0;
-  transform: rotate(-35deg);
+.logo { display: flex; align-items: center; gap: 0; line-height: 1; }
+.logo-the {
+  font-family: var(--ff-head);
+  font-size: .9rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: .01em;
+  margin-right: 6px;
+  align-self: flex-end;
+  padding-bottom: 1px;
 }
 .logo-name {
-  font-family: var(--ff-head);
-  font-size: 1.2rem;
+  font-family: var(--ff-body);
+  font-size: 1.1rem;
   font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+/* ── LOGO TAGLINE ── */
+.logo-wrap { display: flex; flex-direction: column; gap: 1px; }
+.logo-tagline {
+  font-size: .55rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  line-height: 1;
 }
 
 /* ── HEADER ── */
