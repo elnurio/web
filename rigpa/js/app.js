@@ -115,13 +115,10 @@ const App = (() => {
       badge.id = 'mode-badge';
       document.getElementById('app').appendChild(badge);
     }
-    if (!health) {
-      badge.textContent = 'mock-режим';
-      badge.className = '';
-    } else if (!health.hasKey) {
-      badge.textContent = 'сервер ✓  ·  нужен API ключ';
-      badge.className = '';
+    if (!health || !health.hasKey) {
+      badge.style.display = 'none';
     } else {
+      badge.style.display = '';
       badge.textContent = `live · книг: ${health.books}`;
       badge.className = 'live';
     }
