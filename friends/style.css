@@ -212,6 +212,31 @@ body {
 }
 .hero-photo { height: 480px; }
 
+/* ── ABOUT ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+}
+.about-text { display: flex; flex-direction: column; gap: 18px; }
+.about-lead {
+  font-family: var(--ff-head);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--text);
+}
+.about-body { font-size: 1rem; color: var(--muted); line-height: 1.78; }
+.about-belief { font-size: 1rem; color: var(--text); line-height: 1.75; }
+.about-motto {
+  font-family: var(--ff-head);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--accent);
+  margin-top: 6px;
+}
+
 /* ── RECOGNIZE ── */
 .recognize-grid {
   display: grid;
@@ -554,6 +579,7 @@ body {
   .hero-grid    { grid-template-columns: 1fr; gap: 40px; }
   .hero-photo   { height: 280px; }
   .s-hero       { min-height: unset; padding: 56px 0 48px; }
+  .about-grid   { grid-template-columns: 1fr; gap: 40px; }
   .dir-grid     { grid-template-columns: 1fr; }
   .signup-grid  { grid-template-columns: 1fr; gap: 48px; }
   .specialists  { grid-template-columns: repeat(3, 1fr); gap: 18px; }
