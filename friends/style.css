@@ -644,11 +644,12 @@ body {
     min-width: calc(100vw - 40px); /* full section width */
     flex-direction: column;
     gap: 0;
-    padding: 24px 20px;
+    padding: 20px 18px;
   }
   .review-avatar  { display: none; }
-  .review-service { margin-bottom: 10px; }
-  .review-text    { font-size: .94rem; }
+  .review-service { font-size: .68rem; padding: 2px 8px; margin-bottom: 8px; }
+  .review-text    { font-size: .82rem; line-height: 1.55; margin-bottom: 10px; }
+  .review-author  { font-size: .78rem; }
 }
 
 @media (max-width: 580px) {
