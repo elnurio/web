@@ -643,9 +643,22 @@ body {
   .footer-top  { flex-direction: column; align-items: flex-start; }
   .footer-nav  { gap: 16px; }
   .approach-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Slider: full-width cards, swipe only, no buttons */
+  .slider-wrap { gap: 0; }
+  .slider-btn  { display: none; }
+  .slider      { padding: 8px 0 16px; scroll-padding-left: 0; }
+  .review-card {
+    min-width: calc(100vw - 40px); /* wrap padding is 20px each side */
+    flex-direction: column;
+    gap: 0;
+    padding: 24px 20px;
+  }
+  .review-avatar { display: none; }
+  .review-service { margin-bottom: 10px; }
+  .review-text    { font-size: .94rem; margin-bottom: 12px; }
 }
 
 @media (max-width: 400px) {
-  .slider-btn { display: none; }
   .trust-grid { grid-template-columns: 1fr; }
 }
