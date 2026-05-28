@@ -636,19 +636,25 @@ body {
 
   .trust-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
 
-  /* Slider: hide buttons, full-width cards, swipe */
+  /* Slider: hide buttons, narrower centered cards, swipe */
   .slider-wrap { gap: 0; }
   .slider-btn  { display: none; }
-  .slider      { padding: 8px 0 20px; }
+  .slider {
+    padding: 8px 8px 20px;      /* 8px side padding inside slider */
+    scroll-padding-left: 8px;   /* snap aligns to that padding */
+    align-items: stretch;
+  }
   .review-card {
-    min-width: calc(100vw - 40px); /* full section width */
+    min-width: calc(100vw - 56px); /* wrap 20px×2 + slider 8px×2 = 56px */
+    max-width: calc(100vw - 56px);
     flex-direction: column;
     gap: 0;
-    padding: 20px 18px;
+    padding: 22px 20px 20px;
+    height: auto;
   }
   .review-avatar  { display: none; }
   .review-service { font-size: .68rem; padding: 2px 8px; margin-bottom: 8px; }
-  .review-text    { font-size: .82rem; line-height: 1.55; margin-bottom: 10px; }
+  .review-text    { font-size: .82rem; line-height: 1.58; margin-bottom: 10px; }
   .review-author  { font-size: .78rem; }
 }
 
