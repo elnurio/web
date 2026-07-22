@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>T-Shirt Auction Collection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #111827;
+      background: #DBDDD7;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: #DBDDD7;
+      overflow: hidden;
+    }
+
+    .bg-layer video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: block;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      width: 100%;
+      padding: 32px 24px 40px;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .logo img {
+      max-width: 260px;
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 40px 40px;
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: 1fr; }
+      .bg-layer { display: none; }
+    }
+
+    .item { cursor: pointer; text-align: center; font-size: 12px; }
+
+    .item-img-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 120%;
+      overflow: hidden;
+    }
+
+    .item-img, picture {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .item-code {
+      margin-top: 10px;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .item-main a {
+      display: inline-block;
+      margin-top: 4px;
+      color: #111827;
+      text-decoration: none;
+      font-size: 11px;
+      opacity: 0.75;
+    }
+
+    .item-main a:hover { text-decoration: underline; }
+
+    .hint {
+      margin-top: 24px;
+      font-size: 10px;
+      opacity: 0.6;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      text-align: center;
+    }
+
+    #transition-screen {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 9999;
+    }
+
+    #transition-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-layer">
+    <video id="bgVideo" muted loop playsinline></video>
+  </div>
+
+  <div class="wrapper">
+    <div class="logo">
+      <img src="/hotelsensuelle/images/Le%20Jour%20Script.webp" alt="Hotel Sensuelle logo">
+    </div>
+
+    <div class="grid">
+
+      <div class="item" data-video="/hotelsensuelle/videos/5.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="/hotelsensuelle/images/chapter-I-hero.webp" type="image/webp">
+            <img class="item-img" src="/hotelsensuelle/images/t1.png" alt="T-Shirt 01">
+          </picture>
+        </div>
+        <div class="item-code">Chapter I</div>
+        <div class="item-main"><a href="/hotelsensuelle/product1.html">Erotic Melancholia</a></div>
+      </div>
+
+      <div class="item" data-video="/hotelsensuelle/videos/6.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="/hotelsensuelle/images/chapter-II-hero.webp" type="image/webp">
+            <img class="item-img" src="/hotelsensuelle/images/t2.png" alt="T-Shirt 02">
+          </picture>
+        </div>
+        <div class="item-code">Chapter II</div>
+        <div class="item-main"><a href="/hotelsensuelle/product2.html">Ascending Into Sheer Madness</a></div>
+      </div>
+
+      <div class="item" data-video="/hotelsensuelle/videos/7.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="/hotelsensuelle/images/chapter-III-hero.webp" type="image/webp">
+            <img class="item-img" src="/hotelsensuelle/images/t3.png" alt="T-Shirt 03">
+          </picture>
+        </div>
+        <div class="item-code">Chapter III</div>
+        <div class="item-main"><a href="/hotelsensuelle/product3.html">Moonshine & Stardust</a></div>
+      </div>
+
+      <div class="item" data-video="/hotelsensuelle/videos/8.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="/hotelsensuelle/images/chapter-IV-hero.webp" type="image/webp">
+            <img class="item-img" src="/hotelsensuelle/images/t4.png" alt="T-Shirt 04">
+          </picture>
+        </div>
+        <div class="item-code">Chapter IV</div>
+        <div class="item-main"><a href="/hotelsensuelle/product4.html">Don't Believe In Magic</a></div>
+      </div>
+
+      <div class="item" data-video="/hotelsensuelle/videos/9.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="/hotelsensuelle/images/chapter-V-hero.webp" type="image/webp">
+            <img class="item-img" src="/hotelsensuelle/images/t5.png" alt="T-Shirt 05">
+          </picture>
+        </div>
+        <div class="item-code">Chapter V</div>
+        <div class="item-main"><a href="/hotelsensuelle/product5.html">Melanie Klein</a></div>
+      </div>
+
+      <div class="item" data-video="/hotelsensuelle/videos/10.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="/hotelsensuelle/images/chapter-VI-hero.webp" type="image/webp">
+            <img class="item-img" src="/hotelsensuelle/images/t6.png" alt="T-Shirt 06">
+          </picture>
+        </div>
+        <div class="item-code">Chapter VI</div>
+        <div class="item-main"><a href="/hotelsensuelle/product6.html">Half Awake?</a></div>
+      </div>
+
+      <div class="item" data-video="/hotelsensuelle/videos/11.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="/hotelsensuelle/images/chapter-VII-hero.webp" type="image/webp">
+            <img class="item-img" src="/hotelsensuelle/images/t7.png" alt="T-Shirt 07">
+          </picture>
+        </div>
+        <div class="item-code">Chapter VII</div>
+        <div class="item-main"><a href="/hotelsensuelle/product7.html">Wake Up, It's Night!</a></div>
+      </div>
+
+      <div class="item" data-video="/hotelsensuelle/videos/12.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="/hotelsensuelle/images/chapter-VIII-hero.webp" type="image/webp">
+            <img class="item-img" src="/hotelsensuelle/images/t8.png" alt="T-Shirt 08">
+          </picture>
+        </div>
+        <div class="item-code">Chapter VIII</div>
+        <div class="item-main"><a href="/hotelsensuelle/product8.html">The Shrill Screech</a></div>
+      </div>
+
+      <div class="item" data-video="/hotelsensuelle/videos/5.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="/hotelsensuelle/images/chapter-IX-hero.webp" type="image/webp">
+            <img class="item-img" src="/hotelsensuelle/images/t9.png" alt="T-Shirt 09">
+          </picture>
+        </div>
+        <div class="item-code">Chapter IX</div>
+        <div class="item-main"><a href="/hotelsensuelle/product9.html">The Moon & I</a></div>
+      </div>
+
+      <div class="item" data-video="/hotelsensuelle/videos/6.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="/hotelsensuelle/images/chapter-X-hero.webp" type="image/webp">
+            <img class="item-img" src="/hotelsensuelle/images/t10.png" alt="T-Shirt 10">
+          </picture>
+        </div>
+        <div class="item-code">Chapter X</div>
+        <div class="item-main"><a href="/hotelsensuelle/product10.html">Le Voyage Dans La Lune</a></div>
+      </div>
+
+      <div class="item" data-video="/hotelsensuelle/videos/7.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="/hotelsensuelle/images/chapter-XI-hero.webp" type="image/webp">
+            <img class="item-img" src="/hotelsensuelle/images/t11.png" alt="T-Shirt 11">
+          </picture>
+        </div>
+        <div class="item-code">Chapter XI</div>
+        <div class="item-main"><a href="/hotelsensuelle/product11.html">Nice Kid Like You</a></div>
+      </div>
+
+      <div class="item" data-video="/hotelsensuelle/videos/8.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="/hotelsensuelle/images/chapter-XII-hero.webp" type="image/webp">
+            <img class="item-img" src="/hotelsensuelle/images/t12.png" alt="T-Shirt 12">
+          </picture>
+        </div>
+        <div class="item-code">Chapter XII</div>
+        <div class="item-main"><a href="/hotelsensuelle/product12.html">I'll See You In My Dreams</a></div>
+      </div>
+
+    </div>
+
+    <div class="hint">Hover items to change background / click to open product page</div>
+  </div>
+
+  <div id="transition-screen">
+    <img src="/hotelsensuelle/transition/horizontal/1.webp" alt="">
+  </div>
+
+  <script>
+    const bgVideo = document.getElementById('bgVideo');
+    const items = document.querySelectorAll('.item');
+    const transitionScreen = document.getElementById('transition-screen');
+    const transitionImage = transitionScreen ? transitionScreen.querySelector('img') : null;
+
+    const isMobile = window.matchMedia('(max-width: 640px)').matches || 'ontouchstart' in window;
+
+    const horizontalTransitions = [
+      '/hotelsensuelle/transition/horizontal/1.webp',
+      '/hotelsensuelle/transition/horizontal/2.webp',
+      '/hotelsensuelle/transition/horizontal/3.webp',
+      '/hotelsensuelle/transition/horizontal/4.webp'
+    ];
+
+    const verticalTransitions = [
+      '/hotelsensuelle/transition/vertical/1.webp',
+      '/hotelsensuelle/transition/vertical/2.webp',
+      '/hotelsensuelle/transition/vertical/3.webp',
+      '/hotelsensuelle/transition/vertical/4.webp'
+    ];
+
+    const transitionImages = isMobile ? verticalTransitions : horizontalTransitions;
+
+    function resetTransitionScreen() {
+      if (!transitionScreen) return;
+      transitionScreen.style.opacity = '0';
+      transitionScreen.style.pointerEvents = 'none';
+    }
+
+    window.addEventListener('load', resetTransitionScreen);
+    window.addEventListener('pageshow', () => resetTransitionScreen());
+
+    window.addEventListener('pagehide', () => {
+      if (!transitionScreen) return;
+      transitionScreen.style.transition = 'none';
+      transitionScreen.style.opacity = '0';
+      transitionScreen.style.pointerEvents = 'none';
+    });
+
+    function showTransitionAndNavigate(url, imgSrc) {
+      if (!transitionScreen || !transitionImage) {
+        window.location.href = url;
+        return;
+      }
+      if (imgSrc) transitionImage.src = imgSrc;
+
+      transitionScreen.style.opacity = '1';
+      transitionScreen.style.pointerEvents = 'auto';
+
+      setTimeout(() => { window.location.href = url; }, 300);
+    }
+
+    items.forEach((item, index) => {
+      const videoSrc = item.dataset.video;
+
+      const transitionSrc = transitionImages[index % transitionImages.length];
+      item.dataset.transitionSrc = transitionSrc;
+
+      if (!isMobile && bgVideo) {
+        item.addEventListener('mouseenter', () => {
+          if (!videoSrc) return;
+
+          if (bgVideo.getAttribute('src') !== videoSrc) {
+            bgVideo.setAttribute('src', videoSrc);
+            bgVideo.load();
+          }
+
+          bgVideo.style.opacity = '1';
+          bgVideo.play().catch(() => {});
+        });
+
+        item.addEventListener('mouseleave', () => {
+          bgVideo.style.opacity = '0';
+          bgVideo.pause();
+        });
+      }
+
+      item.addEventListener('click', (e) => {
+        const link = item.querySelector('a');
+        if (!link) return;
+        e.preventDefault();
+        showTransitionAndNavigate(link.href, transitionSrc);
+      });
+    });
+
+    const productLinks = document.querySelectorAll('.item .item-main a');
+    productLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const parentItem = link.closest('.item');
+        const imgSrc = parentItem ? parentItem.dataset.transitionSrc : null;
+        showTransitionAndNavigate(link.href, imgSrc);
+      });
+    });
+  </script>
+</body>
+</html>

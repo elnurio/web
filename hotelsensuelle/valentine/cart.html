@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Checkout</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+  /* ====== Futura font-face ====== */
+  @font-face {
+    font-family: "Futura";
+    src: url("descriptionfont/Futura Book font.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Futura";
+    src: url("descriptionfont/Futura Bold font.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: "Futura", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #DBDDD7;
+    color: #111111;
+  }
+
+  /* ЛОГО СВЕРХУ */
+  .logo {
+    text-align: center;
+    padding-top: 32px;
+    margin-bottom: 10px;
+  }
+  .logo img {
+    width: 240px;
+    height: auto;
+    opacity: 1;
+  }
+
+  .page {
+    max-width: 1200px;
+    margin: 40px auto 60px; /* ← отступ сверху увеличен */
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 2fr 1.2fr;
+    gap: 40px;
+  }
+
+  @media (max-width: 900px) {
+    .page {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* убираем белые карточки */
+  .main-column,
+  .summary-box {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 32px;
+  }
+
+  @media (max-width: 640px) {
+    .main-column,
+    .summary-box {
+      padding: 20px 0;
+    }
+  }
+
+  /* HEADINGS */
+  h1 {
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 24px;
+    font-weight: 700;
+  }
+
+  .section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin: 24px 0 10px;
+    font-weight: 700;
+  }
+
+  /* FORM */
+  label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px 8px;
+    border: 1px solid #111;
+    font-size: 13px;
+    outline: none;
+    background: rgba(255,255,255,0.7);
+    font-family: "Futura", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  input:focus, select:focus {
+    border-color: #000;
+    background: #ffffff;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .field-block { margin-bottom: 14px; }
+
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    margin: 8px 0 18px;
+  }
+
+  /* BUTTON */
+  .submit-btn {
+    margin-top: 24px;
+    padding: 12px 16px;
+    background: #111;
+    color: #fff;
+    border: 1px solid #111;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+    font-family: "Futura", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 700;
+  }
+
+  .submit-btn:hover:not(.disabled) {
+    background: #fff;
+    color: #111;
+  }
+
+  .submit-btn.disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .back-link {
+    margin-top: 14px;
+    font-size: 12px;
+  }
+
+  .back-link a {
+    color: #111;
+    text-decoration: underline;
+  }
+
+  /* SUMMARY */
+  .summary-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: 18px;
+    font-weight: 700;
+  }
+
+  .summary-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .summary-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border: 1px solid #eee;
+    background: #fff;
+  }
+
+  .summary-text { font-size: 12px; }
+  .summary-name { margin-bottom: 4px; }
+
+  .empty {
+    font-size: 12px;
+    opacity: 0.7;
+  }
+
+  .qty-note {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 4px;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .summary-row.total {
+    margin-top: 10px;
+    font-weight: 700;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ЛОГО ВЕРХУ -->
+<div class="logo">
+  <img src="images/Le%20Jour%20Script.webp" alt="Hotel Sensuelle">
+</div>
+
+<div class="page">
+
+  <!-- LEFT COLUMN -->
+  <div class="main-column">
+    <h1>Checkout</h1>
+
+    <p class="section-title">Stripe checkout</p>
+    <p class="empty">You will complete payment on Stripe.</p>
+
+    <button type="button" id="payButton" class="submit-btn disabled">
+      Continue to Stripe
+    </button>
+
+    <div class="back-link">
+      <a href="index.html">← Back to shop</a>
+    </div>
+  </div>
+
+  <!-- RIGHT COLUMN -->
+  <div class="summary-box">
+    <div class="summary-title">Order summary</div>
+    <div id="summary-items"></div>
+    <div id="summary-totals"></div>
+  </div>
+
+</div>
+
+<script>
+  const payButton = document.getElementById('payButton');
+  let cartItems = [];
+
+  function updateButtonState() {
+    if (cartItems.length > 0) {
+      payButton.classList.remove('disabled');
+      payButton.disabled = false;
+    } else {
+      payButton.classList.add('disabled');
+      payButton.disabled = true;
+    }
+  }
+
+  payButton.addEventListener('click', async function () {
+    if (!cartItems.length) {
+      alert('Your cart is empty.');
+      return;
+    }
+
+    try {
+      const res = await fetch('/hotelsensuelle/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cartItems })
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || 'Unable to start checkout.');
+      }
+
+      window.location.href = data.url;
+    } catch (err) {
+      console.error(err);
+      alert('Checkout is unavailable right now. Please try again.');
+    }
+  });
+
+  function loadCart() {
+    const summaryItems = document.getElementById("summary-items");
+    const summaryTotals = document.getElementById("summary-totals");
+
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    summaryItems.innerHTML = "";
+    summaryTotals.innerHTML = "";
+
+    if (cart.length === 0) {
+      summaryItems.innerHTML = '<div class="empty">Your cart is empty.</div>';
+      cartItems = [];
+      updateButtonState();
+      return;
+    }
+
+    cartItems = cart.map((item) => ({
+      name: item.name,
+      price: Number(item.price) || 0,
+      quantity: Number(item.quantity) || 1,
+      image: item.image || ''
+    }));
+
+    let subtotal = 0;
+    summaryItems.innerHTML = cartItems
+      .map((item) => {
+        const lineTotal = item.price * item.quantity;
+        subtotal += lineTotal;
+        return `
+          <div class="summary-item">
+            <img src="${item.image}" alt="${item.name}">
+            <div class="summary-text">
+              <div class="summary-name">${item.name}</div>
+              <div>£${item.price.toFixed(2)} × ${item.quantity}</div>
+            </div>
+          </div>
+        `;
+      })
+      .join('');
+
+    summaryTotals.innerHTML = `
+      <div class="summary-row">
+        <div>Subtotal</div>
+        <div>£${subtotal.toFixed(2)}</div>
+      </div>
+      <div class="summary-row">
+        <div>Shipping</div>
+        <div>Calculated at Stripe checkout</div>
+      </div>
+      <div class="summary-row">
+        <div>Taxes</div>
+        <div>£0.00</div>
+      </div>
+      <div class="summary-row total">
+        <div>Total</div>
+        <div>£${subtotal.toFixed(2)}</div>
+      </div>
+    `;
+  }
+
+  loadCart();
+  updateButtonState();
+</script>
+
+</body>
+</html>

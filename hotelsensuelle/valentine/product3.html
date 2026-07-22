@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DOUBLE DIRTY BOXERS — Whiff of a Daisy · Hotel Sensuelle</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; }
+
+    /* Futura — описание */
+    @font-face {
+      font-family: "FuturaCustom";
+      src: url("descriptionfont/Futura-Regular.woff2") format("woff2"),
+           url("descriptionfont/Futura-Regular.woff") format("woff");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    /* Gothic — заголовок */
+    @font-face {
+      font-family: "GothicCustom";
+      src: url("titlesfont/Gothic.woff2") format("woff2"),
+           url("titlesfont/Gothic.woff") format("woff"),
+           url("titlesfont/Gothic.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      margin: 0;
+      background: #DBDDD7;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      color: #111827;
+      overflow-x: hidden;
+    }
+
+    .page {
+      max-width: 1400px;
+      margin: 40px auto 80px;
+      padding: 0 24px;
+    }
+
+    /* LOGO */
+    .logo-bar {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .logo-bar img {
+      max-width: 260px;
+      width: 60%;
+      height: auto;
+      display: inline-block;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    /* Gallery (как в product1) */
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .main-image {
+      width: 100%;
+      max-width: 700px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .main-image img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .thumbs {
+      width: 100%;
+      max-width: 700px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .thumb {
+      border: 1px solid rgba(17,24,39,0.18);
+      background: rgba(255,255,255,0.12);
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+      opacity: 0.9;
+      padding: 0;
+    }
+
+    .thumb:hover {
+      transform: translateY(-2px);
+      opacity: 1;
+      border-color: rgba(17,24,39,0.35);
+    }
+
+    .thumb.is-active {
+      border-color: rgba(17,24,39,0.65);
+      opacity: 1;
+    }
+
+    .thumb.is-broken {
+      opacity: 0.35;
+      border-style: dashed;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* Описание */
+    .info-box {
+      background: transparent;
+      padding: 0;
+      width: 100%;
+      font-family: "FuturaCustom", system-ui, sans-serif;
+    }
+
+    .title-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 26px;
+    }
+
+    .title-row .main-title {
+      font-family: "GothicCustom", serif;
+      font-size: 18px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .price { font-size: 16px; }
+
+    .details {
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .section { margin-bottom: 22px; }
+
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 6px;
+      opacity: 0.75;
+    }
+
+    .details ul {
+      margin: 6px 0 6px 18px;
+      padding: 0;
+    }
+    .details li { margin-bottom: 4px; }
+
+    .size-guide {
+      margin-top: 16px;
+    }
+
+    .details small {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .details a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .enroll-btn {
+      background: #111827;
+      border: 1px solid #111827;
+      color: #f9fafb;
+      padding: 12px 15px;
+      width: 100%;
+      cursor: pointer;
+      text-transform: uppercase;
+      margin-top: 16px;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+    }
+
+    .enroll-btn:hover {
+      background: transparent;
+      color: #111827;
+    }
+
+    .enroll-btn:disabled,
+    .enroll-btn:disabled:hover {
+      background: #9ca3af;
+      border-color: #9ca3af;
+      color: #f9fafb;
+      cursor: not-allowed;
+    }
+
+    .availability-note {
+      margin-top: 8px;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      font-weight: normal;
+      text-align: center;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 22px;
+      font-size: 13px;
+      color: #111827;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 860px) {
+      .page { margin: 24px auto 40px; padding: 0 14px 40px; }
+      .content { display: block; }
+      .gallery { margin-bottom: 18px; }
+      .main-image, .thumbs { max-width: 92%; margin: 0 auto; }
+      .thumbs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .title-row { font-size: 16px; }
+      .details { font-size: 13px; line-height: 1.6; }
+      .enroll-btn { font-size: 12px; padding: 10px; }
+      .back { margin-top: 14px; }
+    }
+
+    /* ===== POPUP MODAL (как в product2) ===== */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .modal.is-open { display: flex; }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+    }
+
+    .modal-panel {
+      position: relative;
+      width: min(520px, 92vw);
+      background: rgba(219,221,215,0.98);
+      border: 1px solid rgba(17,24,39,0.22);
+      padding: 18px 18px 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      font-family: "FuturaCustom", system-ui, sans-serif;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .modal-title {
+      font-family: "GothicCustom", serif;
+      font-size: 14px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .modal-close {
+      appearance: none;
+      border: 1px solid rgba(17,24,39,0.35);
+      background: transparent;
+      color: #111827;
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: #111827;
+      color: #f9fafb;
+      border-color: #111827;
+    }
+
+    .modal-form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .modal-field label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 8px;
+      opacity: 0.75;
+    }
+
+    .modal-field input {
+      width: 100%;
+      background: transparent;
+      border: 1px solid rgba(17,24,39,0.35);
+      padding: 12px;
+      font-size: 13px;
+      font-family: "FuturaCustom", system-ui, sans-serif;
+      color: #111827;
+      outline: none;
+    }
+
+    .modal-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .modal-submit {
+      background: #111827;
+      border: 1px solid #111827;
+      color: #f9fafb;
+      padding: 12px 15px;
+      width: 100%;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+    }
+
+    .modal-submit:hover {
+      background: transparent;
+      color: #111827;
+    }
+
+    .modal-note {
+      font-size: 11px;
+      opacity: 0.7;
+      line-height: 1.4;
+    }
+
+    .order-summary {
+      margin: 2px 0 6px;
+      font-size: 12px;
+      opacity: 0.85;
+      line-height: 1.5;
+    }
+    /* ===== /POPUP MODAL ===== */
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- ЛОГО -->
+    <div class="logo-bar">
+      <img src="images/Le Jour Script.webp" alt="Hotel Sensuelle · Le Jour">
+    </div>
+
+    <div class="content">
+
+      <div class="gallery">
+        <div class="main-image">
+          <img id="mainProductImage"
+               src="images/03_double-dirty-boxers_whiff-of-a-daisy-front.webp"
+               alt="DOUBLE DIRTY BOXERS — Whiff of a Daisy">
+        </div>
+
+        <div class="thumbs" aria-label="Product image thumbnails">
+          <button class="thumb is-active" type="button" data-full="images/03_double-dirty-boxers_whiff-of-a-daisy-front.webp" aria-label="View image 1">
+            <img src="images/03_double-dirty-boxers_whiff-of-a-daisy-front.webp" alt="Thumbnail 1">
+          </button>
+
+          <button class="thumb" type="button" data-full="images/03_double-dirty-boxers_whiff-of-a-daisy-back.webp" aria-label="View image 2">
+            <img src="images/03_double-dirty-boxers_whiff-of-a-daisy-back.webp" alt="Thumbnail 2">
+          </button>
+
+          <button class="thumb" type="button" data-full="images/poems/double-dirty-boxers-poem-kissme.webp" aria-label="View image 3">
+            <img src="images/poems/double-dirty-boxers-poem-kissme.webp" alt="Thumbnail 3">
+          </button>
+        </div>
+      </div>
+
+      <!-- ОПИСАНИЕ -->
+      <div class="info-box">
+
+        <div class="title-row">
+          <div class="main-title">DOUBLE DIRTY BOXERS — Whiff of a Daisy</div>
+          <div class="price">£95</div>
+        </div>
+
+        <div class="details">
+
+          <div class="section">
+            <div class="section-title">The Little Flock</div>
+            <p>
+              A Nocturnal Poetry Club by Hotel Sensuelle.<br>
+              A Valentine’s story told through hand-stamped garments, small-batch finishing, and poems made to be worn.
+              Each piece is completed by hand in the studio — letter by letter — as a labour of love.
+            </p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Description</div>
+            <p>
+              A one-of-one underwear artifact — double-layer deadstock boxers reworked into a single piece, where one layer
+              hides the other like a secret. Hand-dyed, stained, and distressed in-house to feel like evidence of the night
+              before. Each unit carries its own colourway identity and our universal poem: “KISS ME.”
+            </p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Details</div>
+            <ul>
+              <li>100% deadstock heavy organic cotton boxers</li>
+              <li>Double-layer assembly</li>
+              <li>Hand-dyed, painted, and distressed finishing</li>
+              <li>Signature stitched brand label</li>
+              <li>Organza poem care label, hand-stamped letter by letter</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Garment Note</div>
+            <p>
+              This unit is one of one — only one chance to buy. Hand-finished with intentional imperfections, stains, and
+              marks as part of the design language. The bottom layer is hand-dyed and stained to peek through like a trace
+              left behind.
+            </p>
+            <p>
+              The boxer carries a lovers whispers and kiss marks placed across the front and back:
+            </p>
+            <ul>
+              <li>Front: hold me, need me, use me, break me, kiss me, kiss me, kiss me (L) / whiff of a daisy (R)</li>
+              <li>Back: cheeks (L) / cheeks (R)</li>
+            </ul>
+            <p>
+              Finished with the poem:
+              <em>“Don’t forget to sharpen your teeth before you kiss me on my cheeks.”</em>
+              <br>
+              Colourway: Whiff of a Daisy
+            </p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Sizing</div>
+            <ul>
+              <li>One size — relaxed universal L</li>
+            </ul>
+          </div>
+
+          <!-- SHIPPING -->
+          <div class="section">
+            <div class="section-title">Shipping</div>
+            <p>Shipped within 2 - 3 days</p>
+            <p>
+              By purchasing an order, you agree to our
+              <a href="terms.html">Terms &amp; Conditions</a>.
+            </p>
+          </div>
+
+        </div>
+
+        <button class="enroll-btn" id="buyNowBtn" type="button" disabled aria-disabled="true">SOLD OUT</button>
+
+        <a class="back" href="/hotelsensuelle/valentine/">← Back to collection</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const mainImg = document.getElementById('mainProductImage');
+    const thumbs = Array.from(document.querySelectorAll('.thumb'));
+
+    function setMainImage(url, btn) {
+      const pre = new Image();
+
+      pre.onload = () => {
+        mainImg.src = url;
+        thumbs.forEach(b => b.classList.remove('is-active'));
+        if (btn) btn.classList.add('is-active');
+      };
+
+      pre.onerror = () => {
+        console.error('[Gallery] Image failed to load:', url);
+        if (btn) btn.classList.add('is-broken');
+      };
+
+      pre.src = url;
+    }
+
+    thumbs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const full = btn.getAttribute('data-full');
+        if (!full) return;
+        setMainImage(full, btn);
+      });
+    });
+
+    const buyNowBtn = document.getElementById('buyNowBtn');
+
+    function addToCart() {
+      const stripeLink = 'https://buy.stripe.com/3cI8wQ3rzd2N7Kfgkp5Ne0j';
+      window.location.href = stripeLink;
+    }
+
+    if (buyNowBtn && !buyNowBtn.disabled) {
+      buyNowBtn.addEventListener('click', addToCart);
+    }
+  </script>
+
+</body>
+</html>
+
+

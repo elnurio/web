@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>T-Shirt Auction Collection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #111827;
+      background: #DBDDD7;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: #DBDDD7;
+      overflow: hidden;
+    }
+
+    .bg-layer video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: block;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      width: 100%;
+      padding: 32px 24px 40px;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .logo img {
+      max-width: 260px;
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 40px 40px;
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: 1fr; }
+      .bg-layer { display: none; }
+    }
+
+    .item { cursor: pointer; text-align: center; font-size: 12px; }
+
+    .item-img-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 120%;
+      overflow: hidden;
+    }
+
+    .item-img, picture {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .item-code {
+      margin-top: 10px;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .item-main a {
+      display: inline-block;
+      margin-top: 4px;
+      color: #111827;
+      text-decoration: none;
+      font-size: 11px;
+      opacity: 0.75;
+    }
+
+    .item-main a:hover { text-decoration: underline; }
+
+    .item-sold-out {
+      margin-top: 4px;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #b91c1c;
+      font-weight: 600;
+    }
+
+    .hint {
+      margin-top: 24px;
+      font-size: 10px;
+      opacity: 0.6;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      text-align: center;
+    }
+
+    #transition-screen {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 9999;
+    }
+
+    #transition-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-layer">
+    <video id="bgVideo" muted loop playsinline></video>
+  </div>
+
+  <div class="wrapper">
+    <div class="logo">
+      <!-- ВАЖНО: этот index.html лежит внутри /valentine/,
+           поэтому к ресурсам из корня идем через ../ -->
+      <img src="../images/Le%20Jour%20Script.webp" alt="Hotel Sensuelle logo">
+    </div>
+
+    <div class="grid">
+
+      <!-- ВАЖНО: ссылки на продукты ДОЛЖНЫ быть относительные (product1.html),
+           чтобы открывались файлы из этой же папки /valentine/ -->
+
+      <div class="item" data-video="video/14.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/01_punctured-pillow-top-front.webp" type="image/webp">
+            <img class="item-img" src="transition/22.webp" alt="T-Shirt 01">
+          </picture>
+        </div>
+        <div class="item-code">PUNCTURED PILLOW TOP</div>
+        <div class="item-main"><a href="product1.html">Choose your Poem</a></div>       
+        <div class="item-sold-out">SOLD OUT</div>
+      </div>
+
+      <div class="item" data-video="video/15.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/02_sheer-thought-tights.webp" type="image/webp">
+            <img class="item-img" src="images/t2.png" alt="T-Shirt 02">
+          </picture>
+        </div>
+        <div class="item-code">SHEER THOUGHT TIGHTS</div>
+        <div class="item-main"><a href="product2.html">Maxima Vulva Poem</a></div>
+        <div class="item-sold-out">SOLD OUT</div>
+      </div>
+
+      <div class="item" data-video="video/16.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/03_double-dirty-boxers_whiff-of-a-daisy-front.webp" type="image/webp">
+            <img class="item-img" src="images/t3.png" alt="T-Shirt 03">
+          </picture>
+        </div>
+        <div class="item-code">DOUBLE DIRTY BOXERS — Whiff of a Daisy</div>
+        <div class="item-main"><a href="product3.html">Kiss Me Poem</a></div>
+        <div class="item-sold-out">SOLD OUT</div>
+      </div>
+
+      <div class="item" data-video="video/17.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/04_double-dirty-boxers_sugar-plum-front.webp" type="image/webp">
+            <img class="item-img" src="images/t4.png" alt="T-Shirt 04">
+          </picture>
+        </div>
+        <div class="item-code">DOUBLE DIRTY BOXERS — Sugar Plum</div>
+        <div class="item-main"><a href="product4.html">Kiss Me Poem</a></div>
+        <div class="item-sold-out">SOLD OUT</div>
+      </div>
+
+      <div class="item" data-video="video/18.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/05_double-dirty-boxers_a-single-golden-star-front.webp" type="image/webp">
+            <img class="item-img" src="images/t5.png" alt="T-Shirt 05">
+          </picture>
+        </div>
+        <div class="item-code">DOUBLE DIRTY BOXERS — A Single Golden Star</div>
+        <div class="item-main"><a href="product5.html">Kiss Me Poem</a></div>
+      </div>
+
+      <div class="item" data-video="video/19.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/06_double-dirty-boxers_awe-front.webp" type="image/webp">
+            <img class="item-img" src="images/t6.png" alt="T-Shirt 06">
+          </picture>
+        </div>
+        <div class="item-code">DOUBLE DIRTY BOXERS — Awe</div>
+        <div class="item-main"><a href="product6.html">Kiss Me Poem</a></div>
+        <div class="item-sold-out">SOLD OUT</div>
+      </div>
+
+      <div class="item" data-video="video/20.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/07_double-dirty-boxers_ecstasy-front.webp" type="image/webp">
+            <img class="item-img" src="images/t7.png" alt="T-Shirt 07">
+          </picture>
+        </div>
+        <div class="item-code">DOUBLE DIRTY BOXERS — Ecstasy</div>
+        <div class="item-main"><a href="product7.html">Kiss Me Poem</a></div>
+        <div class="item-sold-out">SOLD OUT</div>
+      </div>
+
+      <div class="item" data-video="video/21.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/08_double-dirty-boxers_speed-front.webp" type="image/webp">
+            <img class="item-img" src="images/t8.png" alt="T-Shirt 08">
+          </picture>
+        </div>
+        <div class="item-code">DOUBLE DIRTY BOXERS — Speed</div>
+        <div class="item-main"><a href="product8.html">Kiss Me Poem</a></div>
+        <div class="item-sold-out">SOLD OUT</div>
+      </div>
+
+      <div class="item" data-video="video/14.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/09_double-dirty-boxers_an-epiphany-front.webp" type="image/webp">
+            <img class="item-img" src="images/t9.png" alt="T-Shirt 09">
+          </picture>
+        </div>
+        <div class="item-code">DOUBLE DIRTY BOXERS — An Epiphany</div>
+        <div class="item-main"><a href="product9.html">Kiss Me Poem</a></div>
+        <div class="item-sold-out">SOLD OUT</div>
+      </div>
+
+      <div class="item" data-video="video/15.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/10_double-dirty-boxers_monogamy-front.webp" type="image/webp">
+            <img class="item-img" src="images/t10.png" alt="T-Shirt 10">
+          </picture>
+        </div>
+        <div class="item-code">DOUBLE DIRTY BOXERS — Monogamy</div>
+        <div class="item-main"><a href="product10.html">Kiss Me Poem</a></div>
+      </div>
+
+      <div class="item" data-video="video/16.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/11_double-dirty-boxers_clairvoyance-front.webp" type="image/webp">
+            <img class="item-img" src="images/t11.png" alt="T-Shirt 11">
+          </picture>
+        </div>
+        <div class="item-code">DOUBLE DIRTY BOXERS — Clairvoyance</div>
+        <div class="item-main"><a href="product11.html">Kiss Me Poem</a></div>
+        <div class="item-sold-out">SOLD OUT</div>
+      </div>
+
+      <div class="item" data-video="video/17.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/12_double-dirty-boxers_submission-front.webp" type="image/webp">
+            <img class="item-img" src="images/t12.png" alt="T-Shirt 12">
+          </picture>
+        </div>
+        <div class="item-code">DOUBLE DIRTY BOXERS — Submission</div>
+        <div class="item-main"><a href="product12.html">Kiss Me Poem</a></div>
+      </div>
+
+      <div class="item" data-video="video/17.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/13_double-dirty-boxers_kneeburn-front.webp" type="image/webp">
+            <img class="item-img" src="images/t12.png" alt="T-Shirt 12">
+          </picture>
+        </div>
+        <div class="item-code">DOUBLE DIRTY BOXERS — Kneeburn</div>
+        <div class="item-main"><a href="product13.html">Kiss Me Poem</a></div>
+      </div>
+
+      <div class="item" data-video="video/17.mp4">
+        <div class="item-img-wrapper">
+          <picture>
+            <source srcset="images/14_double-dirty-boxers_doom-front.webp" type="image/webp">
+            <img class="item-img" src="images/t12.png" alt="T-Shirt 12">
+          </picture>
+        </div>
+        <div class="item-code">DOUBLE DIRTY BOXERS — Doom</div>
+        <div class="item-main"><a href="product14.html">Kiss Me Poem</a></div>
+      </div>      
+    </div>
+
+    <div class="hint">Hover items to change background / click to open product page</div>
+  </div>
+
+  <!-- ВАЖНО: transition внутри /valentine/ папки -->
+  <div id="transition-screen">
+    <img src="transition/horizontal/1.webp" alt="">
+  </div>
+
+  <script>
+    const bgVideo = document.getElementById('bgVideo');
+    const items = document.querySelectorAll('.item');
+    const transitionScreen = document.getElementById('transition-screen');
+    const transitionImage = transitionScreen ? transitionScreen.querySelector('img') : null;
+
+    const isMobile = window.matchMedia('(max-width: 640px)').matches || 'ontouchstart' in window;
+
+    const horizontalTransitions = [
+      'transition/horizontal/28.webp',
+      'transition/horizontal/22.webp',
+      'transition/horizontal/23.webp',
+      'transition/horizontal/24.webp',
+      'transition/horizontal/25.webp',
+      'transition/horizontal/26.webp',
+      'transition/horizontal/27.webp'
+    ];
+
+    const verticalTransitions = [
+      'transition/horizontal/28.webp',
+      'transition/horizontal/22.webp',
+      'transition/horizontal/23.webp',
+      'transition/horizontal/24.webp',
+      'transition/horizontal/25.webp',
+      'transition/horizontal/26.webp',
+      'transition/horizontal/27.webp'
+    ];
+
+    const transitionImages = isMobile ? verticalTransitions : horizontalTransitions;
+
+    function resetTransitionScreen() {
+      if (!transitionScreen) return;
+      transitionScreen.style.transition = '';
+      transitionScreen.style.opacity = '0';
+      transitionScreen.style.pointerEvents = 'none';
+    }
+
+    window.addEventListener('load', resetTransitionScreen);
+    window.addEventListener('pageshow', () => resetTransitionScreen());
+
+    window.addEventListener('pagehide', () => {
+      if (!transitionScreen) return;
+      transitionScreen.style.transition = 'none';
+      transitionScreen.style.opacity = '0';
+      transitionScreen.style.pointerEvents = 'none';
+    });
+
+    function showTransitionAndNavigate(url, imgSrc) {
+      if (!transitionScreen || !transitionImage) {
+        window.location.href = url;
+        return;
+      }
+      if (imgSrc) transitionImage.src = imgSrc;
+
+      transitionScreen.style.opacity = '1';
+      transitionScreen.style.pointerEvents = 'auto';
+
+      setTimeout(() => { window.location.href = url; }, 300);
+    }
+
+    items.forEach((item, index) => {
+      const videoSrc = item.dataset.video;
+
+      const transitionSrc = transitionImages[index % transitionImages.length];
+      item.dataset.transitionSrc = transitionSrc;
+
+      if (!isMobile && bgVideo) {
+        item.addEventListener('mouseenter', () => {
+          if (!videoSrc) return;
+
+          if (bgVideo.getAttribute('src') !== videoSrc) {
+            bgVideo.setAttribute('src', videoSrc);
+            bgVideo.load();
+          }
+
+          bgVideo.style.opacity = '1';
+          bgVideo.play().catch(() => {});
+        });
+
+        item.addEventListener('mouseleave', () => {
+          bgVideo.style.opacity = '0';
+          bgVideo.pause();
+        });
+      }
+
+      item.addEventListener('click', (e) => {
+        const link = item.querySelector('a');
+        if (!link) return;
+        e.preventDefault();
+        showTransitionAndNavigate(link.href, transitionSrc);
+      });
+    });
+
+    // доп. перехват кликов по самой ссылке
+    const productLinks = document.querySelectorAll('.item .item-main a');
+    productLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const parentItem = link.closest('.item');
+        const imgSrc = parentItem ? parentItem.dataset.transitionSrc : null;
+        showTransitionAndNavigate(link.href, imgSrc);
+      });
+    });
+  </script>
+</body>
+</html>

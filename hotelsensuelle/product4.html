@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chapter IV — Don't Believe In Magic · Hotel Sensuelle</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; }
+
+    /* Futura — описание */
+    @font-face {
+      font-family: "FuturaCustom";
+      src: url("descriptionfont/Futura-Regular.woff2") format("woff2"),
+           url("descriptionfont/Futura-Regular.woff") format("woff");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    /* Gothic — заголовок */
+    @font-face {
+      font-family: "GothicCustom";
+      src: url("titlesfont/Gothic.woff2") format("woff2"),
+           url("titlesfont/Gothic.woff") format("woff"),
+           url("titlesfont/Gothic.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      margin: 0;
+      background: #DBDDD7;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      color: #111827;
+      overflow-x: hidden;
+    }
+
+    .page {
+      max-width: 1400px;
+      margin: 40px auto 80px;
+      padding: 0 24px;
+    }
+
+    /* LOGO */
+    .logo-bar {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .logo-bar img {
+      max-width: 260px;
+      width: 60%;
+      height: auto;
+      display: inline-block;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    /* Фото */
+    .product-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .product-image img {
+      width: 100%;
+      max-width: 700px;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Описание */
+    .info-box {
+      background: transparent;
+      padding: 0;
+      width: 100%;
+      font-family: "FuturaCustom", system-ui, sans-serif;
+    }
+
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 18px;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .title-row div:first-child {
+      font-family: "GothicCustom", serif;
+      letter-spacing: 0.1em;
+    }
+
+    .price { font-size: 16px; }
+
+    .details {
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .section { margin-bottom: 22px; }
+
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 6px;
+      opacity: 0.75;
+    }
+
+    .details ul {
+      margin: 6px 0 6px 18px;
+      padding: 0;
+    }
+    .details li { margin-bottom: 4px; }
+
+    .details small {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .details a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .enroll-btn {
+      background: #111827;
+      border: 1px solid #111827;
+      color: #f9fafb;
+      padding: 12px 15px;
+      width: 100%;
+      cursor: pointer;
+      text-transform: uppercase;
+      margin-top: 4px;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+    }
+
+    .enroll-btn:hover {
+      background: transparent;
+      color: #111827;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 22px;
+      font-size: 13px;
+      color: #111827;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 860px) {
+      .page { margin: 24px auto 40px; padding: 0 14px 40px; }
+      .content { display: block; }
+      .product-image { margin-bottom: 18px; }
+      .product-image img { max-width: 90%; margin: 0 auto; }
+      .title-row { font-size: 16px; }
+      .details { font-size: 13px; line-height: 1.6; }
+      .enroll-btn { font-size: 12px; padding: 10px; }
+      .back { margin-top: 14px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- ЛОГО -->
+    <div class="logo-bar">
+      <img src="images/Le%20Jour%20Script.webp" alt="Hotel Sensuelle · Le Jour">
+    </div>
+
+    <div class="content">
+
+      <!-- ФОТО -->
+      <div class="product-image">
+        <img src="images/chapter-IV-hero.webp" alt="Chapter IV — Don't Believe In Magic · T-Shirt">
+      </div>
+
+      <!-- ОПИСАНИЕ -->
+      <div class="info-box">
+
+        <div class="title-row">
+          <div>Chapter IV — Don't Believe In Magic</div>
+           <!-- <div class="price">£15</div> -->
+        </div>
+
+        <div class="details">
+
+          <!-- DESCRIPTION -->
+          <div class="section">
+            <div class="section-title">Description</div>
+            <p>
+              A one-of-one sleep relic — hand-dyed deadstock cotton with in-house silk-printed artwork,
+              from the studio’s first-ever holiday merch series: “Too Much Sugar Before Bed:
+              Bedtime Stories by Hotel Sensuelle.”
+            </p>
+          </div>
+
+          <!-- DETAILS -->
+          <div class="section">
+            <div class="section-title">Details</div>
+            <ul>
+              <li>100% deadstock heavy organic cotton</li>
+              <li>Hand-dyed with organic pigment</li>
+              <li>Hand-distressed for a hardcore mischief finish</li>
+              <li>Treated to feel like a beloved, vintage kids’ / camp sleeping shirt</li>
+              <li>One size — relaxed universal L</li>
+              <li>Artwork imagined, drawn, silk-printed and finished entirely in-house</li>
+              <li>Custom labels: canvas neck label + signature blue silk-taffeta stitched brand label</li>
+            </ul>
+          </div>
+
+          <!-- CHAPTER NOTE -->
+          <div class="section">
+            <div class="section-title">Chapter Note</div>
+            <p>
+              Made for the fevered minds who stay up too late. A celebration of sleepless nights,
+              wired imagination, and the tender chaos of bedtime.
+            </p>
+            <p>
+              <small>
+                Text on tee: “Holy Shit. Those who don't believe in magic will never find heaven.
+                Sell your soul. Sign here.”
+              </small>
+            </p>
+          </div>
+
+          <!-- RAFFLE -->
+          <div class="section">
+            <div class="section-title">Sleep Ticket Raffle</div>
+            <p>Each ticket is £15 = 1 entry to win this exact Chapter.</p>
+            <p>Multiple tickets allowed.</p>
+            <p>Winner drawn on 17 December 2025.</p>
+          </div>
+
+          <!-- SHIPPING -->
+          <div class="section">
+            <div class="section-title">Shipping</div>
+            <p>If you win, shipping will be arranged afterwards.</p>
+            <p>UK: £5 tracked</p>
+            <p>Worldwide: cost based on location</p>
+            <p>Customs/fees are the winner’s responsibility.</p>
+            <p>
+              By purchasing a ticket, you agree to our
+              <a href="raffle-terms.html">Raffle Terms &amp; Conditions.</a>
+            </p>
+          </div>
+
+        </div>
+
+        <!-- КНОПКА Stripe -->
+        <button class="enroll-btn" disabled>SOLD OUT</button>
+
+        <a class="back" href="index.html">← Back to collection</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function goToStripe() {
+      window.open(
+        "https://buy.stripe.com/cNi8wQ5zHd2Nd4z4BH5Ne03",
+        "_blank",
+        "noopener"
+      );
+    }
+  </script>
+
+</body>
+</html>
+
+
