@@ -14,8 +14,14 @@ let audioCtx = null;
 let audioContextResumed = false;
 let audioGraphReady = false;
 let masterGain = null;
+let dryBus = null;
+let spaceSend = null;
 let isMuted = localStorage.getItem('elnurio-muted') === '1';
 let activeVoices = [];
+let lastNoteTime = 0;
+let padNodes = null;
+let lastPadBucket = -1;
+let noteStep = 0;
 
 let lastTime = 0;
 const targetFPS = 60;
@@ -85,24 +91,24 @@ const colorGreen = { h: 120, s: 100, l: 50 };
 const midPointDepthFactor = 0.1;
 const segmentHueShift = 1;
 
-const soundBaseFreq = 55;
-const soundFreqVariation = 0.5;
-const soundDuration = 1.35;
-const soundVolume = 0.58;
-// Softer than original invert — keeps organ color without piercing top
-const organVolumes = [0.22, 0.32, 0.26, 0.16];
-const positionFreqShiftRange = 28;
-const filterQ = 0.8;
-const delayTime = 0.28;
-const delayFeedback = 0.38;
-const delayWetLevel = 0.48;
-const MASTER_GAIN = 1;
-const MAX_VOICES = 10;
+// Mid-register D major pentatonic — no sub-bass (avoids headphone "knock")
+// D3 E3 F#3 A3 B3 D4 E4 F#4 A4
+const SCALE_FREQS = [
+  146.83, 164.81, 185.00, 220.00, 246.94,
+  293.66, 329.63, 369.99, 440.00,
+];
+const PARTIAL_GAINS = [1, 0.28, 0.1];
+const MASTER_GAIN = 0.55;
+const NOTE_GAIN = 0.18;
+const PAD_GAIN = 0.028;
+const MAX_VOICES = 4;
+const NOTE_ATTACK = 0.14;
+const NOTE_HOLD = 0.45;
+const NOTE_RELEASE = 1.1;
+const NOTE_TOTAL = NOTE_ATTACK + NOTE_HOLD + NOTE_RELEASE;
+const NOTE_PROBABILITY = 0.38;
+const NOTE_COOLDOWN_MS = 280;
 const MUTE_STORAGE_KEY = 'elnurio-muted';
-const NOTE_ATTACK = 0.1;
-const NOTE_PROBABILITY = 0.72;
-const NOTE_COOLDOWN_MS = 80;
-let lastNoteTime = 0;
 
 const numStars = 200;
 let maxStarZ = 1;
@@ -152,7 +158,7 @@ function applyMasterMute() {
   if (!masterGain || !audioCtx) return;
   const now = audioCtx.currentTime;
   masterGain.gain.cancelScheduledValues(now);
-  masterGain.gain.setTargetAtTime(isMuted ? 0 : MASTER_GAIN, now, 0.05);
+  masterGain.gain.setTargetAtTime(isMuted ? 0 : MASTER_GAIN, now, 0.08);
 }
 
 function updateMuteButton() {
@@ -169,22 +175,92 @@ function setMuted(muted) {
   updateMuteButton();
 }
 
+function createSharedSpace(ctx) {
+  const input = ctx.createGain();
+  const output = ctx.createGain();
+  output.gain.value = 0.4;
+
+  // Kill bass in the feedback path — this was causing the headphone knock
+  const sendHP = ctx.createBiquadFilter();
+  sendHP.type = 'highpass';
+  sendHP.frequency.value = 220;
+  sendHP.Q.value = 0.7;
+
+  const sendLP = ctx.createBiquadFilter();
+  sendLP.type = 'lowpass';
+  sendLP.frequency.value = 3200;
+  sendLP.Q.value = 0.5;
+
+  const delayL = ctx.createDelay(1.5);
+  const delayR = ctx.createDelay(1.5);
+  delayL.delayTime.value = 0.32;
+  delayR.delayTime.value = 0.43;
+
+  const fbL = ctx.createGain();
+  const fbR = ctx.createGain();
+  fbL.gain.value = 0.22;
+  fbR.gain.value = 0.18;
+
+  const wetL = ctx.createGain();
+  const wetR = ctx.createGain();
+  wetL.gain.value = 0.55;
+  wetR.gain.value = 0.5;
+
+  const panL = ctx.createStereoPanner();
+  const panR = ctx.createStereoPanner();
+  panL.pan.value = -0.7;
+  panR.pan.value = 0.7;
+
+  input.connect(sendHP);
+  sendHP.connect(sendLP);
+  sendLP.connect(delayL);
+  sendLP.connect(delayR);
+
+  delayL.connect(fbL);
+  fbL.connect(sendHP);
+  delayR.connect(fbR);
+  fbR.connect(sendHP);
+
+  delayL.connect(wetL).connect(panL).connect(output);
+  delayR.connect(wetR).connect(panR).connect(output);
+
+  return { input, output };
+}
+
 function setupAudioGraph() {
   if (!audioCtx || audioGraphReady) return;
 
+  // Master chain: bus → HP (no sub) → soft compressor → out
   masterGain = audioCtx.createGain();
   masterGain.gain.value = isMuted ? 0 : MASTER_GAIN;
 
-  const compressor = audioCtx.createDynamicsCompressor();
-  compressor.threshold.value = -12;
-  compressor.knee.value = 20;
-  compressor.ratio.value = 2;
-  compressor.attack.value = 0.003;
-  compressor.release.value = 0.2;
+  const masterHP = audioCtx.createBiquadFilter();
+  masterHP.type = 'highpass';
+  masterHP.frequency.value = 110;
+  masterHP.Q.value = 0.7;
 
+  const compressor = audioCtx.createDynamicsCompressor();
+  compressor.threshold.value = -20;
+  compressor.knee.value = 18;
+  compressor.ratio.value = 3;
+  compressor.attack.value = 0.01;
+  compressor.release.value = 0.3;
+
+  dryBus = audioCtx.createGain();
+  dryBus.gain.value = 1;
+
+  const space = createSharedSpace(audioCtx);
+  spaceSend = space.input;
+
+  dryBus.connect(masterHP);
+  space.output.connect(masterHP);
+  masterHP.connect(masterGain);
   masterGain.connect(compressor);
   compressor.connect(audioCtx.destination);
+
   audioGraphReady = true;
+  startPad();
+  updatePadForPhase(0);
 }
 
 function unlockAudio() {
@@ -223,15 +299,92 @@ function initializeAudio() {
   }
 }
 
+function startPad() {
+  if (!audioCtx || !dryBus || padNodes) return;
+
+  const now = audioCtx.currentTime;
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 900;
+  filter.Q.value = 0.4;
+
+  const hp = audioCtx.createBiquadFilter();
+  hp.type = 'highpass';
+  hp.frequency.value = 140;
+  hp.Q.value = 0.7;
+
+  const gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(PAD_GAIN, now + 3);
+
+  // Soft fifth dyad in mid register (D3 + A3)
+  const root = audioCtx.createOscillator();
+  const fifth = audioCtx.createOscillator();
+  root.type = 'sine';
+  fifth.type = 'sine';
+  root.frequency.value = 146.83;
+  fifth.frequency.value = 220;
+
+  const g1 = audioCtx.createGain();
+  const g2 = audioCtx.createGain();
+  g1.gain.value = 0.7;
+  g2.gain.value = 0.4;
+
+  root.connect(g1).connect(filter);
+  fifth.connect(g2).connect(filter);
+  filter.connect(hp);
+  hp.connect(gain);
+  gain.connect(dryBus);
+
+  if (spaceSend) {
+    const send = audioCtx.createGain();
+    send.gain.value = 0.25;
+    gain.connect(send);
+    send.connect(spaceSend);
+  }
+
+  root.start(now);
+  fifth.start(now);
+  padNodes = { root, fifth, filter, gain };
+}
+
+function updatePadForPhase(phaseProgress) {
+  if (!padNodes || !audioCtx) return;
+  const bucket = phaseProgress < 0.33 ? 0 : phaseProgress < 0.66 ? 1 : 2;
+  if (lastPadBucket === bucket) return;
+  lastPadBucket = bucket;
+
+  const now = audioCtx.currentTime;
+  const roots = [146.83, 164.81, 185.0];
+  const fifths = [220.0, 246.94, 277.18];
+  const filters = [800, 1100, 1400];
+
+  padNodes.root.frequency.setTargetAtTime(roots[bucket], now, 1.8);
+  padNodes.fifth.frequency.setTargetAtTime(fifths[bucket], now, 1.8);
+  padNodes.filter.frequency.setTargetAtTime(filters[bucket], now, 1.5);
+}
+
+function pickNoteFreq(normX, phaseProgress) {
+  // Walk gently through the scale; position biases register
+  const registerBias = phaseProgress > 0.5 ? 3 : 0;
+  const posBias = Math.round((normX + 1) * 1.5);
+  noteStep = (noteStep + 1 + (Math.random() < 0.35 ? 1 : 0)) % 5;
+  const idx = Math.max(0, Math.min(
+    SCALE_FREQS.length - 1,
+    noteStep + registerBias + posBias
+  ));
+  return SCALE_FREQS[idx];
+}
+
 function stealOldestVoice(now) {
   while (activeVoices.length >= MAX_VOICES) {
     const oldest = activeVoices.shift();
     if (!oldest) break;
     try {
       oldest.gain.gain.cancelScheduledValues(now);
-      oldest.gain.gain.setValueAtTime(0, now);
+      oldest.gain.gain.setTargetAtTime(0.0001, now, 0.04);
       oldest.oscillators.forEach((osc) => {
-        try { osc.stop(now + 0.02); } catch (_) {}
+        try { osc.stop(now + 0.12); } catch (_) {}
       });
     } catch (_) {}
   }
@@ -250,16 +403,16 @@ function playSound(triggerRing, phaseProgress) {
   if (audioCtx.state === 'suspended') {
     audioCtx.resume().then(() => {
       audioContextResumed = true;
-      playSoundInternal(triggerRing, phaseProgress);
+      playNote(triggerRing, phaseProgress);
     }).catch(() => {});
     return;
   }
 
   if (audioCtx.state !== 'running' || !audioGraphReady || isMuted) return;
-  playSoundInternal(triggerRing, phaseProgress);
+  playNote(triggerRing, phaseProgress);
 }
 
-function playSoundInternal(triggerRing, phaseProgress) {
+function playNote(triggerRing, phaseProgress) {
   const nowMs = performance.now();
   if (nowMs - lastNoteTime < NOTE_COOLDOWN_MS) return;
   if (Math.random() > NOTE_PROBABILITY) return;
@@ -273,87 +426,61 @@ function playSoundInternal(triggerRing, phaseProgress) {
   if (triggerRing && typeof triggerRing.ringCenterX === 'number' && width > 0) {
     normX = Math.max(-1, Math.min(1, triggerRing.ringCenterX / (width / 2)));
   }
-  // Small pitch sway (less anxious than ±50Hz) + stereo for space
-  const freqShift = normX * (positionFreqShiftRange / 2);
-  const panValue = normX * 0.7;
 
-  const baseFreq = soundBaseFreq + freqShift + Math.random() * soundFreqVariation - soundFreqVariation / 2;
-  const mainGain = audioCtx.createGain();
-  const lowpassFilter = audioCtx.createBiquadFilter();
-  const highpassFilter = audioCtx.createBiquadFilter();
+  const baseFreq = pickNoteFreq(normX, phaseProgress);
+  const panValue = normX * 0.55;
+  const peak = NOTE_GAIN * (phaseProgress > 0.5 ? 0.9 : 1);
+
+  const noteGain = audioCtx.createGain();
+  const filter = audioCtx.createBiquadFilter();
+  const hp = audioCtx.createBiquadFilter();
   const panner = audioCtx.createStereoPanner();
   panner.pan.setValueAtTime(panValue, now);
 
-  // Dual delay taps for width
-  const delayL = audioCtx.createDelay(1.5);
-  const delayR = audioCtx.createDelay(1.5);
-  const feedbackL = audioCtx.createGain();
-  const feedbackR = audioCtx.createGain();
-  const wetL = audioCtx.createGain();
-  const wetR = audioCtx.createGain();
-  const panL = audioCtx.createStereoPanner();
-  const panR = audioCtx.createStereoPanner();
-  const filterPeakFreq = lerp(1600, 2800, phaseProgress);
+  // Soft open/close — never harsh, never subby
+  const filterPeak = lerp(1400, 2200, phaseProgress);
+  filter.type = 'lowpass';
+  filter.Q.setValueAtTime(0.6, now);
+  filter.frequency.setValueAtTime(600, now);
+  filter.frequency.linearRampToValueAtTime(filterPeak, now + NOTE_ATTACK + NOTE_HOLD * 0.4);
+  filter.frequency.exponentialRampToValueAtTime(500, now + NOTE_TOTAL);
 
-  lowpassFilter.type = 'lowpass';
-  lowpassFilter.Q.setValueAtTime(filterQ, now);
-  lowpassFilter.frequency.setValueAtTime(280, now);
-  lowpassFilter.frequency.linearRampToValueAtTime(filterPeakFreq, now + soundDuration * 0.45);
-  lowpassFilter.frequency.linearRampToValueAtTime(320, now + soundDuration);
-
-  highpassFilter.type = 'highpass';
-  highpassFilter.frequency.setValueAtTime(45, now);
-  highpassFilter.Q.setValueAtTime(0.7, now);
-
-  const delayBase = delayTime * (1 + phaseProgress * 0.35);
-  delayL.delayTime.setValueAtTime(delayBase, now);
-  delayR.delayTime.setValueAtTime(delayBase * 1.37, now);
-  feedbackL.gain.setValueAtTime(delayFeedback, now);
-  feedbackR.gain.setValueAtTime(delayFeedback * 0.9, now);
-  wetL.gain.setValueAtTime(delayWetLevel, now);
-  wetR.gain.setValueAtTime(delayWetLevel * 0.85, now);
-  panL.pan.setValueAtTime(-0.65, now);
-  panR.pan.setValueAtTime(0.65, now);
+  hp.type = 'highpass';
+  hp.frequency.setValueAtTime(120, now);
+  hp.Q.setValueAtTime(0.7, now);
 
   const oscillators = [];
-  const frequencies = [baseFreq, baseFreq * 2, baseFreq * 3, baseFreq * 4];
-  frequencies.forEach((freq, index) => {
-    if (index >= organVolumes.length) return;
+  PARTIAL_GAINS.forEach((partialGain, index) => {
     const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
     osc.type = 'sine';
-    // Tiny detune for thickness; no tense upward pitch climb with phase
-    osc.detune.setValueAtTime((index % 2 === 0 ? -4 : 5) * (index + 1) * 0.4, now);
-    osc.frequency.setValueAtTime(freq, now);
-    const gain = audioCtx.createGain();
-    gain.gain.setValueAtTime(organVolumes[index], now);
-    osc.connect(gain).connect(mainGain);
-    oscillators.push(osc);
+    osc.frequency.setValueAtTime(baseFreq * (index + 1), now);
+    osc.detune.setValueAtTime(index === 1 ? 3 : index === 2 ? -4 : 0, now);
+    g.gain.setValueAtTime(partialGain, now);
+    osc.connect(g).connect(noteGain);
     osc.start(now);
-    osc.stop(now + soundDuration + 0.05);
+    osc.stop(now + NOTE_TOTAL + 0.05);
+    oscillators.push(osc);
   });
 
-  mainGain.connect(highpassFilter);
-  highpassFilter.connect(lowpassFilter);
-  lowpassFilter.connect(panner);
-  panner.connect(masterGain);
+  noteGain.gain.setValueAtTime(0.0001, now);
+  noteGain.gain.exponentialRampToValueAtTime(peak, now + NOTE_ATTACK);
+  noteGain.gain.exponentialRampToValueAtTime(peak * 0.5, now + NOTE_ATTACK + NOTE_HOLD);
+  noteGain.gain.exponentialRampToValueAtTime(0.0001, now + NOTE_TOTAL);
 
-  // Spatialize wet path
-  panner.connect(delayL);
-  panner.connect(delayR);
-  delayL.connect(feedbackL);
-  feedbackL.connect(delayL);
-  delayR.connect(feedbackR);
-  feedbackR.connect(delayR);
-  delayL.connect(wetL).connect(panL).connect(masterGain);
-  delayR.connect(wetR).connect(panR).connect(masterGain);
+  noteGain.connect(hp);
+  hp.connect(filter);
+  filter.connect(panner);
+  panner.connect(dryBus);
 
-  // Soft attack / long fade — less startling than 10ms punch
-  mainGain.gain.setValueAtTime(0, now);
-  mainGain.gain.linearRampToValueAtTime(soundVolume, now + NOTE_ATTACK);
-  mainGain.gain.linearRampToValueAtTime(soundVolume * 0.55, now + soundDuration * 0.55);
-  mainGain.gain.linearRampToValueAtTime(0, now + soundDuration);
+  if (spaceSend) {
+    const send = audioCtx.createGain();
+    send.gain.value = 0.35;
+    panner.connect(send);
+    send.connect(spaceSend);
+  }
 
-  activeVoices.push({ oscillators, gain: mainGain, endTime: now + soundDuration });
+  activeVoices.push({ oscillators, gain: noteGain, endTime: now + NOTE_TOTAL });
 }
 
 function setupRingData(ring, zIndex) {
@@ -547,6 +674,8 @@ function animate(currentTime) {
     initRings();
   }
 
+  updatePadForPhase(phaseProgress);
+
   updateStars(deltaTime);
   drawStars();
 
@@ -560,7 +689,7 @@ function animate(currentTime) {
       const oldRingCenterX = ring.ringCenterX;
       setupRingData(ring, cameraZ + currentRenderMaxZ);
       ring.ringCenterX = oldRingCenterX;
-      playSound(ring, currentPhase === 0 || currentPhase === 3 ? 0 : 1);
+      playSound(ring, phaseProgress);
     } else if (!ring.originalPoints || ring.originalPoints.length !== framePointsPerRing) {
       calculateOriginalPoints(ring, framePointsPerRing);
     }
