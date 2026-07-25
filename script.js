@@ -86,18 +86,23 @@ const midPointDepthFactor = 0.1;
 const segmentHueShift = 1;
 
 const soundBaseFreq = 55;
-const soundFreqVariation = 1;
-const soundDuration = 0.9;
-const soundVolume = 0.7;
-const organVolumes = [0.1, 0.2, 0.3, 0.4];
-const positionFreqShiftRange = 100;
-const filterQ = 1;
-const delayTime = 0.15;
-const delayFeedback = 0.3;
-const delayWetLevel = 0.35;
+const soundFreqVariation = 0.5;
+const soundDuration = 1.35;
+const soundVolume = 0.58;
+// Softer than original invert — keeps organ color without piercing top
+const organVolumes = [0.22, 0.32, 0.26, 0.16];
+const positionFreqShiftRange = 28;
+const filterQ = 0.8;
+const delayTime = 0.28;
+const delayFeedback = 0.38;
+const delayWetLevel = 0.48;
 const MASTER_GAIN = 1;
-const MAX_VOICES = 12;
+const MAX_VOICES = 10;
 const MUTE_STORAGE_KEY = 'elnurio-muted';
+const NOTE_ATTACK = 0.1;
+const NOTE_PROBABILITY = 0.72;
+const NOTE_COOLDOWN_MS = 80;
+let lastNoteTime = 0;
 
 const numStars = 200;
 let maxStarZ = 1;
@@ -255,38 +260,60 @@ function playSound(triggerRing, phaseProgress) {
 }
 
 function playSoundInternal(triggerRing, phaseProgress) {
+  const nowMs = performance.now();
+  if (nowMs - lastNoteTime < NOTE_COOLDOWN_MS) return;
+  if (Math.random() > NOTE_PROBABILITY) return;
+  lastNoteTime = nowMs;
+
   const now = audioCtx.currentTime;
   pruneVoices(now);
   stealOldestVoice(now);
 
-  let freqShift = 0;
+  let normX = 0;
   if (triggerRing && typeof triggerRing.ringCenterX === 'number' && width > 0) {
-    const normX = Math.max(-1, Math.min(1, triggerRing.ringCenterX / (width / 2)));
-    freqShift = normX * (positionFreqShiftRange / 2);
+    normX = Math.max(-1, Math.min(1, triggerRing.ringCenterX / (width / 2)));
   }
+  // Small pitch sway (less anxious than ±50Hz) + stereo for space
+  const freqShift = normX * (positionFreqShiftRange / 2);
+  const panValue = normX * 0.7;
 
   const baseFreq = soundBaseFreq + freqShift + Math.random() * soundFreqVariation - soundFreqVariation / 2;
   const mainGain = audioCtx.createGain();
   const lowpassFilter = audioCtx.createBiquadFilter();
   const highpassFilter = audioCtx.createBiquadFilter();
-  const delay = audioCtx.createDelay(1.0);
-  const feedback = audioCtx.createGain();
-  const wetLevel = audioCtx.createGain();
-  const filterPeakFreq = lerp(2000, 4000, phaseProgress);
+  const panner = audioCtx.createStereoPanner();
+  panner.pan.setValueAtTime(panValue, now);
+
+  // Dual delay taps for width
+  const delayL = audioCtx.createDelay(1.5);
+  const delayR = audioCtx.createDelay(1.5);
+  const feedbackL = audioCtx.createGain();
+  const feedbackR = audioCtx.createGain();
+  const wetL = audioCtx.createGain();
+  const wetR = audioCtx.createGain();
+  const panL = audioCtx.createStereoPanner();
+  const panR = audioCtx.createStereoPanner();
+  const filterPeakFreq = lerp(1600, 2800, phaseProgress);
 
   lowpassFilter.type = 'lowpass';
   lowpassFilter.Q.setValueAtTime(filterQ, now);
-  lowpassFilter.frequency.setValueAtTime(200, now);
-  lowpassFilter.frequency.linearRampToValueAtTime(filterPeakFreq, now + soundDuration * 0.4);
-  lowpassFilter.frequency.linearRampToValueAtTime(200, now + soundDuration);
+  lowpassFilter.frequency.setValueAtTime(280, now);
+  lowpassFilter.frequency.linearRampToValueAtTime(filterPeakFreq, now + soundDuration * 0.45);
+  lowpassFilter.frequency.linearRampToValueAtTime(320, now + soundDuration);
 
   highpassFilter.type = 'highpass';
-  highpassFilter.frequency.setValueAtTime(50, now);
-  highpassFilter.Q.setValueAtTime(1, now);
+  highpassFilter.frequency.setValueAtTime(45, now);
+  highpassFilter.Q.setValueAtTime(0.7, now);
 
-  delay.delayTime.setValueAtTime(delayTime * (1 + phaseProgress * 0.5), now);
-  feedback.gain.setValueAtTime(delayFeedback, now);
-  wetLevel.gain.setValueAtTime(delayWetLevel, now);
+  const delayBase = delayTime * (1 + phaseProgress * 0.35);
+  delayL.delayTime.setValueAtTime(delayBase, now);
+  delayR.delayTime.setValueAtTime(delayBase * 1.37, now);
+  feedbackL.gain.setValueAtTime(delayFeedback, now);
+  feedbackR.gain.setValueAtTime(delayFeedback * 0.9, now);
+  wetL.gain.setValueAtTime(delayWetLevel, now);
+  wetR.gain.setValueAtTime(delayWetLevel * 0.85, now);
+  panL.pan.setValueAtTime(-0.65, now);
+  panR.pan.setValueAtTime(0.65, now);
 
   const oscillators = [];
   const frequencies = [baseFreq, baseFreq * 2, baseFreq * 3, baseFreq * 4];
@@ -294,26 +321,36 @@ function playSoundInternal(triggerRing, phaseProgress) {
     if (index >= organVolumes.length) return;
     const osc = audioCtx.createOscillator();
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq * (1 + phaseProgress * 0.1), now);
+    // Tiny detune for thickness; no tense upward pitch climb with phase
+    osc.detune.setValueAtTime((index % 2 === 0 ? -4 : 5) * (index + 1) * 0.4, now);
+    osc.frequency.setValueAtTime(freq, now);
     const gain = audioCtx.createGain();
     gain.gain.setValueAtTime(organVolumes[index], now);
     osc.connect(gain).connect(mainGain);
     oscillators.push(osc);
     osc.start(now);
-    osc.stop(now + soundDuration);
+    osc.stop(now + soundDuration + 0.05);
   });
 
   mainGain.connect(highpassFilter);
   highpassFilter.connect(lowpassFilter);
-  lowpassFilter.connect(masterGain);
-  lowpassFilter.connect(delay);
-  delay.connect(feedback);
-  feedback.connect(delay);
-  delay.connect(wetLevel);
-  wetLevel.connect(masterGain);
+  lowpassFilter.connect(panner);
+  panner.connect(masterGain);
 
+  // Spatialize wet path
+  panner.connect(delayL);
+  panner.connect(delayR);
+  delayL.connect(feedbackL);
+  feedbackL.connect(delayL);
+  delayR.connect(feedbackR);
+  feedbackR.connect(delayR);
+  delayL.connect(wetL).connect(panL).connect(masterGain);
+  delayR.connect(wetR).connect(panR).connect(masterGain);
+
+  // Soft attack / long fade — less startling than 10ms punch
   mainGain.gain.setValueAtTime(0, now);
-  mainGain.gain.linearRampToValueAtTime(soundVolume, now + 0.01);
+  mainGain.gain.linearRampToValueAtTime(soundVolume, now + NOTE_ATTACK);
+  mainGain.gain.linearRampToValueAtTime(soundVolume * 0.55, now + soundDuration * 0.55);
   mainGain.gain.linearRampToValueAtTime(0, now + soundDuration);
 
   activeVoices.push({ oscillators, gain: mainGain, endTime: now + soundDuration });
