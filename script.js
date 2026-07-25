@@ -14,12 +14,8 @@ let audioCtx = null;
 let audioContextResumed = false;
 let audioGraphReady = false;
 let masterGain = null;
-let reverbSend = null;
 let isMuted = localStorage.getItem('elnurio-muted') === '1';
-let lastNoteTime = 0;
 let activeVoices = [];
-let droneNodes = null;
-let lastDronePhase = -1;
 
 let lastTime = 0;
 const targetFPS = 60;
@@ -89,23 +85,18 @@ const colorGreen = { h: 120, s: 100, l: 50 };
 const midPointDepthFactor = 0.1;
 const segmentHueShift = 1;
 
-// A minor pentatonic (A C D E G), A1–E3
-const SCALE_FREQS = [
-  55.00, 65.41, 73.42, 82.41, 98.00,
-  110.00, 130.81, 146.83, 164.81,
-];
-const ORGAN_VOLUMES = [1, 0.55, 0.32, 0.18];
-const NOTE_PEAK_GAIN = 0.32;
-const NOTE_ATTACK = 0.05;
-const NOTE_SUSTAIN = 0.5;
-const NOTE_RELEASE = 1.35;
-const NOTE_TOTAL = NOTE_ATTACK + NOTE_SUSTAIN + NOTE_RELEASE;
-const FILTER_Q = 0.85;
-const NOTE_PROBABILITY = 0.42;
-const NOTE_COOLDOWN_MS = 150;
-const MAX_VOICES = 6;
-const MASTER_GAIN = 0.8;
-const DRONE_GAIN = 0.07;
+const soundBaseFreq = 55;
+const soundFreqVariation = 1;
+const soundDuration = 0.9;
+const soundVolume = 0.7;
+const organVolumes = [0.1, 0.2, 0.3, 0.4];
+const positionFreqShiftRange = 100;
+const filterQ = 1;
+const delayTime = 0.15;
+const delayFeedback = 0.3;
+const delayWetLevel = 0.35;
+const MASTER_GAIN = 1;
+const MAX_VOICES = 12;
 const MUTE_STORAGE_KEY = 'elnurio-muted';
 
 const numStars = 200;
@@ -152,17 +143,6 @@ function calculateOriginalPoints(ring, numPoints) {
   }
 }
 
-function centsToRatio(cents) {
-  return Math.pow(2, cents / 1200);
-}
-
-function pickScaleFreq(phaseProgress) {
-  const lowEnd = phaseProgress > 0.5 ? 2 : 0;
-  const highEnd = phaseProgress > 0.5 ? SCALE_FREQS.length : Math.min(6, SCALE_FREQS.length);
-  const idx = lowEnd + Math.floor(Math.random() * (highEnd - lowEnd));
-  return SCALE_FREQS[Math.max(0, Math.min(SCALE_FREQS.length - 1, idx))];
-}
-
 function applyMasterMute() {
   if (!masterGain || !audioCtx) return;
   const now = audioCtx.currentTime;
@@ -184,40 +164,6 @@ function setMuted(muted) {
   updateMuteButton();
 }
 
-function createReverbSend(ctx) {
-  const input = ctx.createGain();
-  const output = ctx.createGain();
-  output.gain.value = 0.32;
-
-  const filter = ctx.createBiquadFilter();
-  filter.type = 'lowpass';
-  filter.frequency.value = 4800;
-  filter.Q.value = 0.4;
-
-  const taps = [
-    { delay: 0.18, feedback: 0.28, gain: 0.55 },
-    { delay: 0.31, feedback: 0.22, gain: 0.4 },
-    { delay: 0.47, feedback: 0.18, gain: 0.3 },
-  ];
-
-  taps.forEach((tap) => {
-    const delay = ctx.createDelay(1.0);
-    const feedback = ctx.createGain();
-    const wet = ctx.createGain();
-    delay.delayTime.value = tap.delay;
-    feedback.gain.value = tap.feedback;
-    wet.gain.value = tap.gain;
-    input.connect(delay);
-    delay.connect(feedback);
-    feedback.connect(delay);
-    delay.connect(wet);
-    wet.connect(filter);
-  });
-
-  filter.connect(output);
-  return { input, output };
-}
-
 function setupAudioGraph() {
   if (!audioCtx || audioGraphReady) return;
 
@@ -225,22 +171,15 @@ function setupAudioGraph() {
   masterGain.gain.value = isMuted ? 0 : MASTER_GAIN;
 
   const compressor = audioCtx.createDynamicsCompressor();
-  compressor.threshold.value = -18;
-  compressor.knee.value = 12;
-  compressor.ratio.value = 2.5;
-  compressor.attack.value = 0.01;
-  compressor.release.value = 0.22;
-
-  const reverb = createReverbSend(audioCtx);
-  reverbSend = reverb.input;
+  compressor.threshold.value = -12;
+  compressor.knee.value = 20;
+  compressor.ratio.value = 2;
+  compressor.attack.value = 0.003;
+  compressor.release.value = 0.2;
 
   masterGain.connect(compressor);
-  reverb.output.connect(masterGain);
   compressor.connect(audioCtx.destination);
-
   audioGraphReady = true;
-  startDrone();
-  updateDroneForPhase(currentPhase === 0 || currentPhase === 3 ? 0 : 1);
 }
 
 function unlockAudio() {
@@ -279,80 +218,15 @@ function initializeAudio() {
   }
 }
 
-function startDrone() {
-  if (!audioCtx || !masterGain || droneNodes) return;
-
-  const now = audioCtx.currentTime;
-  const filter = audioCtx.createBiquadFilter();
-  filter.type = 'lowpass';
-  filter.frequency.value = 900;
-  filter.Q.value = 0.35;
-
-  const gain = audioCtx.createGain();
-  gain.gain.setValueAtTime(0.0001, now);
-  gain.gain.exponentialRampToValueAtTime(DRONE_GAIN, now + 2.5);
-
-  const root = audioCtx.createOscillator();
-  root.type = 'sine';
-  root.frequency.value = 55;
-
-  const fifth = audioCtx.createOscillator();
-  fifth.type = 'sine';
-  fifth.frequency.value = 82.41;
-
-  const rootGain = audioCtx.createGain();
-  rootGain.gain.value = 0.7;
-  const fifthGain = audioCtx.createGain();
-  fifthGain.gain.value = 0.35;
-
-  root.connect(rootGain).connect(filter);
-  fifth.connect(fifthGain).connect(filter);
-  filter.connect(gain);
-  gain.connect(masterGain);
-  if (reverbSend) {
-    const send = audioCtx.createGain();
-    send.gain.value = 0.35;
-    gain.connect(send);
-    send.connect(reverbSend);
-  }
-
-  root.start(now);
-  fifth.start(now);
-
-  droneNodes = { root, fifth, filter, gain };
-}
-
-function updateDroneForPhase(phaseProgress) {
-  if (!droneNodes || !audioCtx) return;
-  // Bucket continuous progress so we don't reschedule every frame
-  const bucket = phaseProgress < 0.25 ? 0 : phaseProgress < 0.75 ? 1 : 2;
-  if (lastDronePhase === bucket) return;
-  lastDronePhase = bucket;
-
-  const now = audioCtx.currentTime;
-  const t = bucket / 2;
-  const filterTarget = lerp(700, 1400, t);
-  const gainTarget = lerp(DRONE_GAIN * 0.85, DRONE_GAIN * 1.1, t);
-  const rootTarget = bucket >= 2 ? 110 : 55;
-  const fifthTarget = bucket >= 2 ? 164.81 : 82.41;
-
-  droneNodes.filter.frequency.cancelScheduledValues(now);
-  droneNodes.filter.frequency.setTargetAtTime(filterTarget, now, 1.2);
-  droneNodes.gain.gain.cancelScheduledValues(now);
-  droneNodes.gain.gain.setTargetAtTime(Math.max(0.0001, gainTarget), now, 1.2);
-  droneNodes.root.frequency.setTargetAtTime(rootTarget, now, 1.5);
-  droneNodes.fifth.frequency.setTargetAtTime(fifthTarget, now, 1.5);
-}
-
 function stealOldestVoice(now) {
   while (activeVoices.length >= MAX_VOICES) {
     const oldest = activeVoices.shift();
     if (!oldest) break;
     try {
       oldest.gain.gain.cancelScheduledValues(now);
-      oldest.gain.gain.setTargetAtTime(0.0001, now, 0.03);
+      oldest.gain.gain.setValueAtTime(0, now);
       oldest.oscillators.forEach((osc) => {
-        try { osc.stop(now + 0.08); } catch (_) {}
+        try { osc.stop(now + 0.02); } catch (_) {}
       });
     } catch (_) {}
   }
@@ -381,73 +255,68 @@ function playSound(triggerRing, phaseProgress) {
 }
 
 function playSoundInternal(triggerRing, phaseProgress) {
-  const nowMs = performance.now();
-  if (nowMs - lastNoteTime < NOTE_COOLDOWN_MS) return;
-  if (Math.random() > NOTE_PROBABILITY) return;
-  lastNoteTime = nowMs;
-
   const now = audioCtx.currentTime;
   pruneVoices(now);
   stealOldestVoice(now);
 
-  let panValue = 0;
+  let freqShift = 0;
   if (triggerRing && typeof triggerRing.ringCenterX === 'number' && width > 0) {
-    panValue = Math.max(-1, Math.min(1, triggerRing.ringCenterX / (width / 2)));
+    const normX = Math.max(-1, Math.min(1, triggerRing.ringCenterX / (width / 2)));
+    freqShift = normX * (positionFreqShiftRange / 2);
   }
 
-  const baseFreq = pickScaleFreq(phaseProgress);
-  const noteGainPeak = NOTE_PEAK_GAIN * (phaseProgress > 0.5 ? 0.95 : 1);
+  const baseFreq = soundBaseFreq + freqShift + Math.random() * soundFreqVariation - soundFreqVariation / 2;
+  const mainGain = audioCtx.createGain();
+  const lowpassFilter = audioCtx.createBiquadFilter();
+  const highpassFilter = audioCtx.createBiquadFilter();
+  const delay = audioCtx.createDelay(1.0);
+  const feedback = audioCtx.createGain();
+  const wetLevel = audioCtx.createGain();
+  const filterPeakFreq = lerp(2000, 4000, phaseProgress);
 
-  const noteGain = audioCtx.createGain();
-  const lowpass = audioCtx.createBiquadFilter();
-  const highpass = audioCtx.createBiquadFilter();
-  const panner = audioCtx.createStereoPanner();
-  panner.pan.setValueAtTime(panValue, now);
+  lowpassFilter.type = 'lowpass';
+  lowpassFilter.Q.setValueAtTime(filterQ, now);
+  lowpassFilter.frequency.setValueAtTime(200, now);
+  lowpassFilter.frequency.linearRampToValueAtTime(filterPeakFreq, now + soundDuration * 0.4);
+  lowpassFilter.frequency.linearRampToValueAtTime(200, now + soundDuration);
 
-  const filterPeak = lerp(2800, 4500, phaseProgress);
-  lowpass.type = 'lowpass';
-  lowpass.Q.setValueAtTime(FILTER_Q, now);
-  lowpass.frequency.setValueAtTime(900, now);
-  lowpass.frequency.linearRampToValueAtTime(filterPeak, now + NOTE_ATTACK + NOTE_SUSTAIN * 0.3);
-  lowpass.frequency.exponentialRampToValueAtTime(700, now + NOTE_TOTAL);
+  highpassFilter.type = 'highpass';
+  highpassFilter.frequency.setValueAtTime(50, now);
+  highpassFilter.Q.setValueAtTime(1, now);
 
-  highpass.type = 'highpass';
-  highpass.frequency.setValueAtTime(55, now);
-  highpass.Q.setValueAtTime(0.6, now);
+  delay.delayTime.setValueAtTime(delayTime * (1 + phaseProgress * 0.5), now);
+  feedback.gain.setValueAtTime(delayFeedback, now);
+  wetLevel.gain.setValueAtTime(delayWetLevel, now);
 
   const oscillators = [];
-  ORGAN_VOLUMES.forEach((partialGain, index) => {
+  const frequencies = [baseFreq, baseFreq * 2, baseFreq * 3, baseFreq * 4];
+  frequencies.forEach((freq, index) => {
+    if (index >= organVolumes.length) return;
     const osc = audioCtx.createOscillator();
-    const partial = audioCtx.createGain();
-    const detuneCents = (index % 2 === 0 ? -1 : 1) * (3 + index * 1.2);
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(baseFreq * (index + 1) * centsToRatio(detuneCents), now);
-    partial.gain.setValueAtTime(partialGain, now);
-    osc.connect(partial).connect(noteGain);
-    osc.start(now);
-    osc.stop(now + NOTE_TOTAL + 0.05);
+    osc.frequency.setValueAtTime(freq * (1 + phaseProgress * 0.1), now);
+    const gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(organVolumes[index], now);
+    osc.connect(gain).connect(mainGain);
     oscillators.push(osc);
+    osc.start(now);
+    osc.stop(now + soundDuration);
   });
 
-  noteGain.gain.setValueAtTime(0.0001, now);
-  noteGain.gain.exponentialRampToValueAtTime(noteGainPeak, now + NOTE_ATTACK);
-  noteGain.gain.exponentialRampToValueAtTime(noteGainPeak * 0.55, now + NOTE_ATTACK + NOTE_SUSTAIN);
-  noteGain.gain.exponentialRampToValueAtTime(0.0001, now + NOTE_TOTAL);
+  mainGain.connect(highpassFilter);
+  highpassFilter.connect(lowpassFilter);
+  lowpassFilter.connect(masterGain);
+  lowpassFilter.connect(delay);
+  delay.connect(feedback);
+  feedback.connect(delay);
+  delay.connect(wetLevel);
+  wetLevel.connect(masterGain);
 
-  noteGain.connect(highpass);
-  highpass.connect(lowpass);
-  lowpass.connect(panner);
-  panner.connect(masterGain);
+  mainGain.gain.setValueAtTime(0, now);
+  mainGain.gain.linearRampToValueAtTime(soundVolume, now + 0.01);
+  mainGain.gain.linearRampToValueAtTime(0, now + soundDuration);
 
-  if (reverbSend) {
-    const send = audioCtx.createGain();
-    send.gain.value = 0.32;
-    panner.connect(send);
-    send.connect(reverbSend);
-  }
-
-  const voice = { oscillators, gain: noteGain, endTime: now + NOTE_TOTAL };
-  activeVoices.push(voice);
+  activeVoices.push({ oscillators, gain: mainGain, endTime: now + soundDuration });
 }
 
 function setupRingData(ring, zIndex) {
@@ -640,8 +509,6 @@ function animate(currentTime) {
   if (needsRingReinit || rings.length !== Math.round(currentNumRings)) {
     initRings();
   }
-
-  updateDroneForPhase(phaseProgress);
 
   updateStars(deltaTime);
   drawStars();
