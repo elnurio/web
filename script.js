@@ -4,6 +4,7 @@ const ctx = canvas.getContext('2d');
 const canvasContainer = document.getElementById('canvas-container');
 const bioContainer = document.getElementById('bio-container');
 const toggleButton = document.getElementById('toggle-button');
+const muteButton = document.getElementById('mute-button');
 
 let width, height, centerX, centerY;
 let targetX = 0, targetY = 0;
@@ -11,6 +12,14 @@ let currentX = 0, currentY = 0;
 
 let audioCtx = null;
 let audioContextResumed = false;
+let audioGraphReady = false;
+let masterGain = null;
+let reverbSend = null;
+let isMuted = localStorage.getItem('elnurio-muted') === '1';
+let lastNoteTime = 0;
+let activeVoices = [];
+let droneNodes = null;
+let lastDronePhase = -1;
 
 let lastTime = 0;
 const targetFPS = 60;
@@ -80,16 +89,24 @@ const colorGreen = { h: 120, s: 100, l: 50 };
 const midPointDepthFactor = 0.1;
 const segmentHueShift = 1;
 
-const soundBaseFreq = 55;
-const soundFreqVariation = 1;
-const soundDuration = 0.9;
-const soundVolume = 0.7;
-const organVolumes = [0.1, 0.2, 0.3, 0.4];
-const positionFreqShiftRange = 100;
-const filterQ = 1;
-const delayTime = 0.15;
-const delayFeedback = 0.3;
-const delayWetLevel = 0.35;
+// A minor pentatonic (A C D E G), A1–E3
+const SCALE_FREQS = [
+  55.00, 65.41, 73.42, 82.41, 98.00,
+  110.00, 130.81, 146.83, 164.81,
+];
+const ORGAN_VOLUMES = [1, 0.35, 0.15, 0.08];
+const NOTE_PEAK_GAIN = 0.12;
+const NOTE_ATTACK = 0.06;
+const NOTE_SUSTAIN = 0.55;
+const NOTE_RELEASE = 1.5;
+const NOTE_TOTAL = NOTE_ATTACK + NOTE_SUSTAIN + NOTE_RELEASE;
+const FILTER_Q = 0.7;
+const NOTE_PROBABILITY = 0.42;
+const NOTE_COOLDOWN_MS = 150;
+const MAX_VOICES = 6;
+const MASTER_GAIN = 0.35;
+const DRONE_GAIN = 0.03;
+const MUTE_STORAGE_KEY = 'elnurio-muted';
 
 const numStars = 200;
 let maxStarZ = 1;
@@ -135,39 +152,99 @@ function calculateOriginalPoints(ring, numPoints) {
   }
 }
 
-function initializeAudio() {
-  if (audioContextResumed) return;
-  console.log("Initializing AudioContext");
-  if (!audioCtx) {
-    try {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (!audioCtx) {
-        console.error("AudioContext not supported");
-        return;
-      }
-    } catch (e) {
-      console.error("Error creating AudioContext:", e);
-      return;
-    }
-  }
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume().then(() => {
-      console.log("AudioContext resumed");
-      unlockAudio();
-      audioContextResumed = true;
-    }).catch(e => {
-      console.error("Error resuming AudioContext:", e);
-    });
-  } else if (audioCtx.state === 'running') {
-    console.log("AudioContext already running");
-    unlockAudio();
-    audioContextResumed = true;
-  }
+function centsToRatio(cents) {
+  return Math.pow(2, cents / 1200);
+}
+
+function pickScaleFreq(phaseProgress) {
+  const lowEnd = phaseProgress > 0.5 ? 2 : 0;
+  const highEnd = phaseProgress > 0.5 ? SCALE_FREQS.length : Math.min(6, SCALE_FREQS.length);
+  const idx = lowEnd + Math.floor(Math.random() * (highEnd - lowEnd));
+  return SCALE_FREQS[Math.max(0, Math.min(SCALE_FREQS.length - 1, idx))];
+}
+
+function applyMasterMute() {
+  if (!masterGain || !audioCtx) return;
+  const now = audioCtx.currentTime;
+  masterGain.gain.cancelScheduledValues(now);
+  masterGain.gain.setTargetAtTime(isMuted ? 0 : MASTER_GAIN, now, 0.05);
+}
+
+function updateMuteButton() {
+  if (!muteButton) return;
+  muteButton.classList.toggle('muted', isMuted);
+  muteButton.setAttribute('aria-pressed', isMuted ? 'true' : 'false');
+  muteButton.title = isMuted ? 'Unmute' : 'Mute';
+}
+
+function setMuted(muted) {
+  isMuted = muted;
+  localStorage.setItem(MUTE_STORAGE_KEY, muted ? '1' : '0');
+  applyMasterMute();
+  updateMuteButton();
+}
+
+function createReverbSend(ctx) {
+  const input = ctx.createGain();
+  const output = ctx.createGain();
+  output.gain.value = 0.45;
+
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 2200;
+  filter.Q.value = 0.5;
+
+  const taps = [
+    { delay: 0.18, feedback: 0.28, gain: 0.55 },
+    { delay: 0.31, feedback: 0.22, gain: 0.4 },
+    { delay: 0.47, feedback: 0.18, gain: 0.3 },
+  ];
+
+  taps.forEach((tap) => {
+    const delay = ctx.createDelay(1.0);
+    const feedback = ctx.createGain();
+    const wet = ctx.createGain();
+    delay.delayTime.value = tap.delay;
+    feedback.gain.value = tap.feedback;
+    wet.gain.value = tap.gain;
+    input.connect(delay);
+    delay.connect(feedback);
+    feedback.connect(delay);
+    delay.connect(wet);
+    wet.connect(filter);
+  });
+
+  filter.connect(output);
+  return { input, output };
+}
+
+function setupAudioGraph() {
+  if (!audioCtx || audioGraphReady) return;
+
+  masterGain = audioCtx.createGain();
+  masterGain.gain.value = isMuted ? 0 : MASTER_GAIN;
+
+  const compressor = audioCtx.createDynamicsCompressor();
+  compressor.threshold.value = -24;
+  compressor.knee.value = 18;
+  compressor.ratio.value = 3;
+  compressor.attack.value = 0.01;
+  compressor.release.value = 0.25;
+
+  const reverb = createReverbSend(audioCtx);
+  reverbSend = reverb.input;
+
+  masterGain.connect(compressor);
+  reverb.output.connect(masterGain);
+  compressor.connect(audioCtx.destination);
+
+  audioGraphReady = true;
+  startDrone();
+  updateDroneForPhase(currentPhase === 0 || currentPhase === 3 ? 0 : 1);
 }
 
 function unlockAudio() {
   if (!audioCtx || audioCtx.state !== 'running') return;
-  console.log("Unlocking audio with silent buffer");
   const buffer = audioCtx.createBuffer(1, 1, 22050);
   const source = audioCtx.createBufferSource();
   source.buffer = buffer;
@@ -176,87 +253,201 @@ function unlockAudio() {
   source.onended = () => { source.disconnect(); };
 }
 
-function playSound(triggerRing, phaseProgress) {
+function initializeAudio() {
   if (!audioCtx) {
-    initializeAudio();
-    if (!audioCtx) {
-      console.error("Failed to initialize AudioContext in playSound");
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch (e) {
       return;
     }
   }
 
+  if (!audioGraphReady) {
+    setupAudioGraph();
+  }
+
   if (audioCtx.state === 'suspended') {
-    console.log("AudioContext is suspended, attempting to resume");
     audioCtx.resume().then(() => {
-      console.log("AudioContext resumed in playSound");
+      unlockAudio();
+      audioContextResumed = true;
+      applyMasterMute();
+    }).catch(() => {});
+  } else if (audioCtx.state === 'running') {
+    unlockAudio();
+    audioContextResumed = true;
+    applyMasterMute();
+  }
+}
+
+function startDrone() {
+  if (!audioCtx || !masterGain || droneNodes) return;
+
+  const now = audioCtx.currentTime;
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 420;
+  filter.Q.value = 0.4;
+
+  const gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(DRONE_GAIN, now + 2.5);
+
+  const root = audioCtx.createOscillator();
+  root.type = 'sine';
+  root.frequency.value = 55;
+
+  const fifth = audioCtx.createOscillator();
+  fifth.type = 'sine';
+  fifth.frequency.value = 82.41;
+
+  const rootGain = audioCtx.createGain();
+  rootGain.gain.value = 0.7;
+  const fifthGain = audioCtx.createGain();
+  fifthGain.gain.value = 0.35;
+
+  root.connect(rootGain).connect(filter);
+  fifth.connect(fifthGain).connect(filter);
+  filter.connect(gain);
+  gain.connect(masterGain);
+  if (reverbSend) {
+    const send = audioCtx.createGain();
+    send.gain.value = 0.35;
+    gain.connect(send);
+    send.connect(reverbSend);
+  }
+
+  root.start(now);
+  fifth.start(now);
+
+  droneNodes = { root, fifth, filter, gain };
+}
+
+function updateDroneForPhase(phaseProgress) {
+  if (!droneNodes || !audioCtx) return;
+  // Bucket continuous progress so we don't reschedule every frame
+  const bucket = phaseProgress < 0.25 ? 0 : phaseProgress < 0.75 ? 1 : 2;
+  if (lastDronePhase === bucket) return;
+  lastDronePhase = bucket;
+
+  const now = audioCtx.currentTime;
+  const t = bucket / 2;
+  const filterTarget = lerp(380, 720, t);
+  const gainTarget = lerp(DRONE_GAIN * 0.85, DRONE_GAIN * 1.15, t);
+  const rootTarget = bucket >= 2 ? 110 : 55;
+  const fifthTarget = bucket >= 2 ? 164.81 : 82.41;
+
+  droneNodes.filter.frequency.cancelScheduledValues(now);
+  droneNodes.filter.frequency.setTargetAtTime(filterTarget, now, 1.2);
+  droneNodes.gain.gain.cancelScheduledValues(now);
+  droneNodes.gain.gain.setTargetAtTime(Math.max(0.0001, gainTarget), now, 1.2);
+  droneNodes.root.frequency.setTargetAtTime(rootTarget, now, 1.5);
+  droneNodes.fifth.frequency.setTargetAtTime(fifthTarget, now, 1.5);
+}
+
+function stealOldestVoice(now) {
+  while (activeVoices.length >= MAX_VOICES) {
+    const oldest = activeVoices.shift();
+    if (!oldest) break;
+    try {
+      oldest.gain.gain.cancelScheduledValues(now);
+      oldest.gain.gain.setTargetAtTime(0.0001, now, 0.03);
+      oldest.oscillators.forEach((osc) => {
+        try { osc.stop(now + 0.08); } catch (_) {}
+      });
+    } catch (_) {}
+  }
+}
+
+function pruneVoices(now) {
+  activeVoices = activeVoices.filter((voice) => voice.endTime > now);
+}
+
+function playSound(triggerRing, phaseProgress) {
+  if (!audioCtx) {
+    initializeAudio();
+    if (!audioCtx) return;
+  }
+
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume().then(() => {
       audioContextResumed = true;
       playSoundInternal(triggerRing, phaseProgress);
-    }).catch(e => {
-      console.error("Failed to resume AudioContext in playSound:", e);
-    });
+    }).catch(() => {});
     return;
   }
 
-  if (audioCtx.state !== 'running') {
-    console.log("AudioContext not running, skipping sound");
-    return;
-  }
-
+  if (audioCtx.state !== 'running' || !audioGraphReady || isMuted) return;
   playSoundInternal(triggerRing, phaseProgress);
 }
 
 function playSoundInternal(triggerRing, phaseProgress) {
-  console.log("Playing sound");
+  const nowMs = performance.now();
+  if (nowMs - lastNoteTime < NOTE_COOLDOWN_MS) return;
+  if (Math.random() > NOTE_PROBABILITY) return;
+  lastNoteTime = nowMs;
+
   const now = audioCtx.currentTime;
-  let freqShift = 0;
+  pruneVoices(now);
+  stealOldestVoice(now);
+
+  let panValue = 0;
   if (triggerRing && typeof triggerRing.ringCenterX === 'number' && width > 0) {
-    const normX = Math.max(-1, Math.min(1, triggerRing.ringCenterX / (width / 2)));
-    freqShift = normX * (positionFreqShiftRange / 2);
+    panValue = Math.max(-1, Math.min(1, triggerRing.ringCenterX / (width / 2)));
   }
-  const baseFreq = soundBaseFreq + freqShift + Math.random() * soundFreqVariation - soundFreqVariation / 2;
-  const mainGain = audioCtx.createGain();
-  const lowpassFilter = audioCtx.createBiquadFilter();
-  const highpassFilter = audioCtx.createBiquadFilter();
-  const delay = audioCtx.createDelay(1.0);
-  const feedback = audioCtx.createGain();
-  const wetLevel = audioCtx.createGain();
-  const filterPeakFreq = lerp(2000, 4000, phaseProgress);
-  lowpassFilter.type = 'lowpass';
-  lowpassFilter.Q.setValueAtTime(filterQ, now);
-  lowpassFilter.frequency.setValueAtTime(200, now);
-  lowpassFilter.frequency.linearRampToValueAtTime(filterPeakFreq, now + soundDuration * 0.4);
-  lowpassFilter.frequency.linearRampToValueAtTime(200, now + soundDuration);
-  highpassFilter.type = 'highpass';
-  highpassFilter.frequency.setValueAtTime(50, now);
-  highpassFilter.Q.setValueAtTime(1, now);
-  delay.delayTime.setValueAtTime(delayTime * (1 + phaseProgress * 0.5), now);
-  feedback.gain.setValueAtTime(delayFeedback, now);
-  wetLevel.gain.setValueAtTime(delayWetLevel, now);
+
+  const baseFreq = pickScaleFreq(phaseProgress);
+  const noteGainPeak = NOTE_PEAK_GAIN * (phaseProgress > 0.5 ? 0.95 : 1);
+
+  const noteGain = audioCtx.createGain();
+  const lowpass = audioCtx.createBiquadFilter();
+  const highpass = audioCtx.createBiquadFilter();
+  const panner = audioCtx.createStereoPanner();
+  panner.pan.setValueAtTime(panValue, now);
+
+  const filterPeak = lerp(800, 1600, phaseProgress);
+  lowpass.type = 'lowpass';
+  lowpass.Q.setValueAtTime(FILTER_Q, now);
+  lowpass.frequency.setValueAtTime(220, now);
+  lowpass.frequency.linearRampToValueAtTime(filterPeak, now + NOTE_ATTACK + NOTE_SUSTAIN * 0.35);
+  lowpass.frequency.exponentialRampToValueAtTime(180, now + NOTE_TOTAL);
+
+  highpass.type = 'highpass';
+  highpass.frequency.setValueAtTime(40, now);
+  highpass.Q.setValueAtTime(0.7, now);
+
   const oscillators = [];
-  const frequencies = [baseFreq, baseFreq * 2, baseFreq * 3, baseFreq * 4];
-  frequencies.forEach((freq, index) => {
-    if (index >= organVolumes.length) return;
+  ORGAN_VOLUMES.forEach((partialGain, index) => {
     const osc = audioCtx.createOscillator();
+    const partial = audioCtx.createGain();
+    const detuneCents = (index % 2 === 0 ? -1 : 1) * (3 + index * 1.2);
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq * (1 + phaseProgress * 0.1), now);
-    const gain = audioCtx.createGain();
-    gain.gain.setValueAtTime(organVolumes[index], now);
-    osc.connect(gain).connect(mainGain);
-    oscillators.push(osc);
+    osc.frequency.setValueAtTime(baseFreq * (index + 1) * centsToRatio(detuneCents), now);
+    partial.gain.setValueAtTime(partialGain, now);
+    osc.connect(partial).connect(noteGain);
     osc.start(now);
-    osc.stop(now + soundDuration);
+    osc.stop(now + NOTE_TOTAL + 0.05);
+    oscillators.push(osc);
   });
-  mainGain.connect(highpassFilter);
-  highpassFilter.connect(lowpassFilter);
-  lowpassFilter.connect(audioCtx.destination);
-  lowpassFilter.connect(delay);
-  delay.connect(feedback);
-  feedback.connect(delay);
-  delay.connect(wetLevel);
-  wetLevel.connect(audioCtx.destination);
-  mainGain.gain.setValueAtTime(0, now);
-  mainGain.gain.linearRampToValueAtTime(soundVolume, now + 0.01);
-  mainGain.gain.linearRampToValueAtTime(0, now + soundDuration);
+
+  noteGain.gain.setValueAtTime(0.0001, now);
+  noteGain.gain.exponentialRampToValueAtTime(noteGainPeak, now + NOTE_ATTACK);
+  noteGain.gain.exponentialRampToValueAtTime(noteGainPeak * 0.55, now + NOTE_ATTACK + NOTE_SUSTAIN);
+  noteGain.gain.exponentialRampToValueAtTime(0.0001, now + NOTE_TOTAL);
+
+  noteGain.connect(highpass);
+  highpass.connect(lowpass);
+  lowpass.connect(panner);
+  panner.connect(masterGain);
+
+  if (reverbSend) {
+    const send = audioCtx.createGain();
+    send.gain.value = 0.5;
+    panner.connect(send);
+    send.connect(reverbSend);
+  }
+
+  const voice = { oscillators, gain: noteGain, endTime: now + NOTE_TOTAL };
+  activeVoices.push(voice);
 }
 
 function setupRingData(ring, zIndex) {
@@ -450,13 +641,15 @@ function animate(currentTime) {
     initRings();
   }
 
+  updateDroneForPhase(phaseProgress);
+
   updateStars(deltaTime);
   drawStars();
 
   const timeFactorForWave = currentTime * waveSpeedT;
   const currentRenderMaxZ = Math.round(currentNumRings) * ringSpacing;
 
-  rings.forEach((ring, i) => {
+  rings.forEach((ring) => {
     ring.z -= tunnelSpeed * deltaTime;
     const relativeZ = ring.z - cameraZ;
     if (relativeZ < nearClipDistance) {
@@ -552,11 +745,9 @@ function animate(currentTime) {
 
 function startAnimation() {
   if (!canvasContainer || !bioContainer || !toggleButton) {
-    console.error("Cannot start animation: Required elements not found.");
     return;
   }
   if (!animationFrameId) {
-    console.log("Animation starting / restarting");
     lastTime = performance.now();
     lastFrameTime = performance.now();
     phaseStartTime = performance.now();
@@ -573,13 +764,11 @@ function stopAnimation() {
   if (animationFrameId) {
     cancelAnimationFrame(animationFrameId);
     animationFrameId = null;
-    console.log("Animation stopped");
   }
 }
 
 function toggleBio() {
   if (!bioContainer || !canvasContainer || !toggleButton) {
-    console.error("Cannot toggle bio: Required elements not found!");
     return;
   }
   isBioVisible = !isBioVisible;
@@ -596,6 +785,12 @@ function toggleBio() {
   }
 }
 
+function handleMuteClick(event) {
+  event.stopPropagation();
+  initializeAudio();
+  setMuted(!isMuted);
+}
+
 window.addEventListener('resize', resize);
 window.addEventListener('mousemove', handleMouseMove);
 window.addEventListener('touchmove', handleTouchMove, { passive: false });
@@ -604,20 +799,19 @@ window.addEventListener('touchstart', initializeAudio);
 window.addEventListener('touchend', initializeAudio);
 
 window.onload = () => {
-  const canvasContainerOnload = document.getElementById('canvas-container');
-  const bioContainerOnload = document.getElementById('bio-container');
-  const toggleButtonOnload = document.getElementById('toggle-button');
-  if (!canvasContainerOnload) console.error("Canvas container (#canvas-container) not found!");
-  if (!bioContainerOnload) console.error("Bio container (#bio-container) not found!");
-  if (toggleButtonOnload) {
-    toggleButtonOnload.addEventListener('click', toggleBio);
-    toggleButtonOnload.addEventListener('click', initializeAudio);
-    toggleButtonOnload.addEventListener('touchstart', initializeAudio);
-    toggleButtonOnload.addEventListener('touchend', initializeAudio);
-    console.log("Event listeners added to toggle button.");
-  } else {
-    console.error("Toggle button (#toggle-button) not found on window.onload!");
+  updateMuteButton();
+
+  if (toggleButton) {
+    toggleButton.addEventListener('click', toggleBio);
+    toggleButton.addEventListener('click', initializeAudio);
+    toggleButton.addEventListener('touchstart', initializeAudio);
+    toggleButton.addEventListener('touchend', initializeAudio);
   }
+
+  if (muteButton) {
+    muteButton.addEventListener('click', handleMuteClick);
+  }
+
   resize();
   startAnimation();
 };
