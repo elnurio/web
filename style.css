@@ -1,10 +1,34 @@
 /* Стили для body и canvas */
-body {
+html, body {
     margin: 0;
-    overflow: hidden; /* Убираем прокрутку страницы */
+    overflow: hidden;
     background-color: #000;
-    color: #eee; /* Цвет текста по умолчанию, если где-то еще используется */
+    color: #eee;
     font-family: sans-serif;
+    cursor: none;
+}
+
+/* Touch: keep native cursor/finger — same as atpc (shader cursorA = 0 on coarse) */
+@media (hover: none) and (pointer: coarse) {
+    html, body,
+    #toggle-button,
+    #mute-button,
+    a, button {
+        cursor: auto;
+    }
+    .site-cursor {
+        display: none !important;
+    }
+}
+
+*, *::before, *::after {
+    cursor: inherit;
+}
+
+#toggle-button,
+#mute-button,
+a, button {
+    cursor: none;
 }
 
 /* Контейнер для Canvas анимации */
@@ -80,7 +104,7 @@ body {
     height: 100px;
     border-radius: 50%;
     border: none;
-    cursor: pointer;
+    cursor: none;
     /* Текстура Марса: радиальный градиент с пятнами */
     background: radial-gradient(circle at 30% 30%, #ff4500 0%, #d2691e 50%, #8b0000 100%);
     box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.3), /* Тень для объёма */
@@ -156,7 +180,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.28);
     background: rgba(0, 0, 0, 0.35);
     color: rgba(255, 255, 255, 0.85);
-    cursor: pointer;
+    cursor: none;
     z-index: 20;
     padding: 0;
     display: flex;
@@ -201,4 +225,44 @@ body {
 #toggle-button.black-button ~ #mute-button {
     border-color: rgba(255, 255, 255, 0.35);
     background: rgba(0, 0, 0, 0.4);
+}
+/* Custom cursor � same idea as atpc.world (hidden system cursor + kin circle) */
+.site-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0;
+    transform: translate3d(-100px, -100px, 0);
+    will-change: transform, width, height, opacity;
+    background: rgba(122, 180, 217, 0.28);
+    border: 1.5px solid rgba(200, 220, 235, 0.9);
+    box-shadow: 0 0 0 0 rgba(122, 180, 217, 0);
+    transition: width 0.2s ease, height 0.2s ease, background 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+}
+
+.site-cursor.is-visible {
+    opacity: 1;
+}
+
+.site-cursor.is-hover {
+    width: 22px;
+    height: 22px;
+    background: rgba(122, 180, 217, 0.4);
+    border-color: rgba(230, 240, 250, 1);
+}
+
+body.is-bio .site-cursor {
+    background: rgba(122, 180, 217, 0.35);
+    border-color: rgba(51, 89, 122, 0.95);
+}
+
+body.is-bio .site-cursor.is-hover {
+    background: rgba(122, 180, 217, 0.5);
+    border-color: rgba(32, 56, 76, 1);
 }

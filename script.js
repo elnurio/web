@@ -5,10 +5,19 @@ const canvasContainer = document.getElementById('canvas-container');
 const bioContainer = document.getElementById('bio-container');
 const toggleButton = document.getElementById('toggle-button');
 const muteButton = document.getElementById('mute-button');
+const cursorEl = document.getElementById('cursor');
 
 let width, height, centerX, centerY;
 let targetX = 0, targetY = 0;
 let currentX = 0, currentY = 0;
+
+let cursorRawX = -100;
+let cursorRawY = -100;
+let cursorX = -100;
+let cursorY = -100;
+let cursorVisible = false;
+let cursorRaf = null;
+const preferFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
 
 let audioCtx = null;
 let audioContextResumed = false;
@@ -809,11 +818,13 @@ function toggleBio() {
     bioContainer.classList.add('visible');
     canvasContainer.classList.add('hidden');
     toggleButton.classList.add('black-button');
+    setBioCursorMode(true);
     stopAnimation();
   } else {
     bioContainer.classList.remove('visible');
     canvasContainer.classList.remove('hidden');
     toggleButton.classList.remove('black-button');
+    setBioCursorMode(false);
     startAnimation();
   }
 }
@@ -824,8 +835,59 @@ function handleMuteClick(event) {
   setMuted(!isMuted);
 }
 
+function isInteractiveTarget(target) {
+  if (!target || !target.closest) return false;
+  return Boolean(target.closest('a, button, [role="button"], input, textarea, select, label'));
+}
+
+function tickCursor() {
+  cursorRaf = null;
+  if (!cursorEl || !preferFinePointer.matches) return;
+
+  // Match atpc smoothing feel
+  cursorX += (cursorRawX - cursorX) * 0.35;
+  cursorY += (cursorRawY - cursorY) * 0.35;
+  cursorEl.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
+
+  if (Math.abs(cursorRawX - cursorX) > 0.1 || Math.abs(cursorRawY - cursorY) > 0.1) {
+    cursorRaf = requestAnimationFrame(tickCursor);
+  }
+}
+
+function onPointerMove(event) {
+  if (!preferFinePointer.matches || !cursorEl) return;
+  cursorRawX = event.clientX;
+  cursorRawY = event.clientY;
+
+  if (!cursorVisible) {
+    cursorVisible = true;
+    cursorX = cursorRawX;
+    cursorY = cursorRawY;
+    cursorEl.classList.add('is-visible');
+  }
+
+  cursorEl.classList.toggle('is-hover', isInteractiveTarget(event.target));
+
+  if (!cursorRaf) {
+    cursorRaf = requestAnimationFrame(tickCursor);
+  }
+}
+
+function onPointerLeave() {
+  if (!cursorEl) return;
+  cursorVisible = false;
+  cursorEl.classList.remove('is-visible', 'is-hover');
+}
+
+function setBioCursorMode(on) {
+  document.body.classList.toggle('is-bio', on);
+}
+
 window.addEventListener('resize', resize);
 window.addEventListener('mousemove', handleMouseMove);
+window.addEventListener('pointermove', onPointerMove, { passive: true });
+window.addEventListener('pointerleave', onPointerLeave);
+document.addEventListener('mouseleave', onPointerLeave);
 window.addEventListener('touchmove', handleTouchMove, { passive: false });
 window.addEventListener('click', initializeAudio);
 window.addEventListener('touchstart', initializeAudio);
