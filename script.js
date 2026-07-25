@@ -95,7 +95,7 @@ const SCALE_FREQS = [
   110.00, 130.81, 146.83, 164.81,
 ];
 const ORGAN_VOLUMES = [1, 0.35, 0.15, 0.08];
-const NOTE_PEAK_GAIN = 0.12;
+const NOTE_PEAK_GAIN = 0.38;
 const NOTE_ATTACK = 0.06;
 const NOTE_SUSTAIN = 0.55;
 const NOTE_RELEASE = 1.5;
@@ -104,8 +104,8 @@ const FILTER_Q = 0.7;
 const NOTE_PROBABILITY = 0.42;
 const NOTE_COOLDOWN_MS = 150;
 const MAX_VOICES = 6;
-const MASTER_GAIN = 0.35;
-const DRONE_GAIN = 0.03;
+const MASTER_GAIN = 0.85;
+const DRONE_GAIN = 0.09;
 const MUTE_STORAGE_KEY = 'elnurio-muted';
 
 const numStars = 200;
@@ -225,11 +225,11 @@ function setupAudioGraph() {
   masterGain.gain.value = isMuted ? 0 : MASTER_GAIN;
 
   const compressor = audioCtx.createDynamicsCompressor();
-  compressor.threshold.value = -24;
-  compressor.knee.value = 18;
-  compressor.ratio.value = 3;
+  compressor.threshold.value = -18;
+  compressor.knee.value = 12;
+  compressor.ratio.value = 2.5;
   compressor.attack.value = 0.01;
-  compressor.release.value = 0.25;
+  compressor.release.value = 0.22;
 
   const reverb = createReverbSend(audioCtx);
   reverbSend = reverb.input;
@@ -404,12 +404,12 @@ function playSoundInternal(triggerRing, phaseProgress) {
   const panner = audioCtx.createStereoPanner();
   panner.pan.setValueAtTime(panValue, now);
 
-  const filterPeak = lerp(800, 1600, phaseProgress);
+  const filterPeak = lerp(1200, 2400, phaseProgress);
   lowpass.type = 'lowpass';
   lowpass.Q.setValueAtTime(FILTER_Q, now);
-  lowpass.frequency.setValueAtTime(220, now);
+  lowpass.frequency.setValueAtTime(320, now);
   lowpass.frequency.linearRampToValueAtTime(filterPeak, now + NOTE_ATTACK + NOTE_SUSTAIN * 0.35);
-  lowpass.frequency.exponentialRampToValueAtTime(180, now + NOTE_TOTAL);
+  lowpass.frequency.exponentialRampToValueAtTime(280, now + NOTE_TOTAL);
 
   highpass.type = 'highpass';
   highpass.frequency.setValueAtTime(40, now);
