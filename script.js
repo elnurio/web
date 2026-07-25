@@ -94,18 +94,18 @@ const SCALE_FREQS = [
   55.00, 65.41, 73.42, 82.41, 98.00,
   110.00, 130.81, 146.83, 164.81,
 ];
-const ORGAN_VOLUMES = [1, 0.35, 0.15, 0.08];
-const NOTE_PEAK_GAIN = 0.38;
-const NOTE_ATTACK = 0.06;
-const NOTE_SUSTAIN = 0.55;
-const NOTE_RELEASE = 1.5;
+const ORGAN_VOLUMES = [1, 0.55, 0.32, 0.18];
+const NOTE_PEAK_GAIN = 0.32;
+const NOTE_ATTACK = 0.05;
+const NOTE_SUSTAIN = 0.5;
+const NOTE_RELEASE = 1.35;
 const NOTE_TOTAL = NOTE_ATTACK + NOTE_SUSTAIN + NOTE_RELEASE;
-const FILTER_Q = 0.7;
+const FILTER_Q = 0.85;
 const NOTE_PROBABILITY = 0.42;
 const NOTE_COOLDOWN_MS = 150;
 const MAX_VOICES = 6;
-const MASTER_GAIN = 0.85;
-const DRONE_GAIN = 0.09;
+const MASTER_GAIN = 0.8;
+const DRONE_GAIN = 0.07;
 const MUTE_STORAGE_KEY = 'elnurio-muted';
 
 const numStars = 200;
@@ -187,12 +187,12 @@ function setMuted(muted) {
 function createReverbSend(ctx) {
   const input = ctx.createGain();
   const output = ctx.createGain();
-  output.gain.value = 0.45;
+  output.gain.value = 0.32;
 
   const filter = ctx.createBiquadFilter();
   filter.type = 'lowpass';
-  filter.frequency.value = 2200;
-  filter.Q.value = 0.5;
+  filter.frequency.value = 4800;
+  filter.Q.value = 0.4;
 
   const taps = [
     { delay: 0.18, feedback: 0.28, gain: 0.55 },
@@ -285,8 +285,8 @@ function startDrone() {
   const now = audioCtx.currentTime;
   const filter = audioCtx.createBiquadFilter();
   filter.type = 'lowpass';
-  filter.frequency.value = 420;
-  filter.Q.value = 0.4;
+  filter.frequency.value = 900;
+  filter.Q.value = 0.35;
 
   const gain = audioCtx.createGain();
   gain.gain.setValueAtTime(0.0001, now);
@@ -331,8 +331,8 @@ function updateDroneForPhase(phaseProgress) {
 
   const now = audioCtx.currentTime;
   const t = bucket / 2;
-  const filterTarget = lerp(380, 720, t);
-  const gainTarget = lerp(DRONE_GAIN * 0.85, DRONE_GAIN * 1.15, t);
+  const filterTarget = lerp(700, 1400, t);
+  const gainTarget = lerp(DRONE_GAIN * 0.85, DRONE_GAIN * 1.1, t);
   const rootTarget = bucket >= 2 ? 110 : 55;
   const fifthTarget = bucket >= 2 ? 164.81 : 82.41;
 
@@ -404,16 +404,16 @@ function playSoundInternal(triggerRing, phaseProgress) {
   const panner = audioCtx.createStereoPanner();
   panner.pan.setValueAtTime(panValue, now);
 
-  const filterPeak = lerp(1200, 2400, phaseProgress);
+  const filterPeak = lerp(2800, 4500, phaseProgress);
   lowpass.type = 'lowpass';
   lowpass.Q.setValueAtTime(FILTER_Q, now);
-  lowpass.frequency.setValueAtTime(320, now);
-  lowpass.frequency.linearRampToValueAtTime(filterPeak, now + NOTE_ATTACK + NOTE_SUSTAIN * 0.35);
-  lowpass.frequency.exponentialRampToValueAtTime(280, now + NOTE_TOTAL);
+  lowpass.frequency.setValueAtTime(900, now);
+  lowpass.frequency.linearRampToValueAtTime(filterPeak, now + NOTE_ATTACK + NOTE_SUSTAIN * 0.3);
+  lowpass.frequency.exponentialRampToValueAtTime(700, now + NOTE_TOTAL);
 
   highpass.type = 'highpass';
-  highpass.frequency.setValueAtTime(40, now);
-  highpass.Q.setValueAtTime(0.7, now);
+  highpass.frequency.setValueAtTime(55, now);
+  highpass.Q.setValueAtTime(0.6, now);
 
   const oscillators = [];
   ORGAN_VOLUMES.forEach((partialGain, index) => {
@@ -441,7 +441,7 @@ function playSoundInternal(triggerRing, phaseProgress) {
 
   if (reverbSend) {
     const send = audioCtx.createGain();
-    send.gain.value = 0.5;
+    send.gain.value = 0.32;
     panner.connect(send);
     send.connect(reverbSend);
   }
